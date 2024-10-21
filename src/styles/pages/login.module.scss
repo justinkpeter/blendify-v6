@@ -1,0 +1,60 @@
+.login {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100vh;
+  justify-content: center;
+  position: relative;
+  padding: 1rem;
+  text-transform: uppercase;
+  width: 100%;
+
+  &__signIn {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0rem 2rem;
+    width: 100%;
+
+    & h1 {
+      filter: blur(2px);
+      font-size: 9.75rem;
+      font-weight: 700;
+      font-style: normal;
+      letter-spacing: -1rem;
+      text-transform: uppercase;
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  & button {
+    align-items: center;
+    background-color: #2e2e2e;
+    border: none;
+    border-radius: 4px;
+    color: #e8e8e8;
+    display: flex;
+    font-weight: 600;
+    gap: 4px;
+    justify-content: center;
+    letter-spacing: -0.06em;
+    max-width: 300px;
+    text-transform: uppercase;
+    padding: 1rem;
+    width: 25%;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #18181b;
+      cursor: pointer;
+    }
+  }
+
+  & > div {
+    border-radius: 4px;
+  }
+}

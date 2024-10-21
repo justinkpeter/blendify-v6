@@ -1,27 +1,36 @@
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+    url("/fonts/GeneralSans-Variable.woff") format("woff");
+}
+
 :root {
-  --background: #ffffff;
+  --background: #e8e8e8;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #131314;
     --foreground: #ededed;
   }
 }
 
 html,
 body {
-  max-width: 100vw;
   overflow-x: hidden;
+  user-select: none;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: General Sans, Arial, Helvetica, sans-serif;
+  letter-spacing: -0.05em;
+  box-sizing: border-box;
+  max-width: 100vw;
 }
 
 * {
