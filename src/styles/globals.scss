@@ -1,3 +1,5 @@
+$appBorderWidth: 6px;
+
 @font-face {
   font-family: "General Sans";
   src: url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
@@ -18,24 +20,30 @@
 
 html,
 body {
+  height: 100%;
   overflow-x: hidden;
+  max-width: 100vw;
   user-select: none;
+  letter-spacing: -0.06em;
 }
 
 body {
-  color: var(--foreground);
   background: var(--background);
+  border-radius: 15px;
+  color: var(--foreground);
+
+  font-family: General Sans, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: General Sans, Arial, Helvetica, sans-serif;
-  letter-spacing: -0.05em;
+
   box-sizing: border-box;
-  max-width: 100vw;
+  position: relative;
+  padding: calc(1% - var(--border-width) * 2);
+  overflow: hidden;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
 }
 

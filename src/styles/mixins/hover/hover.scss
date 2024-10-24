@@ -1,0 +1,43 @@
+$transition-duration: 0.2s;
+
+@mixin transition($properties...) {
+  transition: $properties $transition-duration ease-in-out;
+}
+
+@mixin brackets {
+  font-size: 12px;
+
+  &:hover {
+    @include transition(opacity 0.1s, transform 0.1s);
+    opacity: 0.6;
+    &::before,
+    &::after {
+      opacity: 1;
+      transform: scale(1.2);
+      filter: blur(0px);
+      font-weight: 100;
+      @include transition(opacity 0.1s, transform 0.1s);
+    }
+  }
+
+  &::before,
+  &::after {
+    content: " ";
+    position: absolute;
+    opacity: 0;
+    @include transition(opacity 0.1s, transform 0.1s);
+  }
+
+  &::before {
+    content: "[";
+    left: 0.5rem;
+    transform: scale(1.2);
+    filter: blur(4px);
+  }
+
+  &::after {
+    content: "]";
+    right: 0.5rem;
+    transform: scale(1.2);
+  }
+}
