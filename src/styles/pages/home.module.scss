@@ -1,0 +1,141 @@
+@use "@/styles/variables/breakpoints.scss" as *;
+
+.page {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: auto 1fr auto;
+  width: 100%;
+  height: calc(100% - calc(var(--border-width) * 6));
+  position: relative;
+
+  @media screen and (max-width: $smBreakpoint) {
+    grid-template-columns: 3fr;
+    grid-template-rows: auto 1fr auto;
+    height: 93%;
+  }
+}
+
+.blendify {
+  display: flex;
+  flex-direction: column-reverse;
+  grid-column: 1 / -1;
+  grid-row: 3 / 3;
+  text-transform: uppercase;
+  line-height: 0.8;
+  z-index: 20;
+  color: white;
+  mix-blend-mode: difference;
+  pointer-events: none;
+
+  &__title {
+    font-size: 15vw;
+    letter-spacing: -0.08em;
+    transition: all 0.4s ease-in-out;
+    letter-spacing: -1.8vw;
+  }
+
+  &__desc {
+    width: 75%;
+  }
+
+  & h1 {
+    margin: 0;
+    margin-block-start: 0;
+    margin-inline-start: -1vw;
+    display: inline-flex;
+  }
+}
+
+.panels {
+  width: calc(100% - 28vw);
+  grid-column: 1 / -1;
+  grid-row: 1 / span 3;
+  display: flex;
+  z-index: 40;
+
+  @media screen and (max-width: $smBreakpoint) {
+    grid-column: 1 / -1;
+    grid-row: 1 / span 2;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, 200px);
+    width: 100%;
+    align-self: end;
+    padding-bottom: 4rem;
+  }
+
+  .panel {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 300ms ease-in-out;
+
+    &__label {
+      position: absolute;
+      top: 40%;
+      left: 0;
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      width: 100%;
+    }
+
+    img {
+      transition: opacity 200ms ease-in-out;
+      opacity: 0;
+      filter: blur(1px);
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media screen and (max-width: $smBreakpoint) {
+      img {
+        opacity: 1;
+      }
+
+      &__label {
+        top: 85%;
+        left: 2%;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      img {
+        opacity: 0.6;
+      }
+
+      .panel__label {
+        top: 42.5%;
+        left: 0;
+      }
+
+      @media screen and (max-width: $smBreakpoint) {
+        .panel__label {
+          top: 85%;
+          left: 2%;
+        }
+      }
+    }
+  }
+}
+
+.headphones {
+  position: absolute;
+  bottom: -10%;
+  width: 100%;
+  height: 150%;
+  right: -30%;
+  transform: rotate(15deg);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
