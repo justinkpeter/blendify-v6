@@ -14,20 +14,22 @@ interface LoginProps {
 export default function Login({ providers }: LoginProps) {
   return (
     <div className={styles.login}>
-      <div className={styles.login__signIn}>
+      <div className={styles.login__title}>
         <h1>blendify</h1>
       </div>
-      <button
-        onClick={() => signIn(providers?.spotify?.id, { callbackUrl: "/" })}
-      >
-        sign in w/ spotify
-        <Image
-          src="/img/spotify-icon-white.png"
-          alt="spotify-logo"
-          width={20}
-          height={20}
-        />
-      </button>
+      <div className={styles.login__action}>
+        <button
+          onClick={() => signIn(providers?.spotify?.id, { callbackUrl: "/" })}
+        >
+          sign in w/ spotify
+          <Image
+            src="/img/spotify-icon-white.png"
+            alt="spotify-logo"
+            width={20}
+            height={20}
+          />
+        </button>
+      </div>
     </div>
   );
 }
