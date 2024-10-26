@@ -10,8 +10,9 @@ $border-radius: 4px;
   font-weight: 500;
   justify-content: space-between;
   text-transform: uppercase;
-  position: relative;
   z-index: 10;
+  flex-grow: 1;
+  width: 100%;
 
   &__left {
     align-items: center;
@@ -66,7 +67,7 @@ $border-radius: 4px;
         white-space: nowrap;
         background-color: #ffffff15;
         list-style: none;
-        pointer-events: none;
+        background-color: rgba(0, 0, 0, 0.521);
         text-transform: uppercase;
 
         svg {
