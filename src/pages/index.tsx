@@ -23,30 +23,28 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.page}>
-        <div className={styles.panels}>
-          {imagePanels.map((panel, index) => (
-            <div key={index} className={styles.panel}>
-              <Image
-                src={panel.src}
-                alt={panel.alt}
-                fill
-                sizes="(max-width: 1200px) 20vw"
-              />
-              <div className={styles.panel__label}>{panel.label}</div>
-            </div>
-          ))}
-        </div>
-        <div className={styles.blendify}>
-          <h1 className={styles.blendify__title}>blendify</h1>
-          <div className={styles.blendify__desc}>
-            A personalized summary of your unique taste in music
+      <div className={styles.panels}>
+        {imagePanels.map((panel, index) => (
+          <div key={index} className={styles.panel}>
+            <Image
+              src={panel.src}
+              alt={panel.alt}
+              fill
+              sizes="(max-width: 1200px) 20vw"
+            />
+            <div className={styles.panel__label}>{panel.label}</div>
           </div>
+        ))}
+      </div>
+      <div className={styles.blendify}>
+        <h1 className={styles.blendify__title}>blendify</h1>
+        <div className={styles.blendify__desc}>
+          A personalized summary of your unique taste in music
         </div>
-        <div className={styles.headphones}>
-          <Headphones />
-        </div>
-      </main>
+      </div>
+      <div className={styles.headphones}>
+        <Headphones />
+      </div>
     </>
   );
 }
