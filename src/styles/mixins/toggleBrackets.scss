@@ -1,0 +1,25 @@
+@mixin toggleBrackets {
+  &::before,
+  &::after {
+    content: "[";
+    position: absolute;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &::before {
+    left: 2px;
+  }
+
+  &::after {
+    content: "]";
+    right: 2px;
+  }
+
+  &:hover::before,
+  &:hover::after,
+  &.active::before,
+  &.active::after {
+    opacity: 1;
+  }
+}

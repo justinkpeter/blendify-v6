@@ -1,0 +1,46 @@
+@use "../../styles/mixins/hover/hover.scss" as *;
+@use "../../styles/mixins/toggleBrackets.scss" as *;
+@use "../../styles//mixins/breakpoints.scss" as *;
+@use "../../styles/variables/colors.scss" as *;
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  position: absolute;
+  user-select: none;
+
+  &__option {
+    cursor: pointer;
+    position: relative;
+    opacity: 0.6;
+
+    &.active {
+      opacity: 1;
+    }
+
+    &:active {
+      transform: translateY(1px) scale(0.98);
+    }
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+    transition: 200ms ease-in-out;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    font-family: inherit;
+    font-size: 1rem;
+    white-space: nowrap;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &.active {
+      background-color: $off-white;
+      color: $black;
+    }
+  }
+}
