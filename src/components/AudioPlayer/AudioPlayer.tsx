@@ -4,9 +4,13 @@ import PlayPauseControl from "../PlayPauseControl/PlayPauseControl";
 import useAudioPlayer from "./useAudioPlayer";
 import styles from "./AudioPlayer.module.scss";
 
-export default function AudioPlayer({ src }: { src: string }) {
+export default function AudioPlayer({ src }: { src: string | null }) {
   const { audioRef, isPlaying, togglePlay, progress, handleScrub } =
-    useAudioPlayer(src);
+    useAudioPlayer();
+
+  if (!src) {
+    return null;
+  }
 
   return (
     <div className={styles["audio-player"]}>

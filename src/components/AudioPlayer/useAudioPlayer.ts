@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function useAudioPlayer(src: string) {
+export default function useAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
