@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./SelectedTrack.module.scss";
+import styles from "./SelectedTrackDetails.module.scss";
 import { ArtistsList } from "./TrackOverview";
 
 export default function TrackMeta({

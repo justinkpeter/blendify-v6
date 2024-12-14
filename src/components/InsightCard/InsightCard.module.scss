@@ -1,0 +1,31 @@
+.insightCard {
+  display: flex;
+  background-color: #3434345d;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  padding: 8px;
+  padding-right: 1rem;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+  line-height: 1;
+  white-space: nowrap;
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 4px;
+    opacity: 0.4;
+  }
+
+  &__value {
+    font-weight: 500;
+    opacity: 0.8;
+  }
+}

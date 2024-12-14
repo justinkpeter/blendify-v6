@@ -1,0 +1,121 @@
+.selectedTrack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  user-select: none;
+  position: relative;
+  height: 100%;
+  padding-bottom: 4rem;
+
+  .metaAndRecommendations {
+    display: flex;
+    gap: 1rem;
+
+    & > div:first-child {
+      width: 300px;
+    }
+  }
+}
+
+.overview {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  width: 100%;
+  position: relative;
+  border-radius: 4px;
+  margin-bottom: 4rem;
+
+  &__preview {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    justify-content: center;
+
+    img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    & > :last-child {
+      display: flex;
+      gap: 1rem;
+      a {
+        display: flex;
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 1rem;
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      line-height: 0.8;
+      font-size: 4.5vw;
+      letter-spacing: -0.04em;
+
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: keep-all;
+    }
+
+    & > :last-child {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+}
+
+.recommendations {
+  position: relative;
+  height: 100%;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  &__item {
+    display: flex;
+    gap: 1rem;
+    line-height: 1;
+    width: 400px;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &_name {
+      :first-child {
+        opacity: 1;
+      }
+      :last-child {
+        opacity: 0.6;
+      }
+    }
+
+    &_preview {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+}

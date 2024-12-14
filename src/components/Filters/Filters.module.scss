@@ -5,7 +5,7 @@
 
 .filters {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   text-transform: uppercase;
   position: relative;
   user-select: none;
@@ -26,19 +26,10 @@
     cursor: pointer;
     position: relative;
     opacity: 0.6;
+    font-size: 10px;
 
     &.active {
-      @include toggleBrackets;
       opacity: 1;
-
-      &::before {
-        left: 8px;
-      }
-
-      &::after {
-        content: "]";
-        right: 8px;
-      }
     }
 
     &:active {
@@ -52,7 +43,7 @@
   }
 
   button {
-    border: none;
+    border: 1px solid $off-white;
     background-color: transparent;
     transition: 200ms ease-in-out;
     position: relative;
@@ -64,6 +55,7 @@
     height: fit-content;
     border-radius: 4px;
     padding: 4px 1rem;
+    cursor: pointer;
 
     &.active {
       background-color: $off-white;

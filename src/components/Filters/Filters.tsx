@@ -1,31 +1,27 @@
 import React from "react";
+import { useTracksContext } from "@/context/TracksContext";
 import styles from "./Filters.module.scss";
 
-interface FilterOption {
-  label: string;
-  value: "short_term" | "medium_term" | "long_term";
-}
+const filterOptions = [
+  { label: "recent", value: "short_term" },
+  { label: "six months", value: "medium_term" },
+  { label: "year", value: "long_term" },
+] as const;
 
-interface FilterProps {
-  options: FilterOption[];
-  activeOption: FilterOption;
-  onSelect: (option: FilterOption) => void;
-}
+export type FilterOption = (typeof filterOptions)[number];
 
-export default function Filters({
-  options,
-  activeOption,
-  onSelect,
-}: FilterProps) {
+export default function Filters() {
+  const { activeFilter, setActiveFilter } = useTracksContext();
+
   return (
     <div className={styles.filters}>
-      {options.map((option) => (
+      {filterOptions.map((option) => (
         <button
           key={option.value}
-          className={`${styles.filters__option} ${
-            option.value === activeOption.value ? styles.active : ""
+          className={`${styles.filterButton} ${
+            option.value === activeFilter.value ? styles.active : ""
           }`}
-          onClick={() => onSelect(option)}
+          onClick={() => setActiveFilter(option)}
         >
           {option.label}
         </button>

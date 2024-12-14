@@ -2,7 +2,7 @@ import Insights from "@/lib/insights";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import InsightCard from "../InsightCard/InsightCard";
-import styles from "./SelectedTrack.module.scss";
+import styles from "./SelectedTrackDetails.module.scss";
 import React from "react";
 
 export default function TrackOverview({

@@ -2,7 +2,7 @@ import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import Image from "next/image";
 import { ArtistsList } from "./TrackOverview";
 import { useRecommendations } from "@/hooks/useRecommendations";
-import styles from "./SelectedTrack.module.scss";
+import styles from "./SelectedTrackDetails.module.scss";
 
 export default function TrackRecommendations({
   seed,
