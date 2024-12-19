@@ -2,15 +2,32 @@ import Head from "next/head";
 import styles from "@/styles/pages/home.module.scss";
 import Image from "next/image";
 import Headphones from "@/components/Headphones";
+import Link from "next/link";
 
 const imagePanels = [
-  { src: "/img/tracks-cover.jpg", alt: "panel1", label: "tracks" },
-  { src: "/img/artists-cover.jpg", alt: "panel2", label: "artists" },
-  { src: "/img/genres-cover.jpg", alt: "panel3", label: "genres" },
+  {
+    src: "/img/tracks-cover.jpg",
+    alt: "panel1",
+    label: "tracks",
+    link: "/tracks",
+  },
+  {
+    src: "/img/artists-cover.jpg",
+    alt: "panel2",
+    label: "artists",
+    link: "/artists",
+  },
+  {
+    src: "/img/genres-cover.jpg",
+    alt: "panel3",
+    label: "genres",
+    link: "/genres",
+  },
   {
     src: "/img/taste-profile-cover.jpg",
     alt: "panel4",
     label: "taste profile",
+    link: "/taste-profile",
   },
 ];
 
@@ -25,15 +42,10 @@ export default function Home() {
       </Head>
       <div className={styles.panels}>
         {imagePanels.map((panel, index) => (
-          <div key={index} className={styles.panel}>
-            <Image
-              src={panel.src}
-              alt={panel.alt}
-              fill
-              sizes="(max-width: 1200px) 20vw"
-            />
+          <Link key={index} className={styles.panel} href={panel.link}>
+            <Image src={panel.src} alt={panel.alt} fill />
             <div className={styles.panel__label}>{panel.label}</div>
-          </div>
+          </Link>
         ))}
       </div>
       <div className={styles.blendify}>
