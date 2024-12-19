@@ -6,19 +6,22 @@ $border-radius: 4px;
 .header {
   align-items: center;
   display: flex;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 500;
   justify-content: space-between;
-  text-transform: uppercase;
+  justify-self: center;
   z-index: 10;
   flex-grow: 1;
-  width: 100%;
+  width: 97.5%;
+  top: 1rem;
+  position: relative;
+  user-select: none;
 
   &__left {
     align-items: center;
     display: flex;
     gap: 8px;
-    letter-spacing: -2px;
+    // letter-spacing: -2px;
 
     a {
       transition: all 200ms ease-in-out;

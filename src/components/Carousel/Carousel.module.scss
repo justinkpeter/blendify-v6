@@ -1,7 +1,7 @@
 .carouselContainer {
   overflow: hidden;
   width: 100%;
-  position: relative;
+  position: absolute;
   height: 100%;
 }
 
@@ -14,7 +14,9 @@
   counter-reset: count;
   height: 100%;
   align-items: center;
-  gap: 80px;
+  gap: 5rem;
+  padding-left: 10rem;
+  padding-right: 10rem;
 }
 
 .carouselItem {
@@ -32,12 +34,7 @@
     font-weight: 500;
   }
 
-  // Add leading zero for single-digit counts
   &:nth-child(-n + 9):before {
     content: "[ 0" counter(count) " ]";
-  }
-
-  &:first-child {
-    margin-left: 8.5rem;
   }
 }
