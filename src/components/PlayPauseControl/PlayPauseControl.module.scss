@@ -10,6 +10,7 @@ button.toggleButton {
   transition: content 100ms ease-out;
   border: none;
   cursor: pointer;
+  color: inherit;
 
   svg {
     width: 1rem;

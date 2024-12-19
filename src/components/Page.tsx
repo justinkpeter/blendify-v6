@@ -5,6 +5,7 @@ import styles from "@/styles/components/page.module.scss";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 interface PageProps {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ export default function Page({ children }: PageProps) {
   const { pathname } = router;
 
   const isLogin = pathname === "/login";
+  const isHome = pathname === "/";
 
   if (isLogin) {
     return <main className={styles.page}>{children}</main>;
@@ -47,6 +49,11 @@ export default function Page({ children }: PageProps) {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             layoutRoot
           >
+            {!isHome && (
+              <Link href="/" className={styles.backLink}>
+                ﹤ back
+              </Link>
+            )}
             {children}
           </motion.div>
         </AnimatePresence>

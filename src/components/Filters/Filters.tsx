@@ -1,5 +1,4 @@
 import React from "react";
-import { useTracksContext } from "@/context/TracksContext";
 import styles from "./Filters.module.scss";
 
 const filterOptions = [
@@ -8,20 +7,26 @@ const filterOptions = [
   { label: "year", value: "long_term" },
 ] as const;
 
-export type FilterOption = (typeof filterOptions)[number];
+export type FilterValue = (typeof filterOptions)[number]["value"];
 
-export default function Filters() {
-  const { activeFilter, setActiveFilter } = useTracksContext();
+interface FiltersProps {
+  activeFilter: FilterValue;
+  setActiveFilter: (filter: FilterValue) => void;
+}
 
+export default function Filters({
+  activeFilter,
+  setActiveFilter,
+}: FiltersProps) {
   return (
     <div className={styles.filters}>
       {filterOptions.map((option) => (
         <button
           key={option.value}
           className={`${styles.filterButton} ${
-            option.value === activeFilter.value ? styles.active : ""
+            option.value === activeFilter ? styles.active : ""
           }`}
-          onClick={() => setActiveFilter(option)}
+          onClick={() => setActiveFilter(option.value)}
         >
           {option.label}
         </button>

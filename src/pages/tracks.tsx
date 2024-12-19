@@ -1,22 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import spotifyApi from "@/lib/spotify";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
-import { TracksProvider } from "@/context/TracksContext";
 import styles from "@/styles/pages/tracks.module.scss";
 import Carousel from "@/components/Carousel/Carousel";
 import TrackItem from "@/components/Carousel/TrackItem";
+import Filters, { FilterValue } from "@/components/Filters/Filters";
+
+import useTopTracks from "@/hooks/useTopTracks";
 
 export default function Tracks({
   initialTopTracks,
 }: {
   initialTopTracks: SpotifyApi.TrackObjectFull[];
 }) {
+  const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
+
+  const { topTracks, isLoading } = useTopTracks(activeFilter, initialTopTracks);
+
   return (
-    <TracksProvider>
-      <div className={styles.tracks}>
+    <main className={styles.tracks}>
+      <header className={styles.tracks__header}>
+        <h1>your sound</h1>
+        <div>
+          <span>what’s been playing on repeat</span>
+        </div>
+      </header>
+      <div
+        style={{
+          height: "10px",
+          right: "21.5rem",
+          top: "11rem",
+          zIndex: 40000,
+          position: "absolute",
+        }}
+      >
+        <Filters
+          activeFilter={activeFilter}
+          setActiveFilter={setActiveFilter}
+        />
+      </div>
+      <section className={styles.tracks__carousel}>
         <Carousel
-          items={initialTopTracks}
+          loading={isLoading}
+          items={topTracks}
           renderItem={(track) => (
             <TrackItem
               album={track.album}
@@ -26,8 +53,8 @@ export default function Tracks({
             />
           )}
         />
-      </div>
-    </TracksProvider>
+      </section>
+    </main>
   );
 }
 

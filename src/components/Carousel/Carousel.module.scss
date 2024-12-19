@@ -7,7 +7,6 @@
 
 .carousel {
   display: flex;
-  cursor: grab;
   user-select: none;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -37,4 +36,11 @@
   &:nth-child(-n + 9):before {
     content: "[ 0" counter(count) " ]";
   }
+}
+
+.loading {
+  display: flex;
+  height: 440px;
+  align-items: flex-start;
+  color: "white";
 }

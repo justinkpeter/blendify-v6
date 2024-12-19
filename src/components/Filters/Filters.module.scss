@@ -5,28 +5,15 @@
 
 .filters {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   text-transform: uppercase;
-  position: relative;
+  position: absolute;
   user-select: none;
-
-  @media screen and (max-width: $lgBreakpoint) {
-    background-color: #d9d9d9;
-    height: 3rem;
-    border-radius: 8px;
-    width: fit-content;
-    padding: 0.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    align-self: center;
-  }
 
   &__option {
     cursor: pointer;
     position: relative;
     opacity: 0.6;
-    font-size: 10px;
 
     &.active {
       opacity: 1;
@@ -35,15 +22,10 @@
     &:active {
       transform: translateY(1px) scale(0.98);
     }
-
-    @media screen and (max-width: $lgBreakpoint) {
-      background-color: #d9d9d9;
-      mix-blend-mode: difference;
-    }
   }
 
   button {
-    border: 1px solid $off-white;
+    border: none;
     background-color: transparent;
     transition: 200ms ease-in-out;
     position: relative;
@@ -52,10 +34,9 @@
     font-family: inherit;
     font-size: 1rem;
     white-space: nowrap;
-    height: fit-content;
     border-radius: 4px;
-    padding: 4px 1rem;
     cursor: pointer;
+    font-size: 14px;
 
     &.active {
       background-color: $off-white;

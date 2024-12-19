@@ -10,18 +10,18 @@ $border-radius: 4px;
   font-weight: 500;
   justify-content: space-between;
   justify-self: center;
-  z-index: 10;
+  z-index: 1000;
   flex-grow: 1;
-  width: 97.5%;
+  width: 100%;
   top: 1rem;
-  position: relative;
+  padding: 0 1rem;
+  position: absolute;
   user-select: none;
 
   &__left {
     align-items: center;
     display: flex;
     gap: 8px;
-    // letter-spacing: -2px;
 
     a {
       transition: all 200ms ease-in-out;

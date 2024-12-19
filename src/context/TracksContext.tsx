@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
-import { FilterOption } from "@/components/Filters/Filters";
+import { FilterValue } from "@/components/Filters/Filters";
 
 export interface TracksContextValue {
-  activeFilter: FilterOption;
-  setActiveFilter: (filter: FilterOption) => void;
+  activeFilter: FilterValue;
+  setActiveFilter: (filter: FilterValue) => void;
   selectedTrack: SpotifyApi.TrackObjectFull | null;
   setSelectedTrack: (track: SpotifyApi.TrackObjectFull | null) => void;
 }
@@ -13,10 +13,7 @@ const TracksContext = createContext<TracksContextValue | undefined>(undefined);
 export const TracksProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [activeFilter, setActiveFilter] = useState<FilterOption>({
-    label: "year",
-    value: "long_term",
-  });
+  const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
   const [selectedTrack, setSelectedTrack] =
     useState<SpotifyApi.TrackObjectFull | null>(null);
 
