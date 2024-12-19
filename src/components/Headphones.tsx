@@ -20,42 +20,44 @@ function Model(props: JSX.IntrinsicElements["group"]) {
   ) as unknown as GLTFResult;
 
   return (
-    <group {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.B_logo.geometry}
-        material={materials.PaletteMaterial001}
-        position={[0, 0.028, 0]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Clipping_Part2.geometry}
-        material={materials.PaletteMaterial002}
-        position={[0, 0.105, 0]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Emission.geometry}
-        material={materials.PaletteMaterial003}
-        position={[0, 0.027, 0]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Headset001.geometry}
-        material={materials.PaletteMaterial004}
-        position={[0, 0.042, 0]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Left_Indicator.geometry}
-        material={nodes.Left_Indicator.material}
-        position={[0.076, 0.093, 0]}
-      />
+    <group ref={model} {...props} dispose={null}>
+      <group>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.B_logo.geometry}
+          material={materials.PaletteMaterial001}
+          position={[0, 0.028, 0]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Clipping_Part2.geometry}
+          material={materials.PaletteMaterial002}
+          position={[0, 0.105, 0]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Emission.geometry}
+          material={materials.PaletteMaterial003}
+          position={[0, 0.027, 0]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Headset001.geometry}
+          material={materials.PaletteMaterial004}
+          position={[0, 0.042, 0]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Left_Indicator.geometry}
+          material={nodes.Left_Indicator.material}
+          position={[0.076, 0.093, 0]}
+        />
+      </group>
     </group>
   );
 }
@@ -65,13 +67,9 @@ export default function Headphones() {
     <Canvas
       camera={{
         fov: 10,
-        zoom: 0.55,
+        zoom: 0.65,
         near: 10,
         far: 2500,
-        position: [0, 0, 500],
-      }}
-      style={{
-        zIndex: -300,
       }}
     >
       <Suspense fallback={null}>
@@ -81,17 +79,15 @@ export default function Headphones() {
           environment="studio"
           shadows={false}
         >
-          <Model />
+          <Model position={[0, 5, 0]} />
         </Stage>
       </Suspense>
       <OrbitControls
         autoRotate
         autoRotateSpeed={0.5}
-        enableRotate={false}
+        enableRotate={true}
         enableZoom={false}
         enablePan={false}
-        minPolarAngle={Math.PI / 2}
-        maxPolarAngle={Math.PI / 2}
       />
     </Canvas>
   );
