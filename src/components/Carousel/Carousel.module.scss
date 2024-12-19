@@ -1,0 +1,43 @@
+.carouselContainer {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  height: 100%;
+}
+
+.carousel {
+  display: flex;
+  cursor: grab;
+  user-select: none;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  counter-reset: count;
+  height: 100%;
+  align-items: center;
+  gap: 80px;
+}
+
+.carouselItem {
+  flex: 0 0 auto;
+  align-self: center;
+  position: relative;
+  counter-increment: count;
+
+  &:before {
+    content: "[ " counter(count) " ]";
+    left: -2rem;
+    position: absolute;
+    opacity: 0.6;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  // Add leading zero for single-digit counts
+  &:nth-child(-n + 9):before {
+    content: "[ 0" counter(count) " ]";
+  }
+
+  &:first-child {
+    margin-left: 8.5rem;
+  }
+}
