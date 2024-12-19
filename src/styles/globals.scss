@@ -24,6 +24,7 @@ body {
   overflow-x: hidden;
   letter-spacing: -0.06em;
   line-height: 0.8;
+  color-scheme: dark;
 }
 
 body {
@@ -37,6 +38,10 @@ body {
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+
+  img {
+    border-radius: 4px;
+  }
 }
 
 * {
