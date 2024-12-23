@@ -1,0 +1,50 @@
+.artists {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  &__header {
+    width: 94%;
+    height: fit-content;
+    position: relative;
+    padding-top: 8rem;
+    padding-left: 10rem;
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 600;
+      line-height: 0.8;
+      letter-spacing: -4px;
+      margin-bottom: 4px;
+    }
+
+    & > :nth-child(2) {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 100%;
+      letter-spacing: -0.8px;
+      opacity: 0.6;
+      position: relative;
+
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &__carousel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding-top: 4rem;
+  }
+
+  &__filters {
+    height: 10px;
+    right: 21.5rem;
+    top: 11rem;
+    z-index: 40000;
+    position: absolute;
+  }
+}
