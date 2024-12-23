@@ -1,23 +1,33 @@
 import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import routes from "@/routes";
+import styles from "@/styles/components/page.module.scss";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { ArrowLongLeftIcon } from "@heroicons/react/24/solid";
-import styles from "@/styles/components/page.module.scss";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 interface PageProps {
   children: React.ReactNode;
   transition?: "enter" | "exit";
 }
 
+const pageTransitionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
 export default function Page({ children }: PageProps) {
   const router = useRouter();
   const { pathname } = router;
 
-  const isHomePage = pathname === "/";
-  const isLoginPage = pathname === "/login";
+  const isLogin = pathname === "/login";
+  const isHome = pathname === "/";
+
+  if (isLogin) {
+    return <main className={styles.page}>{children}</main>;
+  }
 
   return (
     <>
@@ -27,15 +37,27 @@ export default function Page({ children }: PageProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!isHomePage && !isLoginPage && (
-        <nav className={styles.nav}>
-          <Link href={"/"}>
-            <ArrowLongLeftIcon className={styles.icon} />
-            back
-          </Link>
-        </nav>
-      )}
-      <main className={styles.page}>{children}</main>
+      <main className={styles.page}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            className={"page-container"}
+            key={router.route}
+            variants={pageTransitionVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            layoutRoot
+          >
+            {!isHome && (
+              <Link href="/" className={styles.backLink}>
+                ﹤ back
+              </Link>
+            )}
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </main>
     </>
   );
 }

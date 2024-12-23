@@ -39,25 +39,29 @@ export default function Header() {
             <Image
               src={user.image}
               alt={user.name}
-              width={30}
-              height={30}
+              width={24}
+              height={24}
               onClick={() => setToggleMenu(!toggleMenu)}
               className={styles.userImage}
             />
           )}
           <div className={`${styles.menu} ${toggleMenu ? styles.active : ""}`}>
-            <button onClick={toggleFullScreen}>
-              {isFullScreen ? (
-                <ArrowsPointingInIcon />
-              ) : (
-                <ArrowsPointingOutIcon />
-              )}
-              toggle fullscreen
-            </button>
-            <button onClick={() => signOut().catch(console.error)}>
-              <ArrowLeftEndOnRectangleIcon />
-              sign out
-            </button>
+            {toggleMenu && (
+              <>
+                <button onClick={toggleFullScreen}>
+                  {isFullScreen ? (
+                    <ArrowsPointingInIcon />
+                  ) : (
+                    <ArrowsPointingOutIcon />
+                  )}
+                  toggle fullscreen
+                </button>
+                <button onClick={() => signOut().catch(console.error)}>
+                  <ArrowLeftEndOnRectangleIcon />
+                  sign out
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
