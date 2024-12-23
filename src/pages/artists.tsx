@@ -6,13 +6,13 @@ import styles from "@/styles/pages/artists.module.scss";
 import Carousel from "@/components/Carousel/Carousel";
 import Filters, { FilterValue } from "@/components/Filters/Filters";
 
-import useTopArtists from "@/hooks/useTopArtists";
+import useTopArtists, { ArtistWithPreview } from "@/hooks/useTopArtists";
 import ArtistItem from "@/components/Carousel/ArtistItem";
 
 export default function Artists({
   initialTopArtists,
 }: {
-  initialTopArtists: SpotifyApi.ArtistObjectFull[];
+  initialTopArtists: ArtistWithPreview[];
 }) {
   const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
   const { topArtists, isLoading } = useTopArtists(
@@ -44,7 +44,8 @@ export default function Artists({
               name={artist.name}
               genres={artist.genres}
               monthlyListeners={artist.followers.total}
-              preview={null}
+              preview={artist.previewUri}
+              artistUri={artist.uri}
             />
           )}
         />
@@ -66,9 +67,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   spotifyApi.setRefreshToken(session.refreshToken as string);
 
   const topArtists = await spotifyApi
-
     .getMyTopArtists({ limit: 12, time_range: "short_term" })
     .then((data) => data.body.items);
 
-  return { props: { initialTopArtists: topArtists } };
+  const artistsWithPreview = await Promise.all(
+    topArtists.map(async (artist) => {
+      const topTrack = await spotifyApi
+        .getArtistTopTracks(artist.id, "US")
+        .then((response) => response.body.tracks[0]);
+
+      return {
+        ...artist,
+        previewUri: topTrack?.preview_url || null,
+      };
+    })
+  );
+
+  return { props: { initialTopArtists: artistsWithPreview } };
 }

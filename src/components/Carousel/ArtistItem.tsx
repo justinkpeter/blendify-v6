@@ -19,22 +19,25 @@ export default function ArtistItem({
 }) {
   return (
     <div className={styles.artistItem}>
-      <Image
-        alt={name}
-        className={styles.artistItem__image}
-        draggable={false}
-        src={image}
-        width={350}
-        height={350}
-        title={name}
-      />
+      <div className={styles.artistItem__image}>
+        <Image
+          alt={name}
+          draggable={false}
+          src={image}
+          width={350}
+          height={350}
+          title={name}
+        />
+      </div>
+
       <div className={styles.artistItem__info}>
         <a href={artistUri} title={name}>
           <span>{name}</span>
         </a>
         <br />
+        <br />
         <div>
-          <span>monthly listeners: </span>
+          <span className={styles.lightText}>monthly listeners: </span>
           {monthlyListeners.toLocaleString()}
           <br />
           <span className={styles.lightText}>Genres</span>/{" "}
@@ -42,7 +45,7 @@ export default function ArtistItem({
             <span key={index}>
               {" "}
               {genre}
-              {index < genre.length - 1 && ", "}
+              {index < genres.length - 1 && ", "}
             </span>
           ))}
         </div>
