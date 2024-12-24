@@ -123,9 +123,9 @@ export const PieChart: React.FC<PieChartProps> = ({
       <AnimatePresence>
         {hoveredSlice !== null && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.2 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.2 }}
             className={styles.tooltip}
             style={{
               left: mousePosition.x + 10,
@@ -134,8 +134,7 @@ export const PieChart: React.FC<PieChartProps> = ({
           >
             <p className={styles.tooltipKey}>{slices[hoveredSlice].key}</p>
             <p className={styles.tooltipValue}>
-              {slices[hoveredSlice].value.toLocaleString()}(
-              {slices[hoveredSlice].percentage.toFixed(1)}%)
+              {slices[hoveredSlice].percentage.toFixed(1)}%
             </p>
           </motion.div>
         )}
