@@ -9,8 +9,10 @@ import useTopGenres from "@/hooks/useTopGenres";
 import { PieChart } from "@/components/PieChart/PieChart";
 import useRecommendations from "@/hooks/useRecommendations";
 import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
+import { filterOptions } from "@/components/Filters/Filters";
 
 type GenrePercentage = { genre: string; percentage: number };
+import { colors } from "@/components/PieChart/PieChart";
 
 export default function Genres({
   initialTopGenres,
@@ -18,17 +20,16 @@ export default function Genres({
   initialTopGenres: GenrePercentage[];
 }) {
   const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
-  const {
-    topGenres,
-    isLoading: isLoadingGenres,
-    topTrackIds,
-  } = useTopGenres(activeFilter, initialTopGenres);
-  const { recommendations, isLoading: isLoadingRecs } = useRecommendations(
-    topGenres,
-    topTrackIds
+  const { topGenres, topTrackIds } = useTopGenres(
+    activeFilter,
+    initialTopGenres
   );
+  const { recommendations } = useRecommendations(topGenres, topTrackIds);
 
   const [selectedRecIndex, setSelectedRecIndex] = useState<number | null>(null);
+  const [selectedGenreIndex, setSelectedGenreIndex] = useState<number | null>(
+    null
+  );
 
   const handleSelectRecommendation = (index: number) => {
     setSelectedRecIndex(index); // Set the selected index
@@ -36,14 +37,14 @@ export default function Genres({
 
   return (
     <main className={styles.genres}>
-      <header className={styles.genres__header}>
+      <div className={styles.genres__header}>
         <h1>your genres</h1>
         <div>
           <span>
             we know you&apos;re an audiophile, but specifically what kind?
           </span>
         </div>
-      </header>
+      </div>
       <div className={styles.genres__filters}>
         <Filters
           activeFilter={activeFilter}
@@ -51,18 +52,34 @@ export default function Genres({
         />
       </div>
       <div className={styles.genres__info}>
-        {isLoadingGenres ? (
-          <div>Loading genres...</div> // Show loading state for genres
-        ) : (
-          <>
-            <span>{topGenres[0].genre} goes hard</span>
+        <div className={styles.content}>
+          <div>
+            <h4 className={styles.selectedGenre}>
+              {topGenres[0].genre} goes hard
+            </h4>
             <div>
-              This genre appears in {topGenres[0].percentage.toFixed(0)}% of
-              your top 50 songs you&apos;ve listened to in the last 4 weeks.
+              <br />
+              This genre appears in{" "}
+              <span className={styles.selectedGenre}>
+                {topGenres[0].percentage.toFixed(0)}%
+              </span>{" "}
+              of your top 50 songs you&apos;ve listened to in the last{" "}
+              {activeFilter === "short_term"
+                ? "4 weeks"
+                : filterOptions.find((option) => option.value === activeFilter)
+                    ?.label}
+              .
             </div>
             <ol>
-              {topGenres.map((genre) => (
-                <li key={genre.genre}>
+              {topGenres.map((genre, i) => (
+                <li
+                  key={genre.genre}
+                  style={{
+                    color: colors[i],
+                  }}
+                  onMouseEnter={() => setSelectedGenreIndex(i)}
+                  onMouseLeave={() => setSelectedGenreIndex(null)}
+                >
                   <div>
                     <span>{genre.genre}</span>
                     <span>{genre.percentage}%</span>
@@ -70,81 +87,81 @@ export default function Genres({
                 </li>
               ))}
             </ol>
-          </>
-        )}
-        <div>
-          <hr />
-          <br />
-          <br />
-          songs you might like based on your recent vibes:
-          <br />
-          <br />
-          <div className={styles.recs}>
-            {isLoadingRecs ? (
-              <div>Loading recommendations...</div> // Show loading state for recommendations
-            ) : (
-              <>
-                {recommendations.map((rec, i) => (
-                  <motion.div
-                    key={rec.id}
-                    className={styles.rec}
-                    onClick={() => handleSelectRecommendation(i)} // Handle click to select a rec
-                    initial={{ opacity: 0 }} // Animation starting state
-                    animate={{ opacity: 1 }} // Animation end state
-                    transition={{ duration: 0.1 }} // Transition duration
-                    whileHover={{ scale: 1.05 }} // Hover effect
+            <br />
+            <br />
+            <h3>Fresh picks tailored to your listening trends</h3>
+            <br />
+            <br />
+            <div className={styles.recs}>
+              {recommendations.map((rec, i) => (
+                <motion.div
+                  key={rec.id}
+                  className={styles.rec}
+                  onClick={() => handleSelectRecommendation(i)} // Handle click to select a rec
+                  initial={{ opacity: 0 }} // Animation starting state
+                  animate={{ opacity: 1 }} // Animation end state
+                  transition={{ duration: 0.1 }} // Transition duration
+                  whileHover={{ scale: 1.05 }} // Hover effect
+                >
+                  <img
+                    src={rec.albumArt}
+                    alt={rec.name}
+                    title={rec.name}
+                    draggable={false}
+                    className={selectedRecIndex === i ? styles.selected : ""}
+                  />
+                </motion.div>
+              ))}
+              {selectedRecIndex !== null && (
+                <div className={styles.selectedRec}>
+                  <a
+                    href={recommendations[selectedRecIndex].uri}
+                    title={recommendations[selectedRecIndex].name}
                   >
-                    <img
-                      src={rec.albumArt}
-                      alt={rec.name}
-                      title={rec.name}
-                      className={selectedRecIndex === i ? styles.selected : ""}
+                    <h4>{recommendations[selectedRecIndex].name}</h4>
+                  </a>
+                  <p>
+                    {recommendations[selectedRecIndex].artists.map(
+                      (artist, index) => (
+                        <span key={index}>
+                          <a href={artist.uri} title={artist.name}>
+                            {artist.name}
+                          </a>
+                          {index <
+                          recommendations[selectedRecIndex].artists.length - 1
+                            ? ", "
+                            : ""}
+                        </span>
+                      )
+                    )}
+                  </p>
+                  <div>
+                    <AudioPlayer
+                      src={recommendations[selectedRecIndex].preview}
                     />
-                  </motion.div>
-                ))}
-                {selectedRecIndex !== null && (
-                  <div className={styles.rec}>
-                    {/* Add more details about the selected recommendation */}
-                    <a href={recommendations[selectedRecIndex].uri}>
-                      <h3>{recommendations[selectedRecIndex].name}</h3>
-                    </a>
-                    <p>
-                      {recommendations[selectedRecIndex].artists.map(
-                        (artist, index) => (
-                          <span key={index}>
-                            <a href={artist.uri}>{artist.name}</a>
-                            {index <
-                            recommendations[selectedRecIndex].artists.length - 1
-                              ? ","
-                              : ""}
-                          </span>
-                        )
-                      )}
-                    </p>
-                    <div>
-                      <AudioPlayer
-                        src={recommendations[selectedRecIndex].preview}
-                      />
-                      <img
-                        src={"/img/spotify-icon-white.png"}
-                        className={styles.icon}
-                      />
-                    </div>
+                    <img
+                      src={"/img/spotify-icon-white.png"}
+                      className={styles.icon}
+                    />
                   </div>
-                )}
-              </>
-            )}
+                </div>
+              )}
+            </div>
           </div>
+
+          <section className={styles.genres__chart}>
+            <PieChart
+              data={topGenres.reduce((acc, { genre, percentage }) => {
+                acc[genre] = percentage;
+                return acc;
+              }, {} as Record<string, number>)}
+              width={600}
+              height={600}
+              selectedIndex={selectedGenreIndex}
+            />
+          </section>
         </div>
       </div>
-      <section className={styles.genres__chart}>
-        <PieChart
-          data={topGenres.reduce((acc, { genre, percentage }) => {
-            acc[genre] = percentage;
-            return acc;
-          }, {} as Record<string, number>)}
-        />
-      </section>
     </main>
   );
 }

@@ -12,13 +12,14 @@ interface PieChartProps {
   data: Record<string, number>;
   width?: number;
   height?: number;
+  selectedIndex?: number | null;
 }
 
-const colors = [
-  "#FF6B6B",
+export const colors = [
+  "#ffb327",
   "#4ECDC4",
   "#45B7D1",
-  "#96CEB4",
+  "#FF6B6B",
   "#FFEEAD",
   "#D4A5A5",
 ];
@@ -27,6 +28,7 @@ export const PieChart: React.FC<PieChartProps> = ({
   data,
   width = 400,
   height = 400,
+  selectedIndex = null,
 }) => {
   const [hoveredSlice, setHoveredSlice] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -105,7 +107,8 @@ export const PieChart: React.FC<PieChartProps> = ({
                 fill={slice.color}
                 initial={{ scale: 1, opacity: 0 }}
                 animate={{
-                  opacity: hoveredSlice === index ? 1 : 0.6,
+                  opacity:
+                    hoveredSlice === index || selectedIndex === index ? 1 : 0.6,
                 }}
                 transition={{
                   duration: 0.15,

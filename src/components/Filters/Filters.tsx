@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Filters.module.scss";
 
-const filterOptions = [
+export const filterOptions = [
   { label: "recent", value: "short_term" },
   { label: "six months", value: "medium_term" },
   { label: "year", value: "long_term" },

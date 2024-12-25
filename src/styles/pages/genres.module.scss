@@ -1,15 +1,19 @@
+$selectedColor: #ffb327;
+
 .genres {
-  display: flex;
   height: 100%;
   width: 100%;
   position: relative;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  max-width: 1400px;
 
   &__header {
     width: 94%;
     height: fit-content;
     position: relative;
-    padding-top: 8rem;
+    margin-top: 8rem;
     padding-left: 10rem;
 
     h1 {
@@ -35,22 +39,44 @@
   }
 
   &__info {
-    position: absolute;
-    left: 10rem;
-    top: 15rem;
-    width: 25%;
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    padding-left: 10rem;
+    padding-right: 8rem;
+    padding-top: 4rem;
+    position: relative;
     gap: 1.5rem;
-    line-height: normal;
-    font-size: 14px;
+    line-height: 1;
     font-weight: 500;
+
+    & .content {
+      display: flex;
+      gap: 4rem;
+      width: 100%;
+      height: 100%;
+
+      & > * {
+        width: 100%;
+      }
+
+      & > :first-child {
+        max-width: 500px;
+      }
+    }
 
     & ol {
       margin-block-start: 0em;
       margin-block-end: 0em;
-      padding-inline-start: 1rem;
-      font-weight: 700;
+      padding-inline-start: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0;
+      border-top: 1px dotted rgba(255, 255, 255, 0.1);
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      height: 140px;
     }
 
     & li {
@@ -61,42 +87,24 @@
         width: 100%;
         height: 100%;
         font-size: 1rem;
-        line-height: 0.8;
+        line-height: 1;
       }
-
-      &:hover {
-        div {
-          background-color: rgb(221, 170, 111);
-          mix-blend-mode: difference;
-          color: black;
-        }
-      }
-    }
-
-    img {
-      height: 60px;
-      width: 60px;
 
       &:hover {
         cursor: pointer;
       }
-    }
-
-    hr {
-      opacity: 0.4;
-      height: 0.5px;
-      width: 50%;
+      &:not(:hover) {
+        opacity: 0.8;
+      }
     }
   }
 
   &__chart {
     width: fit-content;
-    margin-right: 16rem;
-    padding-top: 4rem;
     display: flex;
     align-items: center;
     height: fit-content;
-    align-self: center;
+    justify-content: center;
   }
 
   &__filters {
@@ -110,9 +118,17 @@
 
 .recs {
   display: flex;
-  flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
+  margin-bottom: 8rem;
+  position: relative;
+
+  img {
+    transition: all 200ms ease-out;
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+  }
 
   & .rec {
     display: flex;
@@ -121,30 +137,47 @@
     white-space: nowrap;
     position: relative;
     line-height: 1;
+  }
+
+  .selectedRec {
+    position: absolute;
+    left: 0;
+    top: 120%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1;
 
     & > :last-child {
       display: flex;
       justify-content: space-between;
+      align-items: flex-end;
       gap: 4rem;
 
       & > :first-child {
         margin-top: 1rem;
       }
+    }
 
-      .icon {
-        width: 16px;
-        height: 16px;
-      }
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    p {
+      opacity: 0.8;
     }
   }
 }
 
 .selected {
-  border: 2px solid #fff; // For example, add a border
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); // Optional background color for the selected item
+  transition: all 200ms ease-out;
+  border: 3px solid $selectedColor;
+  padding: 4px;
+}
+
+.selectedGenre {
+  color: $selectedColor;
 }
