@@ -16,12 +16,11 @@ interface Recommendation {
   }[];
   album: string;
   albumArt: string;
-  preview: string;
+  preview: string | null;
   uri: string;
 }
 
-// Example Genre Mapping (Adjust if necessary)
-const GENRE_MAPPING = {
+const GENRE_MAPPING: { [key: string]: string } = {
   rap: "rap",
   "hip-hop": "hip-hop",
   "r&b": "r&b", // Keep 'r&b' as is
@@ -41,7 +40,7 @@ function mapGenre(genre: string): string {
 
 export default function useRecommendations(
   genres: Genre[],
-  topTrackIds: string[]
+  topTrackIds?: string[]
 ) {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,9 +58,9 @@ export default function useRecommendations(
         try {
           // Extract genre names, limit to top 5 based on percentage
           const topGenres = genres
-            .sort((a, b) => b.percentage - a.percentage) // Sort by percentage
-            .slice(0, 5) // Take the top 5 genres
-            .map((g) => mapGenre(g.genre.toLowerCase())); // Map the genre using mapGenre function
+            .sort((a, b) => b.percentage - a.percentage)
+            .slice(0, 5)
+            .map((g) => mapGenre(g.genre.toLowerCase()));
 
           // Convert the array to a comma-separated string
           const seedGenres = topGenres.join(",");
@@ -71,7 +70,7 @@ export default function useRecommendations(
           // Query Spotify recommendations
           const response = await spotifyApi.getRecommendations({
             // seed_genres: seedGenres,
-            seed_tracks: topTrackIds.join(","),
+            seed_tracks: topTrackIds?.join(",") || "",
             limit: 5,
           });
 
@@ -103,7 +102,7 @@ export default function useRecommendations(
     };
 
     fetchRecommendations();
-  }, [genres]);
+  }, []);
 
   return { recommendations, isLoading };
 }
