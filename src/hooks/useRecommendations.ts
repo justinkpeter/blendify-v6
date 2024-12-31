@@ -102,7 +102,7 @@ export default function useRecommendations(
     };
 
     fetchRecommendations();
-  }, []);
+  }, [genres, topTrackIds]);
 
   return { recommendations, isLoading };
 }
