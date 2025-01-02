@@ -12,13 +12,14 @@ interface PieChartProps {
   data: Record<string, number>;
   width?: number;
   height?: number;
+  selectedIndex?: number | null;
 }
 
-const colors = [
-  "#FF6B6B",
+export const colors = [
+  "#ffb327",
   "#4ECDC4",
   "#45B7D1",
-  "#96CEB4",
+  "#FF6B6B",
   "#FFEEAD",
   "#D4A5A5",
 ];
@@ -27,6 +28,7 @@ export const PieChart: React.FC<PieChartProps> = ({
   data,
   width = 400,
   height = 400,
+  selectedIndex = null,
 }) => {
   const [hoveredSlice, setHoveredSlice] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -105,7 +107,8 @@ export const PieChart: React.FC<PieChartProps> = ({
                 fill={slice.color}
                 initial={{ scale: 1, opacity: 0 }}
                 animate={{
-                  opacity: hoveredSlice === index ? 1 : 0.6,
+                  opacity:
+                    hoveredSlice === index || selectedIndex === index ? 1 : 0.6,
                 }}
                 transition={{
                   duration: 0.15,
@@ -123,9 +126,9 @@ export const PieChart: React.FC<PieChartProps> = ({
       <AnimatePresence>
         {hoveredSlice !== null && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.2 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.2 }}
             className={styles.tooltip}
             style={{
               left: mousePosition.x + 10,
@@ -134,8 +137,7 @@ export const PieChart: React.FC<PieChartProps> = ({
           >
             <p className={styles.tooltipKey}>{slices[hoveredSlice].key}</p>
             <p className={styles.tooltipValue}>
-              {slices[hoveredSlice].value.toLocaleString()}(
-              {slices[hoveredSlice].percentage.toFixed(1)}%)
+              {slices[hoveredSlice].percentage.toFixed(1)}%
             </p>
           </motion.div>
         )}

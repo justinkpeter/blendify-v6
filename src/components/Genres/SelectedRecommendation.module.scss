@@ -1,0 +1,28 @@
+.selectedRec {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+
+  & > :last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 4rem;
+
+    & > :first-child {
+      margin-top: 1rem;
+    }
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  p {
+    opacity: 0.8;
+  }
+}
