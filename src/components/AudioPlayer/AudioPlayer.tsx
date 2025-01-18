@@ -9,7 +9,7 @@ export default function AudioPlayer({ src }: { src: string | null }) {
     useAudioPlayer();
 
   if (!src) {
-    return null;
+    return <div className={styles["audio-player"]}>No preview available</div>;
   }
 
   return (
