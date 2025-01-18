@@ -1,0 +1,215 @@
+.tasteProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  max-width: 1400px;
+  line-height: 1;
+
+  &__header {
+    width: 94%;
+    height: fit-content;
+    position: relative;
+    margin-top: 8rem;
+    padding-left: 10rem;
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 600;
+      line-height: 0.8;
+      letter-spacing: -4px;
+      margin-bottom: 8px;
+    }
+
+    & > :nth-child(2) {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 100%;
+      letter-spacing: -0.8px;
+      opacity: 0.6;
+      position: relative;
+
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .receipt {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    background: rgba(217, 217, 217, 0.1);
+    max-width: 450px;
+    padding: 2rem;
+    min-width: 350px;
+    position: relative;
+    width: 100%;
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      font-size: 2rem;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding: 1rem 0;
+
+      .emoji {
+        font-size: 2rem;
+      }
+
+      h1 {
+        font-weight: 500;
+        font-size: 1.5rem;
+      }
+
+      h6 {
+        font-size: 1rem;
+        font-weight: 500;
+        font-size: 0.75rem;
+        opacity: 0.8;
+      }
+    }
+
+    .genres {
+      white-space: nowrap;
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .artists,
+    .tracks {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem 0;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px dotted #fff;
+      font-size: 14px;
+      width: 100%;
+      font-size: 12px;
+      font-weight: 500;
+
+      ol {
+        margin-inline-start: 0;
+        padding-inline-start: 1rem;
+        width: 100%;
+      }
+
+      a {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        flex-grow: 1;
+      }
+
+      .artistNames {
+        font-size: 12px;
+        font-weight: 500;
+        opacity: 0.8;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 2px;
+        position: relative;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        a {
+          flex: 1;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      .track {
+        display: flex; /* Flexbox for horizontal alignment */
+        justify-content: space-between; /* Space between track name and artists */
+        align-items: center; /* Center align vertically */
+        width: 100%; /* Full width */
+        position: relative;
+
+        & > * {
+          /* Ensures equal width for track name and artist names */
+          white-space: nowrap; /* Prevents text wrapping */
+          text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+          overflow: hidden; /* Hides overflowing text */
+          text-align: left; /* Align text to the left */
+        }
+
+        a {
+          text-decoration: none; /* Optional: Remove underline from links */
+          color: inherit; /* Ensure consistent text color */
+        }
+
+        .artistNames {
+          display: flex; /* Use flexbox for artist names */
+          justify-content: flex-end; /* Align artist names to the left */
+          gap: 4px; /* Spacing between artist names */
+          flex-wrap: nowrap; /* Prevent wrapping of artist names */
+          text-align: right;
+          a {
+            flex: 1;
+
+            flex: none; /* Artists shouldn't stretch; retain natural width */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            justify-content: flex-end;
+          }
+        }
+      }
+    }
+
+    .cta {
+      align-items: center;
+      justify-self: flex-end;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    ol {
+      li {
+        margin-bottom: 4px;
+      }
+    }
+    button.download {
+      height: 24px;
+      padding: 0;
+      gap: 0.5rem;
+
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      border-radius: 4px;
+      font-family: "General Sans", sans-serif;
+
+      svg {
+        width: 30px;
+        height: 100%;
+      }
+    }
+
+    .barcode {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-size: 12px;
+      align-items: center;
+      padding: 1rem 2rem;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+  }
+}
