@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import spotifyApi from "@/lib/spotify";
 import { getSession } from "next-auth/react";
+import { FilterValue } from "@/components/Filters/Filters";
 
 interface Genre {
   genre: string;
@@ -40,69 +41,70 @@ function mapGenre(genre: string): string {
 
 export default function useRecommendations(
   genres: Genre[],
+  activeFilter: FilterValue,
   topTrackIds?: string[]
 ) {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchRecommendations = useCallback(async () => {
     if (genres.length === 0) return;
+    if (!topTrackIds?.length) return;
 
-    const fetchRecommendations = async () => {
-      setIsLoading(true);
-      const session = await getSession();
+    setIsLoading(true);
+    const session = await getSession();
 
-      if (session) {
-        spotifyApi.setAccessToken(session.accessToken as string);
+    if (session) {
+      spotifyApi.setAccessToken(session.accessToken as string);
 
-        try {
-          // Extract genre names, limit to top 5 based on percentage
-          const topGenres = genres
-            .sort((a, b) => b.percentage - a.percentage)
-            .slice(0, 5)
-            .map((g) => mapGenre(g.genre.toLowerCase()));
+      try {
+        // Extract genre names, limit to top 5 based on percentage
+        const topGenres = genres
+          .sort((a, b) => b.percentage - a.percentage)
+          .slice(0, 5)
+          .map((g) => mapGenre(g.genre.toLowerCase()));
 
-          // Convert the array to a comma-separated string
-          const seedGenres = topGenres.join(",");
+        // Convert the array to a comma-separated string
+        const seedGenres = topGenres.join(",");
 
-          console.log(seedGenres); // Debug output
+        // Query Spotify recommendations
+        const response = await spotifyApi.getRecommendations({
+          seed_tracks: topTrackIds?.join(","),
+          limit: 5,
+        });
 
-          // Query Spotify recommendations
-          const response = await spotifyApi.getRecommendations({
-            // seed_genres: seedGenres,
-            seed_tracks: topTrackIds?.join(",") || "",
-            limit: 5,
-          });
+        // Format the recommendations
+        const formattedRecommendations = response.body.tracks.map((track) => ({
+          id: track.id,
+          name: track.name,
+          artists: track.artists.map((artist) => ({
+            name: artist.name,
+            uri: artist.uri,
+          })),
+          album: track.album.name,
+          albumArt: track.album.images[0]?.url,
+          preview: track.preview_url,
+          uri: track.uri,
+        }));
 
-          // Format the recommendations
-          const formattedRecommendations = response.body.tracks.map(
-            (track) => ({
-              id: track.id,
-              name: track.name,
-              artists: track.artists.map((artist) => {
-                return {
-                  name: artist.name,
-                  uri: artist.uri,
-                };
-              }),
-              album: track.album.name,
-              albumArt: track.album.images[0]?.url,
-              preview: track.preview_url,
-              uri: track.uri,
-            })
-          );
-
-          setRecommendations(formattedRecommendations);
-        } catch (error) {
-          console.error("Error fetching recommendations:", error);
+        setRecommendations(formattedRecommendations);
+      } catch (error) {
+        console.error("Error fetching recommendations:", error);
+        if (!topTrackIds?.length) {
+          console.log("No top tracks found");
         }
       }
+    }
 
-      setIsLoading(false);
-    };
+    setIsLoading(false);
+  }, [activeFilter]);
 
+  useEffect(() => {
     fetchRecommendations();
-  }, [genres, topTrackIds]);
+  }, [activeFilter]);
 
-  return { recommendations, isLoading };
+  return useMemo(
+    () => ({ recommendations, isLoading }),
+    [recommendations, isLoading]
+  );
 }

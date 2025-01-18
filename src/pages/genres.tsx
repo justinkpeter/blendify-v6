@@ -20,11 +20,17 @@ export default function Genres({
   initialTopGenres: GenrePercentage[];
 }) {
   const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
+
   const { topGenres, topTrackIds } = useTopGenres(
     activeFilter,
     initialTopGenres
   );
-  const { recommendations } = useRecommendations(topGenres, topTrackIds);
+
+  const { recommendations } = useRecommendations(
+    topGenres,
+    activeFilter,
+    topTrackIds
+  );
 
   const {
     selectedGenreIndex,
