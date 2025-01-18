@@ -21,23 +21,23 @@ interface Recommendation {
   uri: string;
 }
 
-const GENRE_MAPPING: { [key: string]: string } = {
-  rap: "rap",
-  "hip-hop": "hip-hop",
-  "r&b": "r&b", // Keep 'r&b' as is
-  pop: "pop",
-  plugg: "plugg",
-};
+// const GENRE_MAPPING: { [key: string]: string } = {
+//   rap: "rap",
+//   "hip-hop": "hip-hop",
+//   "r&b": "r&b", // Keep 'r&b' as is
+//   pop: "pop",
+//   plugg: "plugg",
+// };
 
-function mapGenre(genre: string): string {
-  // Map genre to its category or default to itself
-  for (const keyword in GENRE_MAPPING) {
-    if (genre.toLowerCase().includes(keyword)) {
-      return GENRE_MAPPING[keyword];
-    }
-  }
-  return genre;
-}
+// function mapGenre(genre: string): string {
+//   // Map genre to its category or default to itself
+//   for (const keyword in GENRE_MAPPING) {
+//     if (genre.toLowerCase().includes(keyword)) {
+//       return GENRE_MAPPING[keyword];
+//     }
+//   }
+//   return genre;
+// }
 
 export default function useRecommendations(
   genres: Genre[],
@@ -59,13 +59,13 @@ export default function useRecommendations(
 
       try {
         // Extract genre names, limit to top 5 based on percentage
-        const topGenres = genres
-          .sort((a, b) => b.percentage - a.percentage)
-          .slice(0, 5)
-          .map((g) => mapGenre(g.genre.toLowerCase()));
+        // const topGenres = genres
+        //   .sort((a, b) => b.percentage - a.percentage)
+        //   .slice(0, 5)
+        //   .map((g) => mapGenre(g.genre.toLowerCase()));
 
         // Convert the array to a comma-separated string
-        const seedGenres = topGenres.join(",");
+        // const seedGenres = topGenres.join(",");
 
         // Query Spotify recommendations
         const response = await spotifyApi.getRecommendations({

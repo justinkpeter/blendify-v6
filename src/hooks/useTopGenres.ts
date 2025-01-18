@@ -37,6 +37,7 @@ export default function useTopGenres(
   const [topGenres, setTopGenres] =
     useState<GenrePercentage[]>(initialTopGenres);
   const [topTrackIds, setTopTrackIds] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [artistIds, setArtistIds] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
 
