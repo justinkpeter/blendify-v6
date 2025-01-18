@@ -165,7 +165,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   spotifyApi.setRefreshToken(session.refreshToken as string);
 
   const topTracks = await spotifyApi
-    .getMyTopTracks({ limit: 5, time_range: "medium_term" })
+    .getMyTopTracks({ limit: 5, time_range: "short_term" })
     .then((data) => data.body.items);
 
   const topArtists = await spotifyApi
