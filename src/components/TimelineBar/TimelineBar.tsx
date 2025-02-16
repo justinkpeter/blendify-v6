@@ -17,7 +17,7 @@ export default function TimelineBar({
 }: TimelineBarProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isScrubbing, setIsScrubbing] = useState(false);
-  const itemCount = 20;
+  const itemCount = 15;
 
   const activeIndex = Math.ceil(progress * itemCount);
 

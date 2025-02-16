@@ -15,7 +15,6 @@ export default function Carousel<T>({
 }: CarouselProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Handle vertical scrolling to scroll horizontally
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     if (containerRef.current) {
       containerRef.current.scrollLeft += event.deltaY;
@@ -54,8 +53,11 @@ export default function Carousel<T>({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.2,
+                duration: 0.8,
                 delay: index * 0.1,
+                ease: [0.83, 0, 0.17, 1],
+                type: "spring",
+                stiffness: 100,
               }}
             >
               {renderItem(item)}

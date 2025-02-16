@@ -5,12 +5,16 @@ button.toggleButton {
   display: flex;
   text-transform: uppercase;
   position: relative;
-  background: transparent;
-  padding: 0 0;
+  background: rgba(232, 232, 232, 0.1);
+
   transition: content 100ms ease-out;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
   color: inherit;
+  padding: 4px;
+  gap: 8px;
+  font-size: 0.75rem;
 
   svg {
     width: 1rem;
@@ -22,7 +26,7 @@ button.toggleButton {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 3rem;
+    width: fit-content;
     height: 1rem;
     overflow: hidden;
 
@@ -30,7 +34,7 @@ button.toggleButton {
       transform: translateY(-100%);
 
       &:first-child {
-        transform: translateY(-110%) skewY(12deg);
+        transform: translateY(-110%) skewY(10deg);
       }
     }
 
@@ -40,30 +44,14 @@ button.toggleButton {
     }
   }
 
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    display: block;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    font-weight: 100;
-  }
-
-  &::before {
-    content: "[";
-    left: -6px;
-  }
-
-  &::after {
-    content: "]";
-    right: -6px;
-  }
-
   &:hover {
-    &::before,
-    &::after {
-      opacity: 1;
+    .toggleButton__icon {
+      transform: scale(1.1);
     }
+  }
+
+  &:active {
+    transition: all 50ms cubic-bezier(0.465, 0.04, 0, 0.975); /* custom */
+    transform: scale(0.95);
   }
 }

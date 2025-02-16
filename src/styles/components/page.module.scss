@@ -1,9 +1,11 @@
 @use "@/styles/variables/breakpoints.scss" as *;
 @use "@/styles/variables/colors.scss" as *;
 
+$positionFromTop: 6rem;
+
 .page {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
@@ -16,18 +18,19 @@
     position: relative;
     border-radius: 1rem;
     background-color: #4b4b43;
+    padding-top: $positionFromTop;
 
     overflow: hidden;
     display: flex;
     justify-content: center;
   }
+
   .backLink {
     position: absolute;
     display: flex;
     left: 1rem;
     z-index: 10;
-    top: 8rem;
-    font-size: 12px;
+    top: $positionFromTop;
     font-weight: 500;
   }
 }

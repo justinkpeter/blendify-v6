@@ -40,7 +40,6 @@ export default function Page({ children }: PageProps) {
       <main className={styles.page}>
         <AnimatePresence mode="wait">
           <motion.div
-            className={"page-container"}
             key={router.route}
             variants={pageTransitionVariants}
             initial="initial"

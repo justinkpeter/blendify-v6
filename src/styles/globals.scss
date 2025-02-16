@@ -28,7 +28,6 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
-
   font-family: General Sans, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -55,5 +54,23 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+button {
+  font-family: General Sans, Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  color: var(--background);
+  text-transform: uppercase;
+  outline: none;
+
+  &:active {
+    transform: scale(0.98);
   }
 }
