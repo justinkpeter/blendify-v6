@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import spotifyApi from "@/lib/spotify";
 import { GetServerSidePropsContext } from "next";
+import { FilterValue } from "@/components/Filters/Filters";
 import { getSession } from "next-auth/react";
+import spotifyApi from "@/lib/spotify";
 import styles from "@/styles/pages/tracks.module.scss";
 import Carousel from "@/components/Carousel/Carousel";
 import TrackItem from "@/components/Carousel/TrackItem";
-import { FilterValue } from "@/components/Filters/Filters";
 
 import useTopTracks from "@/hooks/useTopTracks";
 
@@ -25,24 +25,19 @@ export default function Tracks({
         <div>Your most played tracks.</div>
       </div>
       <div className={styles.tracks__filters}>
-        <button
-          onClick={() => setActiveFilter("short_term")}
-          className={activeFilter == "short_term" ? styles.active : ""}
-        >
-          4 Weeks
-        </button>
-        <button
-          onClick={() => setActiveFilter("medium_term")}
-          className={activeFilter == "medium_term" ? styles.active : ""}
-        >
-          6 Months
-        </button>
-        <button
-          onClick={() => setActiveFilter("long_term")}
-          className={activeFilter == "long_term" ? styles.active : ""}
-        >
-          Last Year
-        </button>
+        {["short_term", "medium_term", "long_term"].map((filter) => (
+          <button
+            key={filter}
+            onClick={() => setActiveFilter(filter as FilterValue)}
+            className={activeFilter == filter ? styles.active : ""}
+          >
+            {filter == "short_term"
+              ? "4 Weeks"
+              : filter == "medium_term"
+              ? "6 Months"
+              : "Last Year"}
+          </button>
+        ))}
       </div>
       <div className={styles.tracks__carousel}>
         <Carousel
