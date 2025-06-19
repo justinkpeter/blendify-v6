@@ -20,21 +20,7 @@ export default function Vinyl({
     height: number;
   };
 }) {
-  const onPlay = () => {
-    if (track?.preview_url && audioRef.current) {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
-  const onPause = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
-  };
-
-  const { isPlaying, audioRef, setIsPlaying } = useAudioPlayer();
+  const { isPlaying, audioRef, togglePlay } = useAudioPlayer();
 
   if (!track) return null;
 
@@ -82,7 +68,7 @@ export default function Vinyl({
         {isPlaying ? (
           <button
             className={styles.controlButton}
-            onClick={onPause}
+            onClick={togglePlay}
             aria-label="Pause"
             title="Pause"
           >
@@ -91,7 +77,7 @@ export default function Vinyl({
         ) : (
           <button
             className={styles.controlButton}
-            onClick={onPlay}
+            onClick={togglePlay}
             aria-label="Play"
             title={"Play track preview"}
           >

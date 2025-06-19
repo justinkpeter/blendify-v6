@@ -26,66 +26,64 @@ export default function SelectedTrack({
   );
 
   return (
-    <div>
-      <AnimatePresence mode="wait">
-        {selectedTrack && isTrackVisible && (
-          <motion.div
-            className={styles.selectedTrack}
-            key="selected-track"
-            initial={{ opacity: 0, y: 0, filter: "blur(8px)" }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-              transition: {
-                delay: 0.2,
-              },
-            }}
-            exit={{ opacity: 0, y: 0, filter: "blur(8px)" }}
-            transition={{ duration: TRANSITION_DURATION / 1000 }}
-          >
-            <button className={styles.backLink} onClick={handleCloseTrack}>
-              <ChevronLeftIcon className={styles.backIcon} />
-              BACK
-            </button>
-            <div className={styles.selectedTrack__vinyl}>
-              <Vinyl
-                track={selectedTrack}
-                isVisible={isTrackVisible}
-                onClose={handleCloseTrack}
-                onSelectTrack={handleTrackSelection}
-                size={{ width: 400, height: 400 }}
-              />
-              <Link href={selectedTrack.external_urls.spotify}>
-                <motion.h1
-                  className={styles.selectedTrack__title}
-                  title={selectedTrack.name}
-                >
-                  <Image
-                    src={"/img/spotify-icon-white.png"}
-                    width={30}
-                    height={30}
-                    alt="Spotify Icon"
-                    title="Listen on Spotify"
-                  />
-                  {selectedTrack.name}
-                </motion.h1>
-                <div className={styles.albumName}>
-                  from the album{" "}
-                  <Link href={selectedTrack.album.external_urls.spotify}>
-                    <i>{selectedTrack.album.name}</i>
-                  </Link>
-                </div>
-              </Link>
-            </div>
-            <TrackDetails
-              artistMetadata={artistMetadata}
-              releaseDate={selectedTrack.album.release_date}
-              genreList={genreList}
+    <AnimatePresence mode="wait">
+      {selectedTrack && isTrackVisible && (
+        <motion.div
+          className={styles.selectedTrack}
+          key="selected-track"
+          initial={{ opacity: 0, y: 0, filter: "blur(8px)" }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: {
+              delay: 0.2,
+            },
+          }}
+          exit={{ opacity: 0, y: 0, filter: "blur(8px)" }}
+          transition={{ duration: TRANSITION_DURATION / 1000 }}
+        >
+          <button className={styles.backLink} onClick={handleCloseTrack}>
+            <ChevronLeftIcon className={styles.backIcon} />
+            BACK
+          </button>
+          <div className={styles.selectedTrack__vinyl}>
+            <Vinyl
+              track={selectedTrack}
+              isVisible={isTrackVisible}
+              onClose={handleCloseTrack}
+              onSelectTrack={handleTrackSelection}
+              size={{ width: 400, height: 400 }}
             />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            <Link href={selectedTrack.external_urls.spotify}>
+              <motion.h1
+                className={styles.selectedTrack__title}
+                title={selectedTrack.name}
+              >
+                <Image
+                  src={"/img/spotify-icon-white.png"}
+                  width={30}
+                  height={30}
+                  alt="Spotify Icon"
+                  title="Listen on Spotify"
+                />
+                {selectedTrack.name}
+              </motion.h1>
+              <div className={styles.albumName}>
+                from the album{" "}
+                <Link href={selectedTrack.album.external_urls.spotify}>
+                  <i>{selectedTrack.album.name}</i>
+                </Link>
+              </div>
+            </Link>
+          </div>
+          <TrackDetails
+            artistMetadata={artistMetadata}
+            releaseDate={selectedTrack.album.release_date}
+            genreList={genreList}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

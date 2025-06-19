@@ -20,6 +20,14 @@
     display: flex;
     gap: 1rem;
     align-items: center;
+    transition: all 80ms ease-in-out;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 2px;
+    }
 
     span {
       font-weight: 500;
@@ -46,6 +54,12 @@
     width: fit-content;
     border: 2px solid rgba(255, 255, 255, 0.2);
     letter-spacing: 0;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
+      user-select: none;
+    }
   }
 
   &__backLink {

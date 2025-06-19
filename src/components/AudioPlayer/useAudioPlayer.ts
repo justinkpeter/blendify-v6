@@ -49,12 +49,5 @@ export default function useAudioPlayer() {
     setProgress(position);
   };
 
-  return {
-    audioRef,
-    isPlaying,
-    togglePlay,
-    progress,
-    handleScrub,
-    setIsPlaying,
-  };
+  return { audioRef, isPlaying, togglePlay, progress, handleScrub };
 }
