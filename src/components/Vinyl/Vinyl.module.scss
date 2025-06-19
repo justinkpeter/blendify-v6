@@ -1,0 +1,89 @@
+.vinyl {
+  position: relative;
+  z-index: 0;
+
+  &__record {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+    clip-path: circle(calc(50% - 22px) at 50% 50%);
+    animation: spin linear 20s infinite;
+    animation-play-state: paused;
+    transform-origin: center center;
+
+    &--playing {
+      animation-play-state: running;
+      clip-path: circle(calc(50% - 22px) at 50% 50%);
+      transition: transform 0.3s ease-in-out;
+      z-index: 10;
+    }
+  }
+}
+
+.controls {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  z-index: 50;
+  display: flex;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease-in-out;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      fill: white;
+      transition: transform 0.1s ease-in-out;
+      cursor: pointer;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.4);
+      svg {
+        transform: scale(1.2);
+      }
+    }
+
+    &:active {
+      transform: scale(0.92);
+      transition: all 80ms ease-in-out;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: spin linear 10s infinite;
+  animation-play-state: running;
+}
+
+.paused {
+  animation-play-state: paused;
+}

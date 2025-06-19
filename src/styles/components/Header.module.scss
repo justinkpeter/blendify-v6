@@ -6,8 +6,7 @@ $border-radius: 4px;
 .header {
   align-items: center;
   display: flex;
-  font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
   justify-content: space-between;
   justify-self: center;
   z-index: 1000;
@@ -15,7 +14,7 @@ $border-radius: 4px;
   width: 100%;
   top: 1rem;
   padding: 0 1rem;
-  position: absolute;
+  position: fixed;
   user-select: none;
 
   &__left {

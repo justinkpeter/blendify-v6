@@ -1,0 +1,93 @@
+.trackDetails {
+  display: flex;
+  gap: 3rem;
+  flex-direction: column;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    span {
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    div {
+      display: flex;
+    }
+  }
+
+  &__image {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__pill {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    width: fit-content;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 0;
+  }
+
+  &__backLink {
+    background: none;
+    border: none;
+    height: fit-content;
+    z-index: 10;
+    display: flex;
+    cursor: pointer;
+    padding-top: 0;
+    padding-right: 0;
+    opacity: 0.8;
+    font-weight: 600;
+    align-items: center;
+    gap: 4px;
+    color: white;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: transform 0.1s ease-in-out;
+      text-decoration: underline;
+      opacity: 1;
+    }
+
+    &:active {
+      transform: scale(0.8);
+      transition: transform 80ms ease-in-out;
+      text-decoration: underline;
+    }
+
+    &Icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__albumName {
+    text-align: right;
+    opacity: 0.96;
+    margin-top: 0.5rem;
+    line-height: 1;
+    letter-spacing: normal;
+    word-wrap: break-word;
+  }
+}

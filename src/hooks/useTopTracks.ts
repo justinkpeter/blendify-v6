@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import spotifyApi from "@/lib/spotify";
 import { getSession } from "next-auth/react";
+import { TimeRange } from "@/constants/timeRange";
 
 export default function useTopTracks(
-  timeRange: "short_term" | "medium_term" | "long_term",
+  timeRange: TimeRange,
   initialTopTracks: SpotifyApi.TrackObjectFull[]
 ) {
   const [topTracks, setTopTracks] = useState(initialTopTracks);
