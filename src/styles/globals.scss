@@ -5,8 +5,10 @@
 }
 
 :root {
-  // --background: #e8e8e8;
+  --background: #e8e8e8;
   --foreground: #171717;
+  --tab-active: var(--foreground);
+  --tab-border: rgba(38, 38, 38, 0.8);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,7 +28,7 @@ body {
 
 body {
   background: var(--background);
-  // color: var(--foreground);
+  color: var(--foreground);
   font-family: General Sans, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

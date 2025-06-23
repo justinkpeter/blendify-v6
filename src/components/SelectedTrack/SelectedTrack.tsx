@@ -55,7 +55,11 @@ export default function SelectedTrack({
               onSelectTrack={handleTrackSelection}
               size={{ width: 400, height: 400 }}
             />
-            <Link href={selectedTrack.external_urls.spotify}>
+            <Link
+              href={selectedTrack.external_urls.spotify}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <motion.h1
                 className={styles.selectedTrack__title}
                 title={selectedTrack.name}
