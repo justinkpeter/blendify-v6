@@ -1,3 +1,5 @@
+@use "../../styles/variables/breakpoints.scss" as *;
+
 .trackInfo {
   line-height: 1.2;
   text-align: center;
@@ -6,8 +8,18 @@
   letter-spacing: 0em;
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media screen and (max-width: $sm-breakpoint) {
+    font-size: 0.875rem;
+    width: 90%;
+    display: none;
+  }
 
   &__line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:not(:first-child) {
       font-weight: 400;
     }
@@ -20,5 +32,9 @@
     font-weight: 500;
     font-size: 1rem;
     opacity: 0.4;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      display: none;
+    }
   }
 }

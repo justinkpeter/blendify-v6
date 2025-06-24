@@ -23,22 +23,22 @@ export default function CarouselTrackItem({
       <motion.img
         src={track.album.images[0].url}
         alt={track.name}
-        width={350}
-        height={350}
+        width={300}
+        height={300}
         layoutId={`track-image-${track.id}`}
         onMouseEnter={() => setHoveredIndex(index)}
         onMouseDown={(e) => {
           const startX = e.clientX;
           const startY = e.clientY;
 
-          const handleMouseUp = (upEvent: MouseEvent) => {
+          const handleMouseDown = (upEvent: MouseEvent) => {
             const dx = Math.abs(upEvent.clientX - startX);
             const dy = Math.abs(upEvent.clientY - startY);
             if (dx < 5 && dy < 5) handleTrackSelection(track);
-            window.removeEventListener("mouseup", handleMouseUp);
+            window.removeEventListener("mouseup", handleMouseDown);
           };
 
-          window.addEventListener("mouseup", handleMouseUp);
+          window.addEventListener("mouseup", handleMouseDown);
         }}
         draggable={false}
       />

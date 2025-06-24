@@ -1,17 +1,42 @@
+@use "../../styles/variables/breakpoints.scss" as *;
+
 .trackDetails {
   display: flex;
   gap: 3rem;
   flex-direction: column;
 
+  @media screen and (max-width: $sm-breakpoint) {
+    gap: 2rem;
+    flex-direction: row;
+    width: 350px;
+    place-content: flex-end;
+    justify-content: space-between;
+  }
+
   &__section {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    width: 100%;
+    font-weight: 500;
+
+    h3 {
+      font-weight: 500;
+    }
 
     & span {
-      font-weight: 500;
       opacity: 0.8;
+    }
+
+    @media screen and (max-width: $sm-breakpoint) {
+      gap: 0.75rem;
+      font-size: 0.75rem;
+
+      h3 {
+        white-space: nowrap;
+        line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 
@@ -41,6 +66,12 @@
     div {
       display: flex;
     }
+
+    @media screen and (max-width: $sm-breakpoint) {
+      img {
+        display: none;
+      }
+    }
   }
 
   &__image {
@@ -54,12 +85,9 @@
 
   &__pill {
     display: inline-block;
-    padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    font-weight: 500;
     color: var(--foreground);
     width: fit-content;
-    outline: 2px solid rgba(255, 255, 255, 0.2);
     letter-spacing: 0;
 
     &:hover {

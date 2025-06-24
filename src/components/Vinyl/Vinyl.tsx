@@ -27,7 +27,6 @@ export default function Vinyl({
   return (
     <motion.div
       className={styles.vinyl}
-      style={{ width: size.width, height: size.height }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -40,8 +39,6 @@ export default function Vinyl({
         src={track.album.images[0].url}
         alt={track.name}
         className={styles.vinyl__image}
-        width={size.width}
-        height={size.height}
         layoutId={`track-image-${track.id}`}
         title={track.name + " track cover"}
         draggable={false}
@@ -51,8 +48,6 @@ export default function Vinyl({
       <motion.img
         src={track.album.images[0].url}
         alt={`${track.name} record spinning`}
-        width={size.width}
-        height={size.height}
         className={`${styles.vinyl__record} ${
           isPlaying ? styles["vinyl__record--playing"] : ""
         }`}

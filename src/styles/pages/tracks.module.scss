@@ -1,7 +1,16 @@
+@use "../../styles/variables/breakpoints.scss" as *;
+
 .title {
   font-size: 3.5rem;
-  font-weight: 700;
+  text-align: center;
+  font-weight: 900;
   letter-spacing: -0.06em;
+  margin-bottom: 2rem;
+
+  @media screen and (max-width: $sm-breakpoint) {
+    font-size: 2rem;
+    margin-bottom: 0rem;
+  }
 }
 
 .tracks {
@@ -11,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2rem;
   user-select: none;
 
   &__timeRange {
@@ -30,5 +39,9 @@
   &__trackInfo {
     position: relative;
     width: 100%;
+  }
+
+  @media screen and (max-width: $sm-breakpoint) {
+    gap: 1rem;
   }
 }

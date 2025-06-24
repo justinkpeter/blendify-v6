@@ -60,9 +60,7 @@ export default function TrackDetails({
               </span>
             ))
           ) : (
-            <span className={styles.trackDetails__pill}>
-              No genres available
-            </span>
+            <span className={styles.trackDetails__pill}>N/A</span>
           )}
         </div>
       </div>
