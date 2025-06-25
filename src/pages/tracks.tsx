@@ -83,11 +83,7 @@ export default function Tracks({
             )}
           />
         </div>
-        <TrackInfo
-          topTracks={topTracks}
-          hoveredIndex={hoveredIndex}
-          key={activeTimeRangeFilter}
-        />
+        <TrackInfo topTracks={topTracks} hoveredIndex={hoveredIndex} />
       </motion.main>
       {/* Selected Track Overlay */}
       <SelectedTrack
