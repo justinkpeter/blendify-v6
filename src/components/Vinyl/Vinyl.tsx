@@ -6,19 +6,11 @@ import useAudioPlayer from "../AudioPlayer/useAudioPlayer";
 
 export default function Vinyl({
   track,
-  size = {
-    width: 400,
-    height: 400,
-  },
 }: {
   track: SpotifyApi.TrackObjectFull | null;
   isVisible?: boolean;
   onClose: () => void;
   onSelectTrack: (track: SpotifyApi.TrackObjectFull) => void;
-  size?: {
-    width: number;
-    height: number;
-  };
 }) {
   const { isPlaying, audioRef, togglePlay } = useAudioPlayer();
 

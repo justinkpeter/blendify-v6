@@ -53,7 +53,6 @@ export default function SelectedTrack({
               isVisible={isTrackVisible}
               onClose={handleCloseTrack}
               onSelectTrack={handleTrackSelection}
-              size={{ width: 400, height: 400 }}
             />
             <Link
               href={selectedTrack.external_urls.spotify}
