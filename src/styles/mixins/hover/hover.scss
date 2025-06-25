@@ -6,6 +6,7 @@ $transition-duration: 0.2s;
 
 @mixin brackets {
   font-size: 12px;
+  font-weight: 600;
 
   &:hover {
     @include transition(opacity 0.1s, transform 0.1s);
@@ -14,10 +15,12 @@ $transition-duration: 0.2s;
     &::after {
       opacity: 1;
       transform: scale(1.2);
-      filter: blur(0px);
-      font-weight: 100;
       @include transition(opacity 0.1s, transform 0.1s);
     }
+  }
+
+  &:active {
+    @include transition(opacity 0.1s, transform 0.1s);
   }
 
   &::before,
@@ -32,7 +35,6 @@ $transition-duration: 0.2s;
     content: "[";
     left: 0.5rem;
     transform: scale(1.2);
-    filter: blur(4px);
   }
 
   &::after {

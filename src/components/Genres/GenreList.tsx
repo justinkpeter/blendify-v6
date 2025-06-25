@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./GenreList.module.scss";
 import { colors } from "@/components/PieChart/PieChart";
-import { filterOptions } from "../Filters/Filters";
 
 interface GenreListProps {
   topGenres: { genre: string; percentage: number }[];
@@ -9,15 +8,7 @@ interface GenreListProps {
   onHover: (index: number | null) => void;
 }
 
-export default function GenreList({
-  topGenres,
-  activeFilter,
-  onHover,
-}: GenreListProps) {
-  const activeFilterLabel = filterOptions.find(
-    (option) => option.value === activeFilter
-  )?.label;
-
+export default function GenreList({ topGenres, onHover }: GenreListProps) {
   return (
     <div className={styles.genreList}>
       <h4>{topGenres[0].genre} goes hard</h4>
@@ -28,7 +19,6 @@ export default function GenreList({
           {topGenres[0].percentage.toFixed(0)}%
         </span>{" "}
         of your top 50 songs in the last
-        {activeFilter === "short_term" ? "4 weeks" : activeFilterLabel}.
       </p>
       <ol>
         {topGenres.map((genre, i) => (

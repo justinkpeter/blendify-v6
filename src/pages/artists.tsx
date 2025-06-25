@@ -1,24 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import spotifyApi from "@/lib/spotify";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import styles from "@/styles/pages/artists.module.scss";
-import Carousel from "@/components/Carousel/Carousel";
-import Filters, { FilterValue } from "@/components/Filters/Filters";
+// import Carousel from "@/components/Carousel/Carousel";
+// import Filters, { FilterValue } from "@/components/Filters/Filters";
 
-import useTopArtists, { ArtistWithPreview } from "@/hooks/useTopArtists";
-import ArtistItem from "@/components/Carousel/ArtistItem";
+// import ArtistItem from "@/components/Carousel/ArtistItem";
 
-export default function Artists({
-  initialTopArtists,
-}: {
-  initialTopArtists: ArtistWithPreview[];
-}) {
-  const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
-  const { topArtists, isLoading } = useTopArtists(
-    activeFilter,
-    initialTopArtists
-  );
+export default function Artists() {
+  // const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
+  // const { topArtists, isLoading } = useTopArtists(
+  //   activeFilter,
+  //   initialTopArtists
+  // );
 
   return (
     <main className={styles.artists}>
@@ -29,13 +24,13 @@ export default function Artists({
         </div>
       </header>
       <div className={styles.artists__filters}>
-        <Filters
+        {/* <Filters
           activeFilter={activeFilter}
           setActiveFilter={setActiveFilter}
-        />
+        /> */}
       </div>
       <section className={styles.artists__carousel}>
-        <Carousel
+        {/* <Carousel
           loading={isLoading}
           items={topArtists}
           renderItem={(artist) => (
@@ -48,7 +43,7 @@ export default function Artists({
               artistUri={artist.uri}
             />
           )}
-        />
+        /> */}
       </section>
     </main>
   );

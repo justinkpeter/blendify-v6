@@ -1,0 +1,113 @@
+@use "../../styles/variables/breakpoints.scss" as *;
+
+.selectedTrack {
+  display: flex;
+  gap: 4rem;
+  position: absolute;
+
+  &__vinyl {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex-shrink: 1;
+    width: min-content;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      gap: 2rem;
+    }
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    text-align: right;
+    line-height: 1;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      font-size: larger;
+
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    width: 100%;
+    height: 400px;
+  }
+
+  @media screen and (max-width: $sm-breakpoint) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.backLink {
+  background: none;
+  border: none;
+  height: fit-content;
+  z-index: 10;
+  display: flex;
+  cursor: pointer;
+  padding-top: 0;
+  padding-right: 0;
+  opacity: 0.8;
+
+  font-weight: 600;
+  align-items: center;
+  gap: 4px;
+  color: var(--foreground);
+
+  .backIcon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    transition: transform 0.1s ease-in-out;
+    text-decoration: underline;
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale(0.8);
+    transition: transform 80ms ease-in-out;
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: $sm-breakpoint) {
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    padding-bottom: 0;
+  }
+}
+
+.albumName {
+  text-align: right;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+  line-height: 1;
+  word-wrap: break-word;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: $sm-breakpoint) {
+    font-size: 0.75rem;
+    margin-top: 2px;
+  }
+}

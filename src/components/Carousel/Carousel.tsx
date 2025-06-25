@@ -1,68 +1,101 @@
-import React, { useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import styles from "./Carousel.module.scss";
 
 interface CarouselProps<T> {
   items: T[];
-  renderItem: (item: T) => React.ReactNode;
-  loading?: boolean;
+  renderItem: (item: T, index: number) => React.ReactNode;
 }
 
-export default function Carousel<T>({
-  items,
-  renderItem,
-  loading = false,
-}: CarouselProps<T>) {
-  const containerRef = useRef<HTMLDivElement>(null);
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.07,
+      staggerDirection: -1,
+    },
+  },
+};
 
-  // Handle vertical scrolling to scroll horizontally
-  const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft += event.deltaY;
-    }
-  };
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.1,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+};
+
+export default function Carousel<T>({ items, renderItem }: CarouselProps<T>) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const updateWidth = () => {
+      setWidth(el.scrollWidth - el.offsetWidth);
+    };
+
+    const resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(el);
+
+    updateWidth();
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [items]);
 
   return (
-    <div className={styles.carouselContainer}>
+    <motion.div
+      className={styles.carouselWrapper}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
       <motion.div
-        ref={containerRef}
         className={styles.carousel}
-        onWheel={handleScroll}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.3 }}
+        ref={carouselRef}
+        drag="x"
+        dragConstraints={{ right: 0, left: -width }}
+        dragTransition={{
+          power: 0.8,
+          timeConstant: 400,
+          bounceStiffness: 80,
+          bounceDamping: 12,
+        }}
+        dragElastic={0.1}
+        whileTap={{ cursor: "grabbing" }}
+        whileDrag={{ cursor: "grabbing" }}
       >
-        {loading ? (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="loading"
-              className={styles.loading}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              Loading...
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          items.map((item, index) => (
-            <motion.div
-              key={`item-${index}`}
-              className={styles.carouselItem}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.2,
-                delay: index * 0.1,
-              }}
-            >
-              {renderItem(item)}
-            </motion.div>
-          ))
-        )}
+        {items.map((item, index) => (
+          <motion.div
+            key={index}
+            className={styles.carousel__item}
+            variants={itemVariants}
+          >
+            {renderItem(item, index)}
+          </motion.div>
+        ))}
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

@@ -7,11 +7,13 @@
 :root {
   --background: #e8e8e8;
   --foreground: #171717;
+  --tab-active: var(--foreground);
+  --tab-border: rgba(38, 38, 38, 0.8);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    // --background: #131314;
+    --background: #131314;
     --foreground: #ededed;
   }
 }
@@ -20,7 +22,6 @@ html,
 body {
   height: 100%;
   overflow-x: hidden;
-  letter-spacing: -0.06em;
   line-height: 0.8;
   color-scheme: dark;
 }
@@ -28,7 +29,6 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
-
   font-family: General Sans, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -55,5 +55,23 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+button {
+  font-family: General Sans, Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  color: var(--background);
+  text-transform: uppercase;
+  outline: none;
+
+  &:active {
+    transform: scale(0.98);
   }
 }
