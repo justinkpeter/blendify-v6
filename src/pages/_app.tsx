@@ -1,5 +1,5 @@
 import Page from "@/components/Page";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 import { AnimatePresence } from "framer-motion";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
