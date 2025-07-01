@@ -1,6 +1,5 @@
 import Page from "@/components/Page";
 import Header from "@/components/Header/Header";
-import { AnimatePresence } from "framer-motion";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import "@/styles/globals.scss";
@@ -12,11 +11,9 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Header />
-      <AnimatePresence mode="wait">
-        <Page>
-          <Component {...pageProps} />
-        </Page>
-      </AnimatePresence>
+      <Page>
+        <Component {...pageProps} />
+      </Page>
     </SessionProvider>
   );
 }
