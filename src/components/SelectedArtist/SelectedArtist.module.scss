@@ -1,30 +1,37 @@
 @use "../../styles/variables/breakpoints.scss" as *;
+@use "../../styles/variables/colors.scss" as *;
 
-.selectedTrack {
-  display: flex;
-  gap: 4rem;
+.selectedArtist {
+  display: grid;
+  grid-template-columns: min-content 350px 1fr;
+  gap: 2rem;
   position: absolute;
+  max-width: 1000px;
+  height: 580px;
 
-  &__vinyl {
-    position: relative;
+  &__cover {
+    position: sticky;
+    top: 0;
     display: flex;
     flex-direction: column;
     gap: 4rem;
     flex-shrink: 1;
     width: min-content;
-
-    img {
-      width: 400px;
-      height: 400px;
-
-      @media screen and (max-width: $sm-breakpoint) {
-        width: 350px;
-        height: 350px;
-      }
-    }
+    justify-content: space-between;
 
     @media screen and (max-width: $sm-breakpoint) {
       gap: 2rem;
+    }
+  }
+
+  &__image {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    @media screen and (prefers-color-scheme: dark) {
+      box-shadow: 0 0 32px rgba(255, 255, 255, 0.1);
     }
   }
 
@@ -34,6 +41,7 @@
     gap: 1rem;
     text-align: right;
     line-height: 1;
+    width: 100%;
 
     @media screen and (max-width: $sm-breakpoint) {
       font-size: larger;
@@ -72,11 +80,17 @@
   padding-top: 0;
   padding-right: 0;
   opacity: 0.8;
+  position: sticky;
+  top: 0;
 
   font-weight: 600;
   align-items: center;
   gap: 4px;
-  color: var(--foreground);
+  color: $black;
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: $off-white;
+  }
 
   .backIcon {
     width: 1rem;
@@ -104,25 +118,7 @@
   }
 }
 
-.albumName {
-  text-align: right;
-  opacity: 0.8;
-  margin-top: 0.5rem;
-  line-height: 1;
-  word-wrap: break-word;
-  font-weight: 500;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  @media screen and (max-width: $sm-breakpoint) {
-    font-size: 0.75rem;
-    margin-top: 2px;
-  }
-}
-
-img.spotifyIcon {
-  width: 30px;
-  height: 30px;
+.skeletonContainer {
+  display: flex;
+  width: 4rem;
 }

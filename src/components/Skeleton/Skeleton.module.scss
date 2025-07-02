@@ -1,0 +1,12 @@
+@use "../../styles/mixins/skeleton" as *;
+@use "../../styles/variables/colors" as *;
+
+.skeleton {
+  @include skeleton($gray-light, $off-white);
+}
+
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    @include skeleton($gray-dark, $gray-light);
+  }
+}

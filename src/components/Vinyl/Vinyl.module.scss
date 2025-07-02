@@ -3,8 +3,6 @@
 .vinyl {
   position: relative;
   z-index: 0;
-  width: 400px;
-  height: 400px;
 
   &__image {
     width: 100%;
@@ -31,11 +29,6 @@
       z-index: 10;
     }
   }
-
-  @media screen and (max-width: $sm-breakpoint) {
-    width: 350px;
-    height: 350px;
-  }
 }
 
 .controls {
@@ -50,7 +43,6 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
     margin: 0;
     outline: none;
     backdrop-filter: blur(8px);

@@ -69,6 +69,7 @@ export default function SelectedTrack({
                   height={30}
                   alt="Spotify Icon"
                   title="Listen on Spotify"
+                  className={styles.spotifyIcon}
                 />
                 {selectedTrack.name}
               </motion.h1>

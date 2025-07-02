@@ -1,0 +1,55 @@
+@use "../../styles/variables/breakpoints.scss" as *;
+@use "../../styles/variables/colors.scss" as *;
+
+.carouselArtistItem {
+  position: relative;
+  box-sizing: border-box;
+
+  img {
+    width: 100%;
+    border-radius: 4px;
+    transition: all 400ms cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  &.hoveredItem {
+    opacity: 1;
+    border: 0.5px solid rgba($black, 0.2);
+    transition: all 400ms cubic-bezier(0.33, 1, 0.68, 1);
+
+    img {
+      padding: 0.5rem;
+      border-radius: 8px;
+
+      @media screen and (max-width: $sm-breakpoint) {
+        padding: 0;
+      }
+    }
+
+    &:active {
+      transform: scale(0.96);
+      transition: all 100ms cubic-bezier(0.33, 1, 0.68, 1);
+
+      @media screen and (max-width: $sm-breakpoint) {
+        transform: scale(1);
+      }
+    }
+  }
+
+  &:not(.hoveredItem) {
+    opacity: 0.4;
+    margin-bottom: 1rem;
+    filter: blur(2px);
+    transition: all 400ms cubic-bezier(0.33, 1, 0.68, 1);
+
+    @media screen and (max-width: $sm-breakpoint) {
+      opacity: 1;
+      filter: none;
+    }
+  }
+
+  @media screen and (prefers-color-scheme: dark) {
+    &.hoveredItem {
+      border: 0.5px solid rgba($off-white, 0.2);
+    }
+  }
+}
