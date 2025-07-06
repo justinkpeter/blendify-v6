@@ -64,7 +64,7 @@ export default function ArtistInfo({
   );
 }
 
-function mapPopularity(popularity: number) {
+export function mapPopularity(popularity: number) {
   if (popularity >= 90) return "Global Icon";
   if (popularity >= 75) return "Mainstream";
   if (popularity >= 60) return "On the Radar";
