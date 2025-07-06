@@ -9,6 +9,7 @@ import Carousel from "../Carousel/Carousel";
 import Vinyl from "../Vinyl/Vinyl";
 import clsx from "clsx";
 import Link from "next/link";
+import Image from "next/image";
 
 const TRANSITION_DURATION = 0.3; // seconds
 
@@ -53,14 +54,31 @@ export default function SelectedArtist({
           layoutId={`artist-image-${selectedArtist.id}`}
           className={styles.selectedArtist__image}
         />
+        <motion.img
+          src="/img/spotify-icon-white.png"
+          alt="spotify-logo"
+          className={styles.spotifyProfileIcon}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: {
+              delay: 0.4,
+            },
+          }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: TRANSITION_DURATION * 2 }}
+        />
       </div>
       <div className={styles.selectedArtist__details}>
-        <div
+        <Link
+          href={selectedArtist.external_urls.spotify}
+          target="_blank"
+          rel="noopener noreferrer"
           className={styles.selectedArtist__name}
           title={selectedArtist.name}
         >
           {selectedArtist.name}
-        </div>
+        </Link>
         <div className={styles.selectedArtist__meta}>
           <div className={styles.selectedArtist__pill}>
             <div>popularity</div>
@@ -70,15 +88,14 @@ export default function SelectedArtist({
             <div>followers</div>
             <div>{selectedArtist.followers.total.toLocaleString()}</div>
           </div>
-        </div>
-        {selectedArtist.genres.length > 0 && (
-          <div className={styles.selectedArtist__meta}>
+          {selectedArtist.genres.length > 0 && (
             <div className={styles.selectedArtist__pill}>
               <div>genres</div>
-              <div>{selectedArtist.genres.join(", ") || "Unknown"}</div>
+              <div>{selectedArtist.genres.join(", ")}</div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
         <AnimatePresence mode="wait">
           {data && (
             <motion.div
@@ -114,9 +131,9 @@ export default function SelectedArtist({
         </AnimatePresence>
       </div>
       <AnimatePresence mode="wait">
-        {data && (
-          <motion.div className={styles.selectedArtist__carousel}>
-            <h2 className={styles.carousel__title}>Top Tracks</h2>
+        <motion.div className={styles.selectedArtist__carousel}>
+          <h2 className={styles.carousel__title}>Top Tracks</h2>
+          {data && (
             <Carousel
               items={data?.topTracks.slice(0, 8) || []}
               renderItem={(track, index) => (
@@ -142,8 +159,8 @@ export default function SelectedArtist({
                 </div>
               )}
             />
-          </motion.div>
-        )}
+          )}
+        </motion.div>
       </AnimatePresence>
     </motion.div>
   );

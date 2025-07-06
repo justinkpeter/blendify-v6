@@ -3,7 +3,7 @@
 @use "../../styles/mixins/_selectedItem.scss" as *;
 
 .selectedArtist {
-  @include selectedItem(400px);
+  @include selectedItem(380px);
 
   &__latestRelease {
     display: flex;

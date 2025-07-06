@@ -24,8 +24,12 @@
   }
 
   &__carousel {
-    padding: 2rem 2rem;
     width: 100%;
     overflow: hidden;
+    padding: 2rem 2rem;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      padding: 0rem 1rem;
+    }
   }
 }
