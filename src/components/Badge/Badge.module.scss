@@ -1,0 +1,17 @@
+@use "../../styles/variables/colors.scss" as *;
+
+.badge {
+  display: inline-block;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 2px solid rgba($black, 0.6);
+  background: rgba($black, 0.1);
+  color: rgba($black, 0.6);
+  width: fit-content;
+}
