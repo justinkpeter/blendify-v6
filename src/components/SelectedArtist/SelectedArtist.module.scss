@@ -10,6 +10,7 @@
     flex-direction: column;
     gap: 0.5rem;
     color: $black;
+    pointer-events: none;
 
     & > :first-child {
       font-size: 1.25rem;
@@ -26,6 +27,10 @@
     @media screen and (prefers-color-scheme: dark) {
       color: $off-white;
     }
+
+    @media screen and (max-width: $sm-breakpoint) {
+      display: none;
+    }
   }
 
   &__latestReleaseImage {
@@ -36,16 +41,20 @@
 
   &__latestReleaseName {
     & > :first-child {
+      font-weight: 500;
+      font-size: 1.125rem;
+    }
+
+    & > :last-child {
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      gap: 1rem;
-      font-weight: 500;
-      font-size: 1.125rem;
+      gap: 0.5rem;
     }
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 2px;
   }
 
   @media screen and (max-width: $sm-breakpoint) {
