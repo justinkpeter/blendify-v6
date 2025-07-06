@@ -1,13 +1,27 @@
 @use "../../styles/variables/breakpoints.scss" as *;
+@use "../../styles/variables/_colors.scss" as *;
 
 .vinyl {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
   position: relative;
-  z-index: 0;
+  transition: all 0.2s ease-in-out;
+
+  &__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
 
   &__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    border-radius: inherit;
   }
 
   &__record {
@@ -16,17 +30,37 @@
     left: 0;
     width: 100%;
     height: 100%;
-    transition: transform 0.3s ease-in-out;
-    clip-path: circle(calc(50% - 22px) at 50% 50%);
-    animation: spin linear 20s infinite;
+    clip-path: circle(45% at 50% 50%);
+    animation: spin 20s linear infinite;
     animation-play-state: paused;
-    transform-origin: center center;
+    z-index: 1;
 
     &--playing {
       animation-play-state: running;
-      clip-path: circle(calc(50% - 22px) at 50% 50%);
-      transition: transform 0.3s ease-in-out;
-      z-index: 10;
+    }
+  }
+
+  &__overlay {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  &__spotifyIcon {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    width: 1.2rem;
+    height: 1.2rem;
+
+    aspect-ratio: 1 / 1;
+    filter: drop-shadow(0 0 6px rgba($black, 0.6));
+    z-index: 10;
+    opacity: 1;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      width: 0.5rem;
     }
   }
 }
@@ -50,14 +84,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    background: rgba($black, 0.2);
+    box-shadow: 0 0 10px rgba($black, 0.2);
     transition: all 0.3s ease-in-out;
 
     svg {
       width: 30px;
       height: 30px;
-      fill: white;
+      fill: $off-white;
       transition: transform 0.1s ease-in-out;
       cursor: pointer;
       filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));

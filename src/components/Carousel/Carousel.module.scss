@@ -2,6 +2,7 @@
   cursor: grab;
   width: 100%;
   position: relative;
+  overflow: hidden;
 
   &::-webkit-scrollbar {
     display: none;
@@ -9,15 +10,18 @@
 }
 
 .carousel {
-  display: inline-flex;
-  min-width: fit-content;
+  display: flex;
+  width: fit-content;
   gap: 2rem;
   user-select: none;
   width: 100%;
   will-change: transform;
+  position: relative;
 
   &__item {
     flex: 0 0 auto;
+    width: auto;
+    will-change: transform;
     transition: transform 0.2s ease;
   }
 }
