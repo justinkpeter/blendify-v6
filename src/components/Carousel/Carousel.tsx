@@ -91,6 +91,7 @@ export default function Carousel<T>({ items, renderItem }: CarouselProps<T>) {
             key={index}
             className={styles.carousel__item}
             variants={itemVariants}
+            dragListener={false}
           >
             {renderItem(item, index)}
           </motion.div>

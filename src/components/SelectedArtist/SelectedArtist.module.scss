@@ -2,8 +2,10 @@
 @use "../../styles/variables/_colors.scss" as *;
 @use "../../styles/mixins/_selectedItem.scss" as *;
 
+$image-height: 300px;
+
 .selectedArtist {
-  @include selectedItem(380px);
+  @include selectedItem($image-height);
 
   &__latestRelease {
     display: flex;

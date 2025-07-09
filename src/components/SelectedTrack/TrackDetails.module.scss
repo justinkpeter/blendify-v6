@@ -4,6 +4,7 @@
   display: flex;
   gap: 3rem;
   flex-direction: column;
+  width: fit-content;
 
   @media screen and (max-width: $sm-breakpoint) {
     gap: 2rem;

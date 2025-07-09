@@ -1,11 +1,13 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useArtistMetadata } from "@/hooks/useArtistMetadata";
 import Link from "next/link";
 import Image from "next/image";
 import Vinyl from "../Vinyl/Vinyl";
-import TrackDetails from "./TrackDetails";
 import styles from "./SelectedTrack.module.scss";
+import Badge from "../Badge/Badge";
+import Carousel from "../Carousel/Carousel";
+import clsx from "clsx";
 
 const TRANSITION_DURATION = 300;
 
@@ -25,69 +27,122 @@ export default function SelectedTrack({
     isTrackVisible
   );
 
+  if (!selectedTrack || !isTrackVisible) return null;
+
   return (
-    <AnimatePresence mode="wait">
-      {selectedTrack && isTrackVisible && (
-        <motion.div
-          className={styles.selectedTrack}
-          key="selected-track"
-          initial={{ opacity: 0, y: 0, filter: "blur(8px)" }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            transition: {
-              delay: 0.2,
-            },
-          }}
-          exit={{ opacity: 0, y: 0, filter: "blur(8px)" }}
-          transition={{ duration: TRANSITION_DURATION / 1000 }}
+    <>
+      <motion.div
+        className={styles.selectedTrack}
+        initial={{ opacity: 0, y: 0, filter: "blur(8px)" }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: {
+            delay: 0.2,
+          },
+        }}
+        exit={{ opacity: 0, y: 0, filter: "blur(8px)" }}
+        transition={{ duration: TRANSITION_DURATION / 1000 }}
+      >
+        <button
+          className={styles.selectedTrack__backLink}
+          onClick={handleCloseTrack}
         >
-          <button className={styles.backLink} onClick={handleCloseTrack}>
-            <ChevronLeftIcon className={styles.backIcon} />
-            BACK
-          </button>
-          <div className={styles.selectedTrack__vinyl}>
-            <Vinyl
-              track={selectedTrack}
-              isVisible={isTrackVisible}
-              onClose={handleCloseTrack}
-              onSelectTrack={handleTrackSelection}
-            />
-            <Link
-              href={selectedTrack.external_urls.spotify}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <motion.h1
-                className={styles.selectedTrack__title}
-                title={selectedTrack.name}
-              >
-                <Image
-                  src={"/img/spotify-icon-white.png"}
-                  width={30}
-                  height={30}
-                  alt="Spotify Icon"
-                  title="Listen on Spotify"
-                  className={styles.spotifyIcon}
-                />
-                {selectedTrack.name}
-              </motion.h1>
-              <div className={styles.albumName}>
-                from the album{" "}
-                <Link href={selectedTrack.album.external_urls.spotify}>
-                  <i>{selectedTrack.album.name}</i>
-                </Link>
-              </div>
-            </Link>
-          </div>
-          <TrackDetails
-            artistMetadata={artistMetadata}
-            releaseDate={selectedTrack.album.release_date}
-            genreList={genreList}
+          <ChevronLeftIcon className={styles.backIcon} />
+          back
+        </button>
+
+        <div className={styles.selectedTrack__cover}>
+          <Vinyl
+            track={selectedTrack}
+            isVisible={isTrackVisible}
+            onClose={handleCloseTrack}
+            onSelectTrack={handleTrackSelection}
           />
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </div>
+
+        <div className={styles.selectedTrack__details}>
+          <Link
+            href={selectedTrack.external_urls.spotify}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.selectedTrack__name}
+            title={selectedTrack.name}
+          >
+            {selectedTrack.name}
+          </Link>
+          <div className={styles.selectedTrack__meta}>
+            <div className={styles.selectedTrack__pill}>
+              <div className={styles.selectedTrack__albumCover}>
+                <Image
+                  src={
+                    selectedTrack.album.images[0]?.url ||
+                    "/img/placeholder-album.png"
+                  }
+                  alt={selectedTrack.album.name}
+                  width={32}
+                  height={32}
+                  className={styles.selectedTrack__albumCoverImage}
+                />
+                <div>
+                  <div>{selectedTrack.album.album_type}</div>
+                  <Link
+                    href={selectedTrack.album.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.selectedTrack__albumName}
+                    title={selectedTrack.album.name}
+                  >
+                    {selectedTrack.album.name}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className={clsx(
+              styles.selectedTrack__meta,
+              styles.selectedTrack__artists
+            )}
+          >
+            {artistMetadata && (
+              <Carousel
+                items={artistMetadata}
+                renderItem={(artist) => (
+                  <Link
+                    key={artist.id}
+                    href={artist.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.selectedTrack__artist}
+                    title={artist.name}
+                  >
+                    <Image
+                      src={
+                        artist.images[0]?.url || "/img/placeholder-artist.png"
+                      }
+                      alt={artist.name}
+                      width={32}
+                      height={32}
+                      className={styles.selectedTrack__artistImage}
+                      draggable={false}
+                    />
+
+                    <div>{artist.name}</div>
+                  </Link>
+                )}
+              />
+            )}
+          </div>
+          <div className={styles.selectedTrack__meta}>
+            {genreList.length > 0 &&
+              genreList.map((genre, index) => (
+                <Badge key={index}>{genre}</Badge>
+              ))}
+          </div>
+        </div>
+      </motion.div>
+    </>
   );
 }

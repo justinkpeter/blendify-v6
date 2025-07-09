@@ -25,3 +25,8 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}

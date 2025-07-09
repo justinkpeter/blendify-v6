@@ -1,32 +1,13 @@
 @use "../../styles/variables/breakpoints.scss" as *;
+@use "../../styles/mixins/_selectedItem.scss" as *;
+
+$image-height: 380px;
 
 .selectedTrack {
-  display: flex;
-  gap: 4rem;
-  position: absolute;
-
-  &__vinyl {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-    flex-shrink: 1;
-    width: min-content;
-
-    img {
-      width: 400px;
-      height: 400px;
-
-      @media screen and (max-width: $sm-breakpoint) {
-        width: 350px;
-        height: 350px;
-      }
-    }
-
-    @media screen and (max-width: $sm-breakpoint) {
-      gap: 2rem;
-    }
-  }
+  @include selectedItem($image-height);
+  width: auto;
+  // max-width: 800px;
+  height: auto;
 
   &__title {
     display: flex;
@@ -45,6 +26,65 @@
     }
   }
 
+  &__albumCover {
+    display: flex;
+    gap: 0.5rem;
+
+    & > :last-child {
+      display: flex;
+      flex-direction: column;
+
+      & > :first-child {
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &__albumCoverImage {
+    width: 40px;
+    height: 40px;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    object-fit: cover;
+
+    // @media screen and (max-width: $sm-breakpoint) {
+    //   width: $image-height / 2;
+    //   height: $image-height / 2;
+    // }
+  }
+
+  &__artists {
+    width: auto;
+  }
+
+  &__artist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 1.125rem;
+    width: 100px;
+    line-height: 1.2;
+  }
+
+  &__artistImage {
+    width: 100px;
+    height: 100px;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    object-fit: cover;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      width: $image-height / 2;
+      height: $image-height / 2;
+    }
+  }
+
   &__info {
     display: flex;
     flex-direction: column;
@@ -60,73 +100,4 @@
     width: 100%;
     height: 100%;
   }
-}
-
-.backLink {
-  background: none;
-  border: none;
-  height: fit-content;
-  z-index: 10;
-  display: flex;
-  cursor: pointer;
-  padding-top: 0;
-  padding-right: 0;
-  opacity: 0.8;
-
-  font-weight: 600;
-  align-items: center;
-  gap: 4px;
-  color: var(--foreground);
-
-  .backIcon {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  &:hover {
-    transform: scale(1.1);
-    transition: transform 0.1s ease-in-out;
-    text-decoration: underline;
-    opacity: 1;
-  }
-
-  &:active {
-    transform: scale(0.8);
-    transition: transform 80ms ease-in-out;
-    text-decoration: underline;
-  }
-
-  @media screen and (max-width: $sm-breakpoint) {
-    position: absolute;
-    top: 4rem;
-    left: 0;
-    padding-bottom: 0;
-  }
-}
-
-.albumName {
-  text-align: right;
-  opacity: 0.8;
-  margin-top: 0.5rem;
-  line-height: 1;
-  word-wrap: break-word;
-  font-weight: 500;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  @media screen and (max-width: $sm-breakpoint) {
-    font-size: 0.75rem;
-    margin-top: 2px;
-  }
-}
-
-img.spotifyIcon {
-  width: 30px;
-  height: 30px;
-}
-
-.vinyl {
-  max-width: none;
 }

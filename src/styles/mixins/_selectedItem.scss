@@ -12,6 +12,7 @@
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
+  z-index: 10;
 
   // Cover Image + Name Block
   &__cover {
@@ -94,7 +95,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    pointer-events: none;
   }
 
   &__pill {
@@ -231,5 +231,10 @@
     &__details {
       gap: 1rem;
     }
+  }
+
+  img.spotifyIcon {
+    width: 30px;
+    height: 30px;
   }
 }

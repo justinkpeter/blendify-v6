@@ -9,19 +9,17 @@ import Carousel from "../Carousel/Carousel";
 import Vinyl from "../Vinyl/Vinyl";
 import clsx from "clsx";
 import Link from "next/link";
-import Image from "next/image";
 
 const TRANSITION_DURATION = 0.3; // seconds
 
 export default function SelectedArtist({
   handleCloseArtist,
-  handleArtistSelection,
   isArtistVisible,
   selectedArtist,
 }: {
   isArtistVisible: boolean;
   handleCloseArtist: () => void;
-  handleArtistSelection: (artist: SpotifyApi.ArtistObjectFull) => void;
+  handleArtistSelection?: (artist: SpotifyApi.ArtistObjectFull) => void;
   selectedArtist: SpotifyApi.ArtistObjectFull | null;
 }) {
   const { data, loading } = useArtistDetails(
