@@ -16,14 +16,4 @@ $positionFromTop: 4rem;
   & > :first-child {
     border-radius: 1rem;
   }
-
-  .backLink {
-    position: fixed;
-    display: flex;
-    left: 1rem;
-    z-index: 10;
-    top: $positionFromTop;
-    font-weight: 500;
-    top: 6.5rem;
-  }
 }

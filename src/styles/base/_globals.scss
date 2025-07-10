@@ -24,9 +24,9 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+  -webkit-user-drag: none;
 }
 
 img {
   -webkit-user-drag: none;
-  user-drag: none;
 }
