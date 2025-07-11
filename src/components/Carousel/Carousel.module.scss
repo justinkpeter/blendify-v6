@@ -1,27 +1,52 @@
-.carouselWrapper {
-  cursor: grab;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
+@use "../../styles/variables/colors" as *;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+.carouselContainer {
+  position: relative;
 }
 
 .carousel {
   display: flex;
-  width: fit-content;
-  gap: 2rem;
-  user-select: none;
-  width: 100%;
-  will-change: transform;
+  list-style: none;
+  gap: 1rem;
+  overflow-x: scroll;
   position: relative;
+  padding: 0;
 
-  &__item {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  li {
     flex: 0 0 auto;
-    width: auto;
-    will-change: transform;
-    transition: transform 0.2s ease;
+  }
+}
+
+.scrollbarTrack {
+  position: relative;
+  bottom: 0;
+  height: 0.5rem;
+  width: 25%;
+  background: rgba($gray-dark, 0.05);
+  border-radius: 4px;
+  justify-self: center;
+  transform-origin: top;
+}
+
+.scrollbarThumb {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba($gray-dark, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 20;
+
+  &:hover {
+    background: lighten($gray-dark, 10%);
+  }
+
+  &:active {
+    cursor: grabbing;
   }
 }
