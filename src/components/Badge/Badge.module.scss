@@ -15,4 +15,10 @@
   color: rgba($black, 0.6);
   width: fit-content;
   user-select: none;
+
+  @media screen and (prefers-color-scheme: dark) {
+    background: rgba($off-white, 0.1);
+    color: rgba($off-white, 0.6);
+    border-color: rgba($off-white, 0.6);
+  }
 }

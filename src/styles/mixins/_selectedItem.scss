@@ -65,7 +65,7 @@
     padding-top: 0;
     padding-right: 0;
     padding-left: 4px;
-    // opacity: 0.8;
+    place-self: start;
     font-weight: 700;
     transition: transform 0.1s ease-in-out;
     text-transform: uppercase;
@@ -79,6 +79,9 @@
     &:hover {
       transform: scale(1.1);
       text-decoration: underline;
+    }
+    @media screen and (prefers-color-scheme: dark) {
+      color: $off-white;
     }
   }
 
@@ -110,6 +113,11 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: rgba($gray-dark, 0.8);
+      color: $off-white;
+    }
 
     & > :last-child {
       font-weight: 500;
@@ -197,17 +205,14 @@
   @media screen and (max-width: $sm-breakpoint) {
     display: flex;
     flex-direction: column;
-    width: 96%;
+    // width: 96%;
+    padding: 0 1rem;
     gap: 0.5rem;
     position: fixed;
     justify-content: space-between;
-    height: 100dvh;
-    padding: 8rem 0 0rem 0;
     border-radius: 0;
 
     &__backLink {
-      position: sticky;
-      top: 4rem;
       &:hover {
         transform: scale(1);
         text-decoration: none;

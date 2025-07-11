@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { TimeRange, TimeRangeOptions } from "@/constants/timeRange";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useSelectedTrack } from "@/hooks/useSelectedTrack";
 import CarouselTrackItem from "@/components/CarouselTrackItem/CarouselTrackItem";
 import Carousel from "@/components/Carousel/Carousel";
@@ -11,7 +11,7 @@ import SlidingTabBar from "@/components/SlidingButtonBar/SlidingButtonBar";
 import TrackInfo from "@/components/TrackInfo/TrackInfo";
 import spotifyApi from "@/lib/spotify";
 import useTopTracks from "@/hooks/useTopTracks";
-
+import Page from "@/components/Page";
 import styles from "@/styles/pages/tracks.module.scss";
 
 export default function Tracks({
@@ -50,50 +50,46 @@ export default function Tracks({
   } as const;
 
   return (
-    <>
+    <Page className={styles.tracksPage}>
       {/*  Track Detail Overlay */}
-      <AnimatePresence mode="wait">
-        {isTrackVisible && (
-          <SelectedTrack
-            selectedTrack={selectedTrack}
-            isTrackVisible={isTrackVisible}
-            handleTrackSelection={handleTrackSelection}
-            handleCloseTrack={handleCloseTrack}
-          />
-        )}
-      </AnimatePresence>
+      {isTrackVisible && (
+        <SelectedTrack
+          selectedTrack={selectedTrack}
+          isTrackVisible={isTrackVisible}
+          handleTrackSelection={handleTrackSelection}
+          handleCloseTrack={handleCloseTrack}
+        />
+      )}
       {/* Carousel + Filters */}
-      <AnimatePresence mode="wait">
-        <motion.main {...mainMotionProps}>
-          <div className={styles.tracks__title}>songs on repeat</div>
-          <SlidingTabBar
-            tabs={TimeRangeOptions}
-            activeTabIndex={TimeRangeOptions.findIndex(
-              (option) => option.value === activeTimeRangeFilter
+      <motion.main {...mainMotionProps}>
+        <div className={styles.tracks__title}>songs on repeat</div>
+        <SlidingTabBar
+          tabs={TimeRangeOptions}
+          activeTabIndex={TimeRangeOptions.findIndex(
+            (option) => option.value === activeTimeRangeFilter
+          )}
+          onTabClick={(index: number) =>
+            setActiveTimeRangeFilter(TimeRangeOptions[index].value)
+          }
+        />
+        <div className={styles.tracks__carousel}>
+          <Carousel
+            key={activeTimeRangeFilter}
+            items={topTracks}
+            renderItem={(track, index) => (
+              <CarouselTrackItem
+                track={track}
+                index={index}
+                hoveredIndex={hoveredIndex}
+                setHoveredIndex={setHoveredIndex}
+                handleTrackSelection={handleTrackSelection}
+              />
             )}
-            onTabClick={(index: number) =>
-              setActiveTimeRangeFilter(TimeRangeOptions[index].value)
-            }
           />
-          <div className={styles.tracks__carousel}>
-            <Carousel
-              key={activeTimeRangeFilter}
-              items={topTracks}
-              renderItem={(track, index) => (
-                <CarouselTrackItem
-                  track={track}
-                  index={index}
-                  hoveredIndex={hoveredIndex}
-                  setHoveredIndex={setHoveredIndex}
-                  handleTrackSelection={handleTrackSelection}
-                />
-              )}
-            />
-          </div>
-          <TrackInfo topTracks={topTracks} hoveredIndex={hoveredIndex} />
-        </motion.main>
-      </AnimatePresence>
-    </>
+        </div>
+        <TrackInfo topTracks={topTracks} hoveredIndex={hoveredIndex} />
+      </motion.main>
+    </Page>
   );
 }
 

@@ -1,14 +1,23 @@
 @use "../../styles/variables/breakpoints.scss" as *;
 
+.tracksPage {
+  height: 100%;
+  display: flex;
+}
+
 .tracks {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 2rem;
   user-select: none;
+
+  @media screen and (min-width: $sm-breakpoint) {
+    justify-content: center;
+  }
 
   &__timeRange {
     display: flex;
@@ -19,7 +28,6 @@
   }
 
   &__carousel {
-    padding: 2rem 2rem;
     width: 100%;
   }
 
@@ -40,9 +48,5 @@
       font-size: 2rem;
       margin-bottom: 0rem;
     }
-  }
-
-  @media screen and (max-width: $sm-breakpoint) {
-    gap: 1rem;
   }
 }

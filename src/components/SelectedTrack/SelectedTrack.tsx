@@ -72,34 +72,6 @@ export default function SelectedTrack({
           >
             {selectedTrack.name}
           </Link>
-          <div className={styles.selectedTrack__meta}>
-            <div className={styles.selectedTrack__pill}>
-              <div className={styles.selectedTrack__albumCover}>
-                <Image
-                  src={
-                    selectedTrack.album.images[0]?.url ||
-                    "/img/placeholder-album.png"
-                  }
-                  alt={selectedTrack.album.name}
-                  width={32}
-                  height={32}
-                  className={styles.selectedTrack__albumCoverImage}
-                />
-                <div>
-                  <div>{selectedTrack.album.album_type}</div>
-                  <Link
-                    href={selectedTrack.album.external_urls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.selectedTrack__albumName}
-                    title={selectedTrack.album.name}
-                  >
-                    {selectedTrack.album.name}
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
           <div
             className={clsx(
               styles.selectedTrack__meta,
@@ -128,7 +100,6 @@ export default function SelectedTrack({
                       className={styles.selectedTrack__artistImage}
                       draggable={false}
                     />
-
                     <div>{artist.name}</div>
                   </Link>
                 )}
@@ -136,10 +107,46 @@ export default function SelectedTrack({
             )}
           </div>
           <div className={styles.selectedTrack__meta}>
-            {genreList.length > 0 &&
-              genreList.map((genre, index) => (
+            <div className={styles.selectedTrack__pill}>
+              <div className={styles.selectedTrack__albumCover}>
+                <Image
+                  src={
+                    selectedTrack.album.images[0]?.url ||
+                    "/img/placeholder-album.png"
+                  }
+                  alt={selectedTrack.album.name}
+                  width={32}
+                  height={32}
+                  className={styles.selectedTrack__albumCoverImage}
+                />
+                <div>
+                  <div>{selectedTrack.album.album_type}</div>
+                  <Link
+                    href={selectedTrack.album.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.selectedTrack__albumName}
+                    title={selectedTrack.album.name}
+                  >
+                    {selectedTrack.album.name}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {genreList && genreList.length > 0 && (
+            <div className={styles.selectedTrack__meta}>
+              {genreList.map((genre, index) => (
                 <Badge key={index}>{genre}</Badge>
               ))}
+            </div>
+          )}
+          <div className={styles.selectedTrack__meta}>
+            Track Released on{" "}
+            {new Date(selectedTrack.album.release_date)
+              .toLocaleDateString()
+              .replace("/", ".")}
           </div>
         </div>
       </motion.div>
