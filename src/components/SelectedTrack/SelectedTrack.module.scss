@@ -53,7 +53,9 @@ $image-height: 380px;
   }
 
   &__artists {
-    width: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
   }
 
   &__artist {
@@ -62,13 +64,12 @@ $image-height: 380px;
     gap: 0.5rem;
     font-weight: 500;
     font-size: 1.125rem;
-    width: 100px;
     line-height: 1.2;
   }
 
   &__artistImage {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     aspect-ratio: 1 / 1;
     border-radius: 0.5rem;
     object-fit: cover;

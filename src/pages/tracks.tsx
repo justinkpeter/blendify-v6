@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { TimeRange, TimeRangeOptions } from "@/constants/timeRange";
@@ -49,6 +49,19 @@ export default function Tracks({
     className: styles.tracks,
   } as const;
 
+  const renderTrackItem = useCallback(
+    (track: SpotifyApi.TrackObjectFull, index: number) => (
+      <CarouselTrackItem
+        track={track}
+        index={index}
+        hoveredIndex={hoveredIndex}
+        setHoveredIndex={setHoveredIndex}
+        handleTrackSelection={handleTrackSelection}
+      />
+    ),
+    [hoveredIndex, setHoveredIndex, handleTrackSelection]
+  );
+
   return (
     <Page className={styles.tracksPage}>
       {/*  Track Detail Overlay */}
@@ -76,15 +89,7 @@ export default function Tracks({
           <Carousel
             key={activeTimeRangeFilter}
             items={topTracks}
-            renderItem={(track, index) => (
-              <CarouselTrackItem
-                track={track}
-                index={index}
-                hoveredIndex={hoveredIndex}
-                setHoveredIndex={setHoveredIndex}
-                handleTrackSelection={handleTrackSelection}
-              />
-            )}
+            renderItem={renderTrackItem}
           />
         </div>
         <TrackInfo topTracks={topTracks} hoveredIndex={hoveredIndex} />
