@@ -8,7 +8,6 @@ import styles from "./SelectedTrack.module.scss";
 import Badge from "../Badge/Badge";
 import Carousel from "../Carousel/Carousel";
 import clsx from "clsx";
-import { render } from "sass";
 
 const TRANSITION_DURATION = 300;
 
@@ -108,10 +107,7 @@ export default function SelectedTrack({
             <div className={styles.selectedTrack__pill}>
               <div className={styles.selectedTrack__albumCover}>
                 <Image
-                  src={
-                    selectedTrack.album.images[0]?.url ||
-                    "/img/placeholder-album.png"
-                  }
+                  src={selectedTrack.album.images[0]?.url}
                   alt={selectedTrack.album.name}
                   width={32}
                   height={32}
@@ -141,14 +137,16 @@ export default function SelectedTrack({
             </div>
           )}
           <div className={styles.selectedTrack__meta}>
-            Track Released on{" "}
-            {new Date(selectedTrack.album.release_date)
-              .toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })
-              .replace(/\//g, ".")}
+            <i>
+              released on{" "}
+              {new Date(selectedTrack.album.release_date)
+                .toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+                .replace(/\//g, ".")}{" "}
+            </i>
           </div>
         </div>
       </motion.div>

@@ -52,6 +52,13 @@ $image-height: 380px;
     object-fit: cover;
   }
 
+  &__albumName {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 240px;
+  }
+
   &__artists {
     width: 100%;
     box-sizing: border-box;
