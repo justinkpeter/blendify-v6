@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { TimeRange, TimeRangeOptions } from "@/constants/timeRange";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSelectedTrack } from "@/hooks/useSelectedTrack";
 import CarouselTrackItem from "@/components/CarouselTrackItem/CarouselTrackItem";
 import Carousel from "@/components/Carousel/Carousel";
@@ -38,12 +38,16 @@ export default function Tracks({
   }, [activeTimeRangeFilter, setHoveredIndex]);
 
   const mainMotionProps = {
-    initial: { opacity: 0, y: 20, filter: "blur(8px)" },
+    initial: { y: 20, filter: "blur(8px)" },
     animate: {
-      opacity: isTrackVisible ? 0 : 1,
       y: isTrackVisible ? 20 : 0,
-      filter: isTrackVisible ? "blur(8px)" : "blur(0px)",
+      filter: isTrackVisible ? "blur(48px)" : "blur(0px)",
       pointerEvents: isTrackVisible ? "none" : "auto",
+    },
+    exit: {
+      y: 20,
+      filter: "blur(8px)",
+      opacity: 0,
     },
     transition: { duration: 0.3 },
     className: styles.tracks,
@@ -65,14 +69,16 @@ export default function Tracks({
   return (
     <Page className={styles.tracksPage}>
       {/*  Track Detail Overlay */}
-      {isTrackVisible && (
-        <SelectedTrack
-          selectedTrack={selectedTrack}
-          isTrackVisible={isTrackVisible}
-          handleTrackSelection={handleTrackSelection}
-          handleCloseTrack={handleCloseTrack}
-        />
-      )}
+      <AnimatePresence mode="wait">
+        {isTrackVisible && (
+          <SelectedTrack
+            selectedTrack={selectedTrack}
+            isTrackVisible={isTrackVisible}
+            handleTrackSelection={handleTrackSelection}
+            handleCloseTrack={handleCloseTrack}
+          />
+        )}
+      </AnimatePresence>
       {/* Carousel + Filters */}
       <motion.main {...mainMotionProps}>
         <div className={styles.tracks__title}>songs on repeat</div>

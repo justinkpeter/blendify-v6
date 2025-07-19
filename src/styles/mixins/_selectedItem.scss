@@ -16,7 +16,7 @@
 
   & > :nth-child(3) {
     max-width: 400px;
-    min-width: 240px;
+    min-width: 400px;
   }
 
   // Cover Image + Name Block
@@ -27,6 +27,8 @@
     position: relative;
     width: fit-content;
     height: fit-content;
+    background: rgba($gray-dark, 0.2);
+    border-radius: 0.5rem;
 
     .spotifyProfileIcon {
       position: absolute;
@@ -36,14 +38,28 @@
       width: 2rem;
       height: 2rem;
     }
+
+    &:hover {
+      background: rgba($gray-dark, 0.2);
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+      background: rgba($gray-light, 0.05);
+      border: 1px solid rgba($gray-light, 0.2);
+    }
   }
 
   &__image {
     width: $image-height;
     height: $image-height;
     object-fit: cover;
-    border-radius: 0.75rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: spin 20s linear infinite;
+    animation-play-state: paused;
+
+    &--playing {
+      animation-play-state: running;
+    }
   }
 
   &__name {
@@ -110,7 +126,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 0.5rem 2rem 0.5rem 0.75rem;
-    background-color: $gray-light;
+    background-color: rgba($gray-dark, 0.2);
     border-radius: 0.75rem;
     font-size: 0.875rem;
     color: $black;
@@ -118,15 +134,21 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
-    @media screen and (prefers-color-scheme: dark) {
-      background-color: rgba($gray-dark, 0.8);
-      color: $off-white;
-    }
+    transition: all 0.2s ease-in-out;
 
     & > :last-child {
       font-weight: 500;
       font-size: 1rem;
+    }
+
+    &:hover {
+      filter: brightness(1.2);
+      scale: 1.01;
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+      color: $off-white;
+      background-color: rgba($gray-light, 0.2);
     }
   }
 
@@ -245,5 +267,70 @@
   img.spotifyIcon {
     width: 30px;
     height: 30px;
+  }
+
+  .controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 50;
+    display: flex;
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: 0;
+      outline: none;
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba($black, 0.2);
+      box-shadow: 0 0 10px rgba($black, 0.2);
+      transition: all 0.3s ease-in-out;
+
+      svg {
+        width: 30px;
+        height: 30px;
+        fill: $off-white;
+        transition: transform 0.1s ease-in-out;
+        cursor: pointer;
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.4);
+        svg {
+          transform: scale(1.2);
+        }
+      }
+
+      &:active {
+        transform: scale(0.92);
+        transition: all 80ms ease-in-out;
+      }
+    }
+  }
+
+  @keyframes spin {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .rotating {
+    animation: spin linear 20s infinite;
+    animation-play-state: running;
+  }
+
+  .paused {
+    animation-play-state: paused;
   }
 }
