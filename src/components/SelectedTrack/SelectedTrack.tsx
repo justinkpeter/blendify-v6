@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { useArtistMetadata } from "@/hooks/useArtistMetadata";
 import Link from "next/link";
 import Image from "next/image";
-import Vinyl from "../Vinyl/Vinyl";
 import styles from "./SelectedTrack.module.scss";
 import Badge from "../Badge/Badge";
 import Carousel from "../Carousel/Carousel";
@@ -18,7 +17,6 @@ const TRANSITION_DURATION = 300;
 
 export default function SelectedTrack({
   handleCloseTrack,
-  handleTrackSelection,
   isTrackVisible,
   selectedTrack,
 }: {
@@ -158,7 +156,6 @@ export default function SelectedTrack({
             </div>
           </div>
         </div>
-
         {genreList && genreList.length > 0 && (
           <div className={styles.selectedTrack__meta}>
             {genreList.map((genre, index) => (
