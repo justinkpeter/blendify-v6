@@ -1,17 +1,8 @@
 @use "../../styles/variables/breakpoints.scss" as *;
 
-.title {
-  font-size: 3.5rem;
-  text-align: center;
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  margin-bottom: 2rem;
-  text-transform: uppercase;
-
-  @media screen and (max-width: $sm-breakpoint) {
-    font-size: 2rem;
-    margin-bottom: 0rem;
-  }
+.tracksPage {
+  height: 100%;
+  display: flex;
 }
 
 .tracks {
@@ -20,9 +11,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 2rem;
   user-select: none;
+
+  @media screen and (min-width: $sm-breakpoint) {
+    justify-content: center;
+  }
 
   &__timeRange {
     display: flex;
@@ -33,8 +28,8 @@
   }
 
   &__carousel {
-    padding: 2rem 2rem;
     width: 100%;
+    padding: 0 1rem;
   }
 
   &__trackInfo {
@@ -42,7 +37,16 @@
     width: 100%;
   }
 
-  @media screen and (max-width: $sm-breakpoint) {
-    gap: 1rem;
+  &__title {
+    font-size: 3.5rem;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+    text-transform: uppercase;
+
+    @media screen and (max-width: $sm-breakpoint) {
+      font-size: 2rem;
+      margin-bottom: 0rem;
+    }
   }
 }

@@ -1,0 +1,32 @@
+// global resets, typography, and body (base) styles
+html,
+body,
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+html {
+  height: 100%;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+    url("/fonts/GeneralSans-Variable.woff") format("woff");
+}
+
+body {
+  height: 100vh;
+  background: var(--background);
+  font-family: General Sans, Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-user-drag: none;
+}
+
+img {
+  -webkit-user-drag: none;
+}

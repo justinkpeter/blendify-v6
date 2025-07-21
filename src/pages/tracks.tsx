@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { TimeRange, TimeRangeOptions } from "@/constants/timeRange";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSelectedTrack } from "@/hooks/useSelectedTrack";
 import CarouselTrackItem from "@/components/CarouselTrackItem/CarouselTrackItem";
 import Carousel from "@/components/Carousel/Carousel";
@@ -11,7 +11,7 @@ import SlidingTabBar from "@/components/SlidingButtonBar/SlidingButtonBar";
 import TrackInfo from "@/components/TrackInfo/TrackInfo";
 import spotifyApi from "@/lib/spotify";
 import useTopTracks from "@/hooks/useTopTracks";
-
+import Page from "@/components/Page";
 import styles from "@/styles/pages/tracks.module.scss";
 
 export default function Tracks({
@@ -37,28 +37,51 @@ export default function Tracks({
     setHoveredIndex(0);
   }, [activeTimeRangeFilter, setHoveredIndex]);
 
+  const mainMotionProps = {
+    initial: { y: 20, filter: "blur(8px)" },
+    animate: {
+      y: isTrackVisible ? 20 : 0,
+      filter: isTrackVisible ? "blur(48px)" : "blur(0px)",
+      pointerEvents: isTrackVisible ? "none" : "auto",
+    },
+    exit: {
+      y: 20,
+      filter: "blur(8px)",
+      opacity: 0,
+    },
+    transition: { duration: 0.3 },
+    className: styles.tracks,
+  } as const;
+
+  const renderTrackItem = useCallback(
+    (track: SpotifyApi.TrackObjectFull, index: number) => (
+      <CarouselTrackItem
+        track={track}
+        index={index}
+        hoveredIndex={hoveredIndex}
+        setHoveredIndex={setHoveredIndex}
+        handleTrackSelection={handleTrackSelection}
+      />
+    ),
+    [hoveredIndex, setHoveredIndex, handleTrackSelection]
+  );
+
   return (
-    <>
-      {/* Main Track Carousel */}
-      <motion.main
-        className={styles.tracks}
-        initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-        animate={{
-          opacity: isTrackVisible ? 0 : 1,
-          pointerEvents: isTrackVisible ? "auto" : "none",
-          filter: "blur(0px)",
-          y: 0,
-        }}
-        exit={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-        transition={{ duration: 0.3 }}
-        layoutId="tracks-main"
-        style={{
-          pointerEvents: isTrackVisible ? "none" : "auto",
-        }}
-      >
-        <div className={styles.titleWrapper}>
-          <div className={styles.title}>songs on repeat</div>
-        </div>
+    <Page className={styles.tracksPage}>
+      {/*  Track Detail Overlay */}
+      <AnimatePresence mode="wait">
+        {isTrackVisible && (
+          <SelectedTrack
+            selectedTrack={selectedTrack}
+            isTrackVisible={isTrackVisible}
+            handleTrackSelection={handleTrackSelection}
+            handleCloseTrack={handleCloseTrack}
+          />
+        )}
+      </AnimatePresence>
+      {/* Carousel + Filters */}
+      <motion.main {...mainMotionProps}>
+        <div className={styles.tracks__title}>songs on repeat</div>
         <SlidingTabBar
           tabs={TimeRangeOptions}
           activeTabIndex={TimeRangeOptions.findIndex(
@@ -72,34 +95,19 @@ export default function Tracks({
           <Carousel
             key={activeTimeRangeFilter}
             items={topTracks}
-            renderItem={(track, index) => (
-              <CarouselTrackItem
-                track={track}
-                index={index}
-                hoveredIndex={hoveredIndex}
-                setHoveredIndex={setHoveredIndex}
-                handleTrackSelection={handleTrackSelection}
-              />
-            )}
+            renderItem={renderTrackItem}
           />
         </div>
         <TrackInfo topTracks={topTracks} hoveredIndex={hoveredIndex} />
       </motion.main>
-      {/* Selected Track Overlay */}
-      <SelectedTrack
-        handleTrackSelection={handleTrackSelection}
-        handleCloseTrack={handleCloseTrack}
-        isTrackVisible={isTrackVisible}
-        selectedTrack={selectedTrack}
-      />
-    </>
+    </Page>
   );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession({ req: context.req });
 
-  if (!session) {
+  if (!session || !session.accessToken || !session.refreshToken) {
     return {
       redirect: { destination: "/login", permanent: false },
     };

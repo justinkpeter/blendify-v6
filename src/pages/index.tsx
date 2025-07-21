@@ -1,47 +1,26 @@
-import styles from "@/styles/pages/home.module.scss";
 import Headphones from "@/components/Headphones";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import styles from "@/styles/pages/home.module.scss";
+import Page from "@/components/Page";
+import { routes } from "@/routes";
 
 export default function Home() {
   return (
-    <AnimatePresence mode="wait">
-      <motion.main
-        initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={styles.home}
-      >
-        <span className={styles.desc}>[ discover your sound ]</span>
-        <h1 className={styles.blendify}>blendify</h1>
+    <Page className={styles.homePage}>
+      <div className={styles.homePage__content}>
+        <div>[ discover your sound ]</div>
+        <div className={styles.blendify}>.blendify </div>
         <div className={styles.headphones}>
           <Headphones />
         </div>
-        <div className={styles.links}>
-          <Link href={"/tracks"} className={styles.button} draggable={false}>
-            {" "}
-            Tracks
+      </div>
+      <div className={styles.homePageLinks}>
+        {routes.map((route) => (
+          <Link key={route.path} href={route.path}>
+            {route.name}
           </Link>
-          <Link href={"/artists"} className={styles.button} draggable={false}>
-            Artists
-          </Link>
-          <Link href={"/genres"} className={styles.button} draggable={false}>
-            {" "}
-            Genres
-          </Link>
-          <Link
-            href={"/taste-profile"}
-            className={styles.button}
-            draggable={false}
-          >
-            Taste Profile
-          </Link>
-        </div>
-        <div>
-          <p>Your soundtrack is a story worth exploring anytime.</p>
-        </div>
-      </motion.main>
-    </AnimatePresence>
+        ))}
+      </div>
+    </Page>
   );
 }

@@ -1,22 +1,29 @@
-.carouselWrapper {
-  cursor: grab;
-  width: 100%;
+@use "../../styles/variables/colors" as *;
+
+.carouselContainer {
   position: relative;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.carousel {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  overflow-x: scroll;
+  position: relative;
+  padding: 0;
+
+  &:active {
+    cursor: grabbing;
+    user-select: none;
+  }
 
   &::-webkit-scrollbar {
     display: none;
   }
-}
 
-.carousel {
-  display: inline-flex;
-  min-width: fit-content;
-  gap: 2rem;
-  user-select: none;
-  width: 100%;
-
-  &__item {
+  li {
     flex: 0 0 auto;
-    transition: transform 0.2s ease;
   }
 }

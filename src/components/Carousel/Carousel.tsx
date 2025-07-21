@@ -1,101 +1,76 @@
-import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  PointerEvent,
+  ReactNode,
+} from "react";
 import styles from "./Carousel.module.scss";
 
-interface CarouselProps<T> {
+type CarouselProps<T> = {
   items: T[];
-  renderItem: (item: T, index: number) => React.ReactNode;
-}
-
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-  exit: {
-    transition: {
-      staggerChildren: 0.07,
-      staggerDirection: -1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.1,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: -20,
-    transition: {
-      duration: 0.3,
-      ease: "easeInOut",
-    },
-  },
+  renderItem: (item: T, index: number) => JSX.Element | ReactNode;
 };
 
 export default function Carousel<T>({ items, renderItem }: CarouselProps<T>) {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const scrollRef = useRef<HTMLUListElement>(null);
 
+  const [isDragging, setIsDragging] = useState(false);
+  const scrollStartX = useRef(0);
+  const scrollStartLeft = useRef(0);
+
+  // 🖱️ Enable horizontal scroll with vertical wheel
   useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
+    const scrollEl = scrollRef.current;
+    if (!scrollEl) return;
 
-    const updateWidth = () => {
-      setWidth(el.scrollWidth - el.offsetWidth);
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        scrollEl.scrollLeft += e.deltaY;
+      }
     };
 
-    const resizeObserver = new ResizeObserver(updateWidth);
-    resizeObserver.observe(el);
+    scrollEl.addEventListener("wheel", handleWheel, { passive: false });
+    return () => scrollEl.removeEventListener("wheel", handleWheel);
+  }, []);
 
-    updateWidth();
+  // 🌀 Drag-to-scroll logic
+  const handlePointerDown = (e: PointerEvent<HTMLUListElement>) => {
+    scrollRef.current?.setPointerCapture(e.pointerId);
+    setIsDragging(true);
+    scrollStartX.current = e.clientX;
+    scrollStartLeft.current = scrollRef.current?.scrollLeft ?? 0;
+  };
 
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, [items]);
+  const handlePointerMove = (e: PointerEvent<HTMLUListElement>) => {
+    if (!isDragging || !scrollRef.current) return;
+    const dx = e.clientX - scrollStartX.current;
+    scrollRef.current.scrollLeft = scrollStartLeft.current - dx;
+  };
+
+  const handlePointerUp = (e: PointerEvent<HTMLUListElement>) => {
+    scrollRef.current?.releasePointerCapture(e.pointerId);
+    setIsDragging(false);
+  };
 
   return (
-    <motion.div
-      className={styles.carouselWrapper}
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-    >
-      <motion.div
+    <div className={styles.carouselContainer}>
+      <ul
+        ref={scrollRef}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
         className={styles.carousel}
-        ref={carouselRef}
-        drag="x"
-        dragConstraints={{ right: 0, left: -width }}
-        dragTransition={{
-          power: 0.8,
-          timeConstant: 400,
-          bounceStiffness: 80,
-          bounceDamping: 12,
+        style={{
+          cursor: isDragging ? "grabbing" : "grab",
         }}
-        dragElastic={0.1}
-        whileTap={{ cursor: "grabbing" }}
-        whileDrag={{ cursor: "grabbing" }}
       >
         {items.map((item, index) => (
-          <motion.div
-            key={index}
-            className={styles.carousel__item}
-            variants={itemVariants}
-          >
-            {renderItem(item, index)}
-          </motion.div>
+          <li key={index}>{renderItem(item, index)}</li>
         ))}
-      </motion.div>
-    </motion.div>
+      </ul>
+    </div>
   );
 }

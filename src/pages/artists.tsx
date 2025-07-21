@@ -1,58 +1,111 @@
-import React from "react";
-import spotifyApi from "@/lib/spotify";
+import React, { useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
+import { TimeRange, TimeRangeOptions } from "@/constants/timeRange";
+import { AnimatePresence, motion } from "framer-motion";
+import SlidingTabBar from "@/components/SlidingButtonBar/SlidingButtonBar";
+import Carousel from "@/components/Carousel/Carousel";
+import CarouselArtistItem from "@/components/CarouselArtistItem/CarouselArtistItem";
+import ArtistInfo from "@/components/ArtistInfo/ArtistInfo";
+import SelectedArtist from "@/components/SelectedArtist/SelectedArtist";
+import spotifyApi from "@/lib/spotify";
+import useSelectedArtist from "@/components/SelectedArtist/useSelectedArtist";
+import useTopArtists from "@/hooks/useTopArtists";
+import Page from "@/components/Page";
 import styles from "@/styles/pages/artists.module.scss";
-// import Carousel from "@/components/Carousel/Carousel";
-// import Filters, { FilterValue } from "@/components/Filters/Filters";
 
-// import ArtistItem from "@/components/Carousel/ArtistItem";
+export default function Artists({
+  initialTopArtists,
+}: {
+  initialTopArtists: SpotifyApi.ArtistObjectFull[];
+}) {
+  const [activeTimeRange, setActiveTimeRange] = useState<TimeRange>(
+    TimeRange.Short
+  );
 
-export default function Artists() {
-  // const [activeFilter, setActiveFilter] = useState<FilterValue>("short_term");
-  // const { topArtists, isLoading } = useTopArtists(
-  //   activeFilter,
-  //   initialTopArtists
-  // );
+  const { topArtists } = useTopArtists(activeTimeRange, initialTopArtists);
+
+  const {
+    selectedArtist,
+    isArtistVisible,
+    hoveredIndex,
+    setHoveredIndex,
+    handleArtistSelection,
+    handleCloseArtist,
+  } = useSelectedArtist();
+
+  const mainMotionProps = {
+    initial: { y: 20, filter: "blur(8px)" },
+    animate: {
+      y: isArtistVisible ? 20 : 0,
+      filter: isArtistVisible ? "blur(48px)" : "blur(0px)",
+      pointerEvents: isArtistVisible ? "none" : "auto",
+    },
+    exit: {
+      y: 20,
+      filter: "blur(8px)",
+      opacity: 0,
+    },
+    transition: { duration: 0.3 },
+    className: styles.artists,
+  } as const;
+
+  const renderArtistItem = (
+    artist: SpotifyApi.ArtistObjectFull,
+    index: number
+  ) => (
+    <CarouselArtistItem
+      key={artist.id}
+      artist={artist}
+      index={index}
+      hoveredIndex={hoveredIndex}
+      setHoveredIndex={setHoveredIndex}
+      handleArtistSelection={handleArtistSelection}
+    />
+  );
 
   return (
-    <main className={styles.artists}>
-      <header className={styles.artists__header}>
-        <h1>your artists</h1>
-        <div>
-          <span>who all understands your unique vibe?</span>
-        </div>
-      </header>
-      <div className={styles.artists__filters}>
-        {/* <Filters
-          activeFilter={activeFilter}
-          setActiveFilter={setActiveFilter}
-        /> */}
-      </div>
-      <section className={styles.artists__carousel}>
-        {/* <Carousel
-          loading={isLoading}
-          items={topArtists}
-          renderItem={(artist) => (
-            <ArtistItem
-              image={artist.images[0].url}
-              name={artist.name}
-              genres={artist.genres}
-              monthlyListeners={artist.followers.total}
-              preview={artist.previewUri}
-              artistUri={artist.uri}
-            />
+    <Page>
+      {/* Artist Detail Overlay */}
+      <AnimatePresence mode="wait">
+        {isArtistVisible && (
+          <SelectedArtist
+            selectedArtist={selectedArtist}
+            isArtistVisible={isArtistVisible}
+            handleArtistSelection={handleArtistSelection}
+            handleCloseArtist={handleCloseArtist}
+          />
+        )}
+      </AnimatePresence>
+      {/* Carousel + Filters */}
+      <motion.main {...mainMotionProps}>
+        <div className={styles.artists__title}>your artist lineup</div>
+        <SlidingTabBar
+          tabs={TimeRangeOptions}
+          activeTabIndex={TimeRangeOptions.findIndex(
+            (option) => option.value === activeTimeRange
           )}
-        /> */}
-      </section>
-    </main>
+          onTabClick={(index: number) =>
+            setActiveTimeRange(TimeRangeOptions[index].value)
+          }
+        />
+        <div className={styles.artists__carousel}>
+          <Carousel
+            key={activeTimeRange}
+            items={topArtists}
+            renderItem={renderArtistItem}
+          />
+        </div>
+        <ArtistInfo topArtists={topArtists} hoveredIndex={hoveredIndex} />
+      </motion.main>
+    </Page>
   );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession({ req: context.req });
 
-  if (!session) {
+  if (!session || !session.accessToken || !session.refreshToken) {
     return {
       redirect: { destination: "/login", permanent: false },
     };
@@ -63,20 +116,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const topArtists = await spotifyApi
     .getMyTopArtists({ limit: 12, time_range: "short_term" })
-    .then((data) => data.body.items);
+    .then((res) => res.body.items);
 
-  const artistsWithPreview = await Promise.all(
-    topArtists.map(async (artist) => {
-      const topTrack = await spotifyApi
-        .getArtistTopTracks(artist.id, "US")
-        .then((response) => response.body.tracks[0]);
-
-      return {
-        ...artist,
-        previewUri: topTrack?.preview_url || null,
-      };
-    })
-  );
-
-  return { props: { initialTopArtists: artistsWithPreview } };
+  return { props: { initialTopArtists: topArtists } };
 }

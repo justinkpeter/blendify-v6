@@ -1,0 +1,64 @@
+@use "../../styles/variables/_colors.scss" as *;
+
+$spinner-size: 40px;
+$spinner-color: black;
+$spinner-speed: 1s;
+$spinner-stroke: 3px;
+
+.container {
+  --spinner-size: 40px;
+  --spiner-color: black;
+  --spinner-speed: 1s;
+  --spinner-stroke: 3px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: var(--spinner-size);
+  width: var(--spinner-size);
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  left: calc(50% - var(--spinner-stroke) / 2);
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  width: var(--spinner-stroke);
+}
+
+.line::before {
+  content: "";
+  height: 22%;
+  width: 100%;
+  border-radius: calc(var(--spinner-stroke) / 2);
+  background-color: var(--spiner-color);
+  animation: pulse var(--spinner-speed) ease-in-out infinite;
+  transition: background-color 0.3s ease;
+  transform-origin: center bottom;
+}
+
+@for $i from 1 through 12 {
+  .line:nth-child(#{$i}) {
+    transform: rotate(calc(360deg / -12 * #{$i}));
+
+    &::before {
+      animation-delay: calc(var(--spinner-speed) / -12 * #{$i});
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  80%,
+  100% {
+    transform: scaleY(0.75);
+    opacity: 0;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}

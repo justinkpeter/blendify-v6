@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.header__left}>
-        <Link href="/">blendify</Link>
+        <Link href="/">.blendify</Link>
       </div>
 
       <nav className={styles.header__center}>

@@ -67,7 +67,7 @@ export default function Headphones() {
     <Canvas
       camera={{
         fov: 10,
-        zoom: 0.65,
+        zoom: 0.92,
         near: 10,
         far: 2500,
       }}

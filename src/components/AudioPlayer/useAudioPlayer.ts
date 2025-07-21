@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 
+/**
+ * Custom hook for managing audio playback with global control.
+ * Ensures only one track plays at a time by using a CustomEvent.
+ */
 export default function useAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -7,9 +11,27 @@ export default function useAudioPlayer() {
 
   const togglePlay = () => {
     if (!audioRef.current) return;
-    if (isPlaying) audioRef.current.pause();
-    else audioRef.current.play();
+
+    if (!isPlaying) {
+      // Dispatch a global event to pause all other audio players
+      const event = new CustomEvent("pause-all-audio", {
+        detail: audioRef.current,
+      });
+      window.dispatchEvent(event);
+
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+
     setIsPlaying(!isPlaying);
+  };
+
+  const handleScrub = (position: number) => {
+    if (!audioRef.current || !audioRef.current.duration) return;
+
+    audioRef.current.currentTime = position * audioRef.current.duration;
+    setProgress(position);
   };
 
   useEffect(() => {
@@ -25,29 +47,38 @@ export default function useAudioPlayer() {
       animationFrameId = requestAnimationFrame(updateProgress);
     };
 
-    if (isPlaying) {
-      animationFrameId = requestAnimationFrame(updateProgress);
-    }
-
     const handleEnded = () => {
       setProgress(0);
       setIsPlaying(false);
     };
 
+    const handleGlobalPause = (e: Event) => {
+      const target = (e as CustomEvent).detail as HTMLAudioElement;
+      if (audio !== target) {
+        audio.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    if (isPlaying) {
+      animationFrameId = requestAnimationFrame(updateProgress);
+    }
+
     audio.addEventListener("ended", handleEnded);
+    window.addEventListener("pause-all-audio", handleGlobalPause);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       audio.removeEventListener("ended", handleEnded);
+      window.removeEventListener("pause-all-audio", handleGlobalPause);
     };
   }, [isPlaying]);
 
-  const handleScrub = (position: number) => {
-    if (!audioRef.current) return;
-
-    audioRef.current.currentTime = position * audioRef.current.duration;
-    setProgress(position);
+  return {
+    audioRef,
+    isPlaying,
+    togglePlay,
+    progress,
+    handleScrub,
   };
-
-  return { audioRef, isPlaying, togglePlay, progress, handleScrub };
 }

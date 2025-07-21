@@ -15,12 +15,14 @@ $border-radius: 4px;
   font-weight: 700;
   z-index: 1000;
   user-select: none;
+  box-sizing: border-box;
 
   &__left {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: larger;
+    letter-spacing: -0.06em;
 
     a {
       transition: transform 200ms ease-in-out;

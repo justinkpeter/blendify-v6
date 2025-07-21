@@ -1,7 +1,7 @@
 @use "../../styles/variables/breakpoints.scss" as *;
 @use "../../styles/variables/colors.scss" as *;
 
-.carouselTrackItem {
+.carouselArtistItem {
   position: relative;
   box-sizing: border-box;
 
@@ -9,7 +9,6 @@
     width: 100%;
     border-radius: 4px;
     transition: all 400ms cubic-bezier(0.33, 1, 0.68, 1);
-    clip-path: none;
   }
 
   &.hoveredItem {

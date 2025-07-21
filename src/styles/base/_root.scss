@@ -1,0 +1,11 @@
+@use "../variables/colors.scss" as *;
+
+:root {
+  background: $off-white;
+  color: $black;
+
+  @media (prefers-color-scheme: dark) {
+    background: $black;
+    color: $off-white;
+  }
+}
