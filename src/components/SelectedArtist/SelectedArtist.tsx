@@ -32,9 +32,9 @@ export default function SelectedArtist({
   return (
     <motion.div
       className={styles.selectedArtist}
-      initial={{ y: 10 }}
-      animate={{ y: 0 }}
-      exit={{ y: 10 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: TRANSITION_DURATION }}
     >
       <button
