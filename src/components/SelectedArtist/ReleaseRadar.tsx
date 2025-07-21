@@ -11,9 +11,12 @@ export default function ReleaseRadar({ latestRelease }: Props) {
   if (!latestRelease) return null;
 
   return (
-    <div className={styles.selectedArtist__latestRelease}>
-      <div>Release Radar</div>
-      <Link href={latestRelease.href}>
+    <Link
+      className={styles.selectedArtist__latestRelease}
+      href={latestRelease.href}
+    >
+      <div>Latest Release</div>
+      <div>
         <Image
           src={latestRelease.images[0]?.url || "/img/placeholder-album.png"}
           alt="Latest Release"
@@ -31,7 +34,7 @@ export default function ReleaseRadar({ latestRelease }: Props) {
             <Badge>{latestRelease.album_type}</Badge>
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
