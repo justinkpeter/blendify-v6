@@ -4,8 +4,9 @@
 $positionFromTop: 4rem;
 
 .page {
-  width: 100dvh;
+  width: 100dvw;
   width: 100vw;
+  min-height: 100dch;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

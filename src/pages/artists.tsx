@@ -105,7 +105,7 @@ export default function Artists({
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession({ req: context.req });
 
-  if (!session) {
+  if (!session || !session.accessToken || !session.refreshToken) {
     return {
       redirect: { destination: "/login", permanent: false },
     };

@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import styles from "@/styles/pages/login.module.scss";
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, getSession, signIn } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
+import Page from "@/components/Page";
 
 interface LoginProps {
   providers: {
@@ -13,9 +15,9 @@ interface LoginProps {
 
 export default function Login({ providers }: LoginProps) {
   return (
-    <div className={styles.login}>
+    <Page className={styles.login}>
       <div className={styles.login__title}>
-        <h1>blendify</h1>
+        <h1>.blendify</h1>
       </div>
       <div className={styles.login__action}>
         <button
@@ -30,12 +32,24 @@ export default function Login({ providers }: LoginProps) {
           />
         </button>
       </div>
-    </div>
+    </Page>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession({ req: context.req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const providers = await getProviders();
+
   return {
     props: {
       providers,
