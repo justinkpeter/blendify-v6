@@ -57,11 +57,10 @@ export default function SelectedTrack({
   return (
     <motion.div
       className={styles.selectedTrack}
-      initial={{ opacity: 0, y: 0 }}
+      initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
         transition: { delay: 0.2 },
       }}
       exit={{ opacity: 0, y: 0 }}
