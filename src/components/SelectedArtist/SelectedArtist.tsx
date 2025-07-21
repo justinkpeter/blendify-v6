@@ -9,6 +9,7 @@ import Carousel from "../Carousel/Carousel";
 import Vinyl from "../Vinyl/Vinyl";
 import clsx from "clsx";
 import Link from "next/link";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
 
 const TRANSITION_DURATION = 0.3; // seconds
 
@@ -26,8 +27,27 @@ export default function SelectedArtist({
     isArtistVisible,
     selectedArtist?.id
   );
+  const { currentTrackId, isPlaying, playTrack } = useAudioPlayer();
 
-  if (!selectedArtist || !isArtistVisible) return null; // early return
+  if (!selectedArtist || !isArtistVisible) return null;
+
+  const renderTrackItem = (track: SpotifyApi.TrackObjectFull) => (
+    <div
+      className={styles.carousel__item}
+      onMouseDown={() => playTrack(track.id, track.preview_url || "")}
+    >
+      <Vinyl track={track} />
+      <div>
+        <Link
+          href={track.uri}
+          className={styles.carousel__trackName}
+          title={track.name}
+        >
+          {track.name}
+        </Link>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div
@@ -39,13 +59,21 @@ export default function SelectedArtist({
     >
       <button
         className={styles.selectedArtist__backLink}
-        onClick={handleCloseArtist}
+        onClick={() => {
+          handleCloseArtist();
+          playTrack("", "");
+        }}
       >
         <ChevronLeftIcon className={styles.backIcon} />
         back
       </button>
 
-      <div className={styles.selectedArtist__cover}>
+      <Link
+        className={styles.selectedArtist__cover}
+        href={selectedArtist.uri}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <motion.img
           src={selectedArtist.images[0]?.url || "/img/placeholder-artist.png"}
           alt={selectedArtist.name}
@@ -66,17 +94,15 @@ export default function SelectedArtist({
           exit={{ opacity: 0 }}
           transition={{ duration: TRANSITION_DURATION * 2 }}
         />
-      </div>
-      <div className={styles.selectedArtist__details}>
-        <Link
-          href={selectedArtist.external_urls.spotify}
-          target="_blank"
-          rel="noopener noreferrer"
+
+        <div
           className={styles.selectedArtist__name}
           title={selectedArtist.name}
         >
           {selectedArtist.name}
-        </Link>
+        </div>
+      </Link>
+      <div className={styles.selectedArtist__details}>
         <div className={styles.selectedArtist__meta}>
           <div className={styles.selectedArtist__pill}>
             <div>popularity</div>
@@ -86,76 +112,54 @@ export default function SelectedArtist({
             <div>followers</div>
             <div>{selectedArtist.followers.total.toLocaleString()}</div>
           </div>
-          {selectedArtist.genres.length > 0 && (
-            <div className={styles.selectedArtist__pill}>
-              <div>genres</div>
-              <div>{selectedArtist.genres.join(", ")}</div>
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {selectedArtist.genres.length > 0 && (
+              <motion.div className={styles.selectedArtist__pill}>
+                <div>genres</div>
+                <div>{selectedArtist.genres.join(", ")}</div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence mode="wait">
+            {data && (
+              <>
+                <motion.div
+                  className={clsx(
+                    styles.selectedArtist__meta,
+                    styles.selectedArtist__latestRelease,
+                    styles.selectedArtist__pill
+                  )}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <ReleaseRadar latestRelease={data?.latestRelease} />
+                </motion.div>
+                <motion.div
+                  className={styles.selectedArtist__meta}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: TRANSITION_DURATION }}
+                >
+                  <Discography
+                    albumCount={data?.albumCount}
+                    singleCount={data?.singleCount}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
-
-        <AnimatePresence mode="wait">
-          {data && (
-            <motion.div
-              className={clsx(
-                styles.selectedArtist__meta,
-                styles.selectedArtist__releaseRadar
-              )}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: TRANSITION_DURATION }}
-            >
-              <ReleaseRadar latestRelease={data?.latestRelease} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence mode="wait">
-          {data && (
-            <motion.div
-              className={styles.selectedArtist__meta}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: TRANSITION_DURATION }}
-            >
-              <Discography
-                albumCount={data?.albumCount}
-                singleCount={data?.singleCount}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
       <AnimatePresence mode="wait">
         <motion.div className={styles.selectedArtist__carousel}>
           <h2 className={styles.carousel__title}>Top Tracks</h2>
           {data && (
             <Carousel
-              items={data?.topTracks.slice(0, 8) || []}
-              renderItem={(track, index) => (
-                <div className={styles.carousel__item} key={index}>
-                  <Vinyl
-                    track={track}
-                    isVisible={true}
-                    onClose={() => {}}
-                    onSelectTrack={() => {}}
-                    key={index}
-                  />
-                  <div>
-                    <Link
-                      href={track.external_urls.spotify}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.carousel__trackName}
-                      title={track.name}
-                    >
-                      {track.name}
-                    </Link>
-                  </div>
-                </div>
-              )}
+              key={data.topTracks[0]?.id}
+              items={data.topTracks.slice(0, 8)}
+              renderItem={renderTrackItem}
             />
           )}
         </motion.div>

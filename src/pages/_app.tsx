@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import "@/styles/globals.scss";
 import { AnimatePresence } from "framer-motion";
+import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
 
 export default function App({
   Component,
@@ -12,7 +13,9 @@ export default function App({
     <SessionProvider session={session}>
       <Header />
       <AnimatePresence mode="wait">
-        <Component {...pageProps} />
+        <AudioPlayerProvider>
+          <Component {...pageProps} />
+        </AudioPlayerProvider>
       </AnimatePresence>
     </SessionProvider>
   );

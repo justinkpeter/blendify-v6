@@ -11,7 +11,7 @@ import styles from "./SelectedTrack.module.scss";
 import Badge from "../Badge/Badge";
 import Carousel from "../Carousel/Carousel";
 import clsx from "clsx";
-import useAudioPlayer from "../AudioPlayer/useAudioPlayer";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
 
 const TRANSITION_DURATION = 300;
 
@@ -29,7 +29,7 @@ export default function SelectedTrack({
     selectedTrack,
     isTrackVisible
   );
-  const { isPlaying, audioRef, togglePlay } = useAudioPlayer();
+  const { isPlaying, playTrack } = useAudioPlayer();
 
   if (!selectedTrack || !isTrackVisible) return null;
 
@@ -68,15 +68,16 @@ export default function SelectedTrack({
     >
       <button
         className={styles.selectedTrack__backLink}
-        onClick={handleCloseTrack}
+        onClick={() => {
+          handleCloseTrack();
+          playTrack("", "");
+        }}
       >
         <ChevronLeftIcon className={styles.backIcon} />
         back
       </button>
 
       <div className={styles.selectedTrack__cover}>
-        <audio ref={audioRef} src={selectedTrack.preview_url ?? undefined} />
-
         {/* Animate image outside of Vinyl to keep layoutId intact */}
         <motion.img
           src={selectedTrack.album.images[0].url}
@@ -95,11 +96,21 @@ export default function SelectedTrack({
 
         <div className={styles.controls}>
           {isPlaying ? (
-            <button onClick={togglePlay} className={styles.controlButton}>
+            <button
+              onClick={() =>
+                playTrack(selectedTrack.id, selectedTrack.preview_url || "")
+              }
+              className={styles.controlButton}
+            >
               <PauseIcon className={styles.playIcon} />
             </button>
           ) : (
-            <button onClick={togglePlay} className={styles.controlButton}>
+            <button
+              onClick={() =>
+                playTrack(selectedTrack.id, selectedTrack.preview_url || "")
+              }
+              className={styles.controlButton}
+            >
               <PlayIcon className={styles.playIcon} />
             </button>
           )}

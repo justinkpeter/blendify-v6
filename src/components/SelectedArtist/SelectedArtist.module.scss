@@ -6,17 +6,32 @@ $image-height: 300px;
 
 .selectedArtist {
   @include selectedItem($image-height);
+  height: auto;
+  // max-height: 800px;
+  // width: auto;
+  overflow: hidden;
+  grid-template-rows: min-content 190px;
+  place-content: center;
+
+  &__carousel {
+    min-height: 190px;
+
+    .carousel__item {
+      &:not(:hover) {
+        filter: brightness(0.6);
+      }
+    }
+  }
 
   &__latestRelease {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     color: $black;
-    pointer-events: none;
 
     & > :first-child {
-      font-size: 1.25rem;
-      font-weight: 500;
+      font-size: 0.875rem;
+      font-weight: 400;
     }
 
     & > :last-child {
@@ -35,16 +50,45 @@ $image-height: 300px;
     }
   }
 
+  &__name {
+    margin-top: 2rem;
+  }
+
+  &__cover {
+    background: none;
+    border: none;
+    width: $image-height;
+
+    &:hover {
+      background: none;
+    }
+
+    @media screen and (max-width: $sm-breakpoint) {
+      align-items: flex-start;
+
+      .spotifyProfileIcon {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        z-index: 10;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
   &__latestReleaseImage {
     width: 48px;
     height: 48px;
     border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba($black, 0.1);
+    animation: floatUpDown 2.5s ease-in-out infinite;
   }
 
   &__latestReleaseName {
     & > :first-child {
       font-weight: 500;
-      font-size: 1.125rem;
+      font-size: 1rem;
     }
 
     & > :last-child {
@@ -59,9 +103,25 @@ $image-height: 300px;
     gap: 2px;
   }
 
+  &__image {
+    border-radius: 0.5rem;
+  }
+
   @media screen and (max-width: $sm-breakpoint) {
     &__releaseRadar {
       display: none;
+    }
+  }
+
+  @keyframes floatUpDown {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+    100% {
+      transform: translateY(0);
     }
   }
 }
