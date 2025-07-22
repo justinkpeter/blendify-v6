@@ -6,15 +6,20 @@ $image-height: 300px;
 
 .selectedArtist {
   @include selectedItem($image-height);
-  height: auto;
+  height: fit-content;
   // max-height: 800px;
   // width: auto;
-  overflow: hidden;
+  // overflow: hidden;
   grid-template-rows: min-content 190px;
   place-content: center;
+  border: 2px solid yellow;
+
+  @media screen and (min-width: $xxl-breakpoint) {
+    grid-template-rows: min-content 280px;
+  }
 
   &__carousel {
-    min-height: 190px;
+    // min-height: 190px;
 
     .carousel__item {
       &:not(:hover) {

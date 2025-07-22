@@ -1,5 +1,12 @@
 @use "../../styles/variables/breakpoints.scss" as *;
 
+.artistsPage {
+  height: 100%;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
 .artists {
   height: 100%;
   width: 100%;
@@ -8,6 +15,7 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  max-width: 100%;
 
   &__title {
     font-size: 3.5rem;
