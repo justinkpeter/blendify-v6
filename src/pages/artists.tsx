@@ -65,7 +65,7 @@ export default function Artists({
   );
 
   return (
-    <Page>
+    <Page className={styles.artistsPage}>
       {/* Artist Detail Overlay */}
       <AnimatePresence mode="wait">
         {isArtistVisible && (

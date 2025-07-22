@@ -64,7 +64,7 @@ export default function TimelineBar({
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [isScrubbing]);
+  }, [isScrubbing, handleMouseMove]);
 
   return (
     <div className={styles["timeline-bar"]}>

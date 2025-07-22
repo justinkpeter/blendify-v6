@@ -23,11 +23,8 @@ export default function SelectedArtist({
   handleArtistSelection?: (artist: SpotifyApi.ArtistObjectFull) => void;
   selectedArtist: SpotifyApi.ArtistObjectFull | null;
 }) {
-  const { data, loading } = useArtistDetails(
-    isArtistVisible,
-    selectedArtist?.id
-  );
-  const { currentTrackId, isPlaying, playTrack } = useAudioPlayer();
+  const { data } = useArtistDetails(isArtistVisible, selectedArtist?.id);
+  const { playTrack } = useAudioPlayer();
 
   if (!selectedArtist || !isArtistVisible) return null;
 
@@ -153,7 +150,24 @@ export default function SelectedArtist({
         </div>
       </div>
       <AnimatePresence mode="wait">
-        <motion.div className={styles.selectedArtist__carousel}>
+        <motion.div
+          className={styles.selectedArtist__carousel}
+          initial={{
+            opacity: 0,
+            filter: "blur(32px)",
+          }}
+          animate={{
+            opacity: 1,
+            filter: "blur(0px)",
+          }}
+          exit={{
+            opacity: 0,
+            filter: "blur(32px)",
+          }}
+          transition={{
+            duration: 0.8,
+          }}
+        >
           <h2 className={styles.carousel__title}>Top Tracks</h2>
           {data && (
             <Carousel

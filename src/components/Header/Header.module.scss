@@ -16,6 +16,7 @@ $border-radius: 4px;
   z-index: 1000;
   user-select: none;
   box-sizing: border-box;
+  max-width: 2440px;
 
   &__left {
     display: flex;
@@ -155,7 +156,7 @@ $border-radius: 4px;
       bottom: 0;
       left: 0;
       width: 100%;
-      background: $black;
+      background: $gray-dark;
       color: $off-white;
       z-index: 1;
       border-top-left-radius: 1rem;
@@ -177,7 +178,12 @@ $border-radius: 4px;
       gap: 1rem;
       color: inherit;
       z-index: 1000;
+      background: none;
+      transition: all 0.2 ease-in-out;
 
+      &:active {
+        scale: 0.92;
+      }
       svg {
         width: 30px;
         height: 30px;
