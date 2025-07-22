@@ -41,6 +41,10 @@ export default function SelectedTrack({
       rel="noopener noreferrer"
       className={styles.selectedTrack__artist}
       title={artist.name}
+      onMouseDown={() => {
+        // go to uri
+        window.open(artist.uri, "_blank");
+      }}
     >
       <Image
         src={artist.images[0]?.url || "/img/placeholder-artist.png"}
