@@ -30,3 +30,17 @@ a {
 img {
   -webkit-user-drag: none;
 }
+
+.app {
+  max-width: 2440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  height: 100vh;
+  margin: auto;
+  top: 0;
+  justify-self: center;
+  box-sizing: border-box;
+}

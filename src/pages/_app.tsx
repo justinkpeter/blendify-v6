@@ -11,12 +11,14 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <Header />
-      <AnimatePresence mode="wait">
-        <AudioPlayerProvider>
-          <Component {...pageProps} />
-        </AudioPlayerProvider>
-      </AnimatePresence>
+      <div className="app">
+        <Header />
+        <AnimatePresence mode="wait">
+          <AudioPlayerProvider>
+            <Component {...pageProps} />
+          </AudioPlayerProvider>
+        </AnimatePresence>
+      </div>
     </SessionProvider>
   );
 }
