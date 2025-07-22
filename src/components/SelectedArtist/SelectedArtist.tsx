@@ -23,11 +23,8 @@ export default function SelectedArtist({
   handleArtistSelection?: (artist: SpotifyApi.ArtistObjectFull) => void;
   selectedArtist: SpotifyApi.ArtistObjectFull | null;
 }) {
-  const { data, loading } = useArtistDetails(
-    isArtistVisible,
-    selectedArtist?.id
-  );
-  const { currentTrackId, isPlaying, playTrack } = useAudioPlayer();
+  const { data } = useArtistDetails(isArtistVisible, selectedArtist?.id);
+  const { playTrack } = useAudioPlayer();
 
   if (!selectedArtist || !isArtistVisible) return null;
 

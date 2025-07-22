@@ -1,5 +1,4 @@
 import React from "react";
-import TimelineBar from "../TimelineBar/TimelineBar";
 import PlayPauseControl from "../PlayPauseControl/PlayPauseControl";
 import styles from "./AudioPlayer.module.scss";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";

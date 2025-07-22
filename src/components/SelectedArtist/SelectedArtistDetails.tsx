@@ -57,13 +57,7 @@ export default function SelectedArtistDetails({
               items={data.topTracks.slice(0, 5)}
               renderItem={(track, index) => (
                 <div key={track.name} className={styles.trackItem}>
-                  <Vinyl
-                    track={track}
-                    isVisible={true}
-                    onClose={() => {}}
-                    onSelectTrack={() => {}}
-                    key={index}
-                  />
+                  <Vinyl track={track} key={index} />
                   <Link
                     href={track.external_urls.spotify}
                     className={styles.truncated}
