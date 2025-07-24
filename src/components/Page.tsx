@@ -34,7 +34,7 @@ export default function Page({ children, className }: PageProps) {
         initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         exit={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
         key={title}
       >
         {children}

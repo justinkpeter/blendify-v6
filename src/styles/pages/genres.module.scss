@@ -6,18 +6,21 @@ $bar-spacing: 1.5rem;
 .genres {
   gap: 2rem !important;
   padding: 0 1rem;
+  height: 100%;
 
   &__container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 1fr min-content;
     gap: 2rem;
-    width: 80%;
+    width: 60%;
 
     @media screen and (max-width: $sm-breakpoint) {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: 1rem;
+      width: 100%;
     }
   }
 
@@ -25,12 +28,17 @@ $bar-spacing: 1.5rem;
     width: 100px;
     height: 100px;
     border-radius: 8px;
-    background: $gray-dark;
+    // background: $gray-light;
+    background: linear-gradient(to right, #f97316, #facc15);
     padding: 1rem;
+    color: $off-white;
 
     @media screen and (max-width: $sm-breakpoint) {
       width: 60px;
       height: 60px;
+    }
+    @media screen and (prefers-color-scheme: dark) {
+      background: $gray-dark;
     }
   }
 
@@ -83,6 +91,7 @@ $bar-spacing: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
 
     @media screen and (min-width: $sm-breakpoint) {
       grid-row: 1/-1;
@@ -101,7 +110,6 @@ $bar-spacing: 1.5rem;
     grid-template-rows: repeat(5, 1fr);
     gap: $bar-spacing/2;
     padding-left: $bar-spacing/2;
-    border: 5px solid orange;
 
     @media screen and (prefers-color-scheme: dark) {
       border-left: 4px solid $gray-light;
@@ -171,7 +179,6 @@ $bar-spacing: 1.5rem;
     font-weight: 900;
     letter-spacing: -0.06em;
     text-transform: uppercase;
-    margin-bottom: 4rem;
 
     @media screen and (max-width: $sm-breakpoint) {
       font-size: 2rem;
