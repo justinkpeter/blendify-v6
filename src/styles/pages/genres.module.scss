@@ -34,8 +34,7 @@ $bar-spacing: 1.5rem;
     color: $off-white;
 
     @media screen and (max-width: $sm-breakpoint) {
-      width: 60px;
-      height: 60px;
+      display: none;
     }
     @media screen and (prefers-color-scheme: dark) {
       background: $gray-dark;
@@ -51,6 +50,8 @@ $bar-spacing: 1.5rem;
     -webkit-background-clip: text;
     color: transparent;
     background-image: linear-gradient(to right, #f7924b, #facc15);
+    display: flex;
+    flex-direction: column;
 
     @media screen and (min-width: $sm-breakpoint) {
       font-size: clamp(2rem, 3vw, 2.5rem);
@@ -58,7 +59,11 @@ $bar-spacing: 1.5rem;
     }
 
     @media screen and (max-width: $sm-breakpoint) {
-      line-height: 0.9;
+      line-height: normal;
+      font-size: 2rem;
+      font-weight: 800;
+      flex-direction: row;
+      gap: 8px;
     }
   }
 

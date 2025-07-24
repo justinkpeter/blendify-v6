@@ -2,6 +2,8 @@
 @use "@/styles/variables/colors.scss" as *;
 
 .homePage {
+  height: 100%;
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -20,6 +22,10 @@
       user-select: none;
     }
   }
+
+  @media screen and (max-width: $sm-breakpoint) {
+    height: auto;
+  }
 }
 
 .headphones {
@@ -30,6 +36,11 @@
   flex-grow: 1;
   position: relative;
   box-sizing: border-box;
+  cursor: pointer;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .homePageLinks {
@@ -68,10 +79,18 @@
     width: 40%;
     height: fit-content;
   }
+  @media screen and (max-width: $sm-breakpoint) {
+    padding: 0 1.5rem;
+    margin-top: 4rem;
+  }
 
   @media screen and (prefers-color-scheme: dark) {
     a {
       background: rgba($gray-dark, 1);
     }
   }
+}
+
+.discover {
+  cursor: zoom-in;
 }

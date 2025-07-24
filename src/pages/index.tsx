@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Page className={styles.homePage}>
       <div className={styles.homePage__content}>
-        <div>[ discover your sound ]</div>
+        <div className={styles.discover}>[ discover your sound ]</div>
         <div className={styles.blendify}>.blendify </div>
         <div className={styles.headphones}>
           <Headphones />

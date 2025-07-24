@@ -13,7 +13,7 @@ export default function ReleaseRadar({ latestRelease }: Props) {
   return (
     <Link
       className={styles.selectedArtist__latestRelease}
-      href={latestRelease.href}
+      href={latestRelease.uri}
     >
       <div>Latest Release</div>
       <div>

@@ -2,7 +2,7 @@ import React, { Suspense, useRef } from "react";
 import { OrbitControls, Stage, useGLTF } from "@react-three/drei";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -18,6 +18,47 @@ function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
     "/models/beats.glb"
   ) as unknown as GLTFResult;
+
+  const mouse = useRef({ x: 0, y: 0 });
+  const interacting = useRef(false);
+  const idleTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  // Listen to global mouse movement
+  React.useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+
+      interacting.current = true;
+
+      if (idleTimeout.current) clearTimeout(idleTimeout.current);
+
+      // reset flag after 1.5s of no movement
+      idleTimeout.current = setTimeout(() => {
+        interacting.current = false;
+      }, 1500);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  useFrame(() => {
+    if (model.current) {
+      const targetX = (mouse.current.x * Math.PI) / 8;
+      const targetY = (mouse.current.y * Math.PI) / 8;
+
+      if (interacting.current) {
+        // Ease toward mouse rotation
+        model.current.rotation.y += (targetX - model.current.rotation.y) * 0.1;
+        model.current.rotation.x += (targetY - model.current.rotation.x) * 0.1;
+      } else {
+        // Ease back to original rotation
+        model.current.rotation.y += (0 - model.current.rotation.y) * 0.05;
+        model.current.rotation.x += (0 - model.current.rotation.x) * 0.05;
+      }
+    }
+  });
 
   return (
     <group ref={model} {...props} dispose={null}>
@@ -61,7 +102,6 @@ function Model(props: JSX.IntrinsicElements["group"]) {
     </group>
   );
 }
-
 export default function Headphones() {
   return (
     <Canvas
@@ -82,13 +122,7 @@ export default function Headphones() {
           <Model position={[0, 5, 0]} />
         </Stage>
       </Suspense>
-      <OrbitControls
-        autoRotate
-        autoRotateSpeed={0.5}
-        enableRotate={true}
-        enableZoom={false}
-        enablePan={false}
-      />
+      <OrbitControls enableRotate={true} enableZoom={false} />
     </Canvas>
   );
 }

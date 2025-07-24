@@ -39,7 +39,9 @@ export default function UserMenu({
         <div
           className={styles.userFallback}
           onClick={() => setMenuOpen((p) => !p)}
-        />
+        >
+          {name && name[0].toUpperCase()}
+        </div>
       )}
       <AnimatePresence mode="wait">
         {isMenuOpen && (

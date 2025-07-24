@@ -24,7 +24,6 @@ export default function Genres({ genres }: { genres: TopGenre[] }) {
         </div>
         <div className={styles.genres__topGenre}>
           <span>{topGenre}</span>
-          <br />
           goes hard.
         </div>
         <div className={styles.genres__description}>
