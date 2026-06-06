@@ -1,0 +1,29 @@
+@use "@/styles/tokens/colors" as *;
+
+html,
+body,
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  height: 100dvh;
+}
+
+html {
+  height: 100%;
+}
+
+button {
+  padding-inline: 0;
+  background: none;
+  font-size: 16px;
+}
+
+ul {
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}

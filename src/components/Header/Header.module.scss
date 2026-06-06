@@ -1,269 +1,66 @@
-@use "../../styles/variables/colors.scss" as *;
-@use "../../styles/variables/breakpoints.scss" as *;
-@use "../../styles/mixins/hover/hover.scss" as *;
+@use "@/styles/tokens/colors" as *;
 
 $scale-active: 0.92;
 $border-radius: 4px;
+$intro-ease: cubic-bezier(0.76, 0, 0.24, 1);
+$min-side-width: 120px;
+
 .header {
   position: fixed;
   top: 1rem;
   width: 100%;
   padding: 0 1rem;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 700;
   z-index: 1000;
   user-select: none;
   box-sizing: border-box;
   max-width: 2440px;
 
   &__left {
+    min-width: $min-side-width;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: larger;
-    letter-spacing: -0.06em;
-
-    a {
-      transition: transform 200ms ease-in-out;
-
-      &:active {
-        transform: scale($scale-active);
-      }
-    }
   }
 
   &__center {
     display: flex;
-    align-items: flex-end;
-    gap: 2rem;
-    font-weight: 500;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    opacity: 0;
+    transition: opacity 350ms $intro-ease;
 
-    .navLink {
-      color: rgba($black, 0.4);
-      text-decoration: none;
-      transition: all 0.2s ease-in-out;
-      filter: blur(1px);
+    &--visible {
+      opacity: 0.4;
+    }
+  }
 
-      &:hover {
-        color: rgba($black, 0.2);
-        filter: blur(0px);
-        text-decoration: underline;
-      }
+  &__wordmark {
+    transition: transform 200ms ease-in-out;
 
-      &.active {
-        filter: blur(0px);
-        font-weight: 600;
-        color: rgba($black, 1);
-      }
-
-      @media screen and (prefers-color-scheme: dark) {
-        color: rgba($off-white, 0.4);
-
-        &:hover {
-          color: rgba($off-white, 1);
-        }
-
-        &.active {
-          color: rgba($off-white, 1);
-        }
-      }
+    &:active {
+      transform: scale($scale-active);
     }
   }
 
   &__right {
+    min-width: $min-side-width;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 8px;
     position: relative;
+    opacity: 0;
+    transition: opacity 400ms $intro-ease 150ms;
+    padding-right: 2.5rem;
 
-    .userMenu {
-      position: relative;
-
-      .userImage {
-        cursor: pointer;
-        border-radius: 50%;
-        transition: transform 0.1s ease-in-out;
-
-        &:active {
-          transform: scale($scale-active);
-        }
-      }
-
-      .menu {
-        position: absolute;
-        top: 160%;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        padding: 1rem;
-        border-radius: $border-radius;
-        backdrop-filter: blur(4px);
-        background-color: rgba($black, 0.52);
-        color: $off-white;
-        opacity: 0;
-        transform: translateY(-6px);
-        transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-        white-space: nowrap;
-        z-index: 20;
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        button {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: color 0.1s ease-in-out;
-          @include brackets;
-          font-size: 0.875rem;
-          font-weight: semibold;
-          letter-spacing: normal;
-        }
-
-        &.active {
-          opacity: 1;
-          transform: translateY(0);
-          pointer-events: all;
-        }
-
-        @media screen and (prefers-color-scheme: dark) {
-          background-color: rgba($off-white, 0.2);
-          color: $off-white;
-
-          button {
-            color: $off-white;
-
-            &:hover {
-              color: rgba($off-white, 0.8);
-            }
-          }
-        }
-      }
+    &--visible {
+      opacity: 1;
     }
-  }
-
-  &__mobile {
-    .mobileMenu {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: $gray-dark;
-      color: $off-white;
-      z-index: 1;
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      padding: 0.5rem 1rem;
-      box-sizing: border-box;
-    }
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      width: 100%;
-      font-size: 1.25rem;
-      font-weight: bold;
-      gap: 1rem;
-      color: inherit;
-      z-index: 1000;
-      background: none;
-      transition: all 0.2 ease-in-out;
-
-      &:active {
-        scale: 0.92;
-      }
-      svg {
-        width: 30px;
-        height: 30px;
-      }
-    }
-  }
-
-  @media screen and (max-width: $sm-breakpoint) {
-    &__center,
-    &__right {
-      display: none;
-    }
-  }
-
-  @media screen and (min-width: $sm-breakpoint) {
-    &__mobile {
-      display: none;
-    }
-  }
-}
-
-.mobileMenuOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba($black, 0.6);
-  z-index: -100;
-}
-
-.hamburgerButton {
-  padding: 0;
-  border: 1px solid rgba($black, 0.2);
-}
-
-.navLink {
-  width: 100%;
-  display: flex;
-  justify-self: center;
-
-  @media screen and (max-width: $sm-breakpoint) {
-    height: 2rem;
-
-    text-transform: uppercase;
-  }
-}
-
-.signOutButton {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: $off-white;
-  text-transform: uppercase;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-
-  &:hover {
-    color: rgba($off-white, 0.8);
-  }
-}
-
-.userFallback {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: linear-gradient(
-    235deg,
-    rgba($off-white, 0.1),
-    rgba($gray-dark, 0.9)
-  );
-  box-shadow: 2px 2px 4px rgba($black, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-
-  &:active {
-    transform: scale($scale-active);
   }
 }

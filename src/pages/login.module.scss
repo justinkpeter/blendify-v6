@@ -1,0 +1,87 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+@use "@/styles/tokens/spacing" as *;
+@use "@/styles/tokens/breakpoints" as *;
+
+.login {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $white;
+  padding: $space-8 $space-4;
+  box-sizing: border-box;
+}
+
+.login__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  max-height: 380px;
+  gap: $space-4;
+}
+
+.login__wordmark {
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: $weight-bold;
+  letter-spacing: $tracking-tight;
+  color: $black;
+  line-height: $leading-none;
+  margin: 0;
+  align-self: center;
+}
+
+.login__cassette {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.login__descriptor {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  color: $black;
+  margin: 0;
+}
+
+.login__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  background-color: $black;
+  color: $white;
+  border: none;
+  border-radius: 4px;
+  padding: $space-4 $space-8;
+  width: 100%;
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-wide;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: $font-sans;
+  transition:
+    background-color 0.2s ease-in-out,
+    transform 0.1s ease;
+
+  &:hover {
+    background-color: $gray-dark;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

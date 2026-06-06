@@ -1,16 +1,14 @@
-import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
-import NavLinks from "./NavLinks";
 import UserMenu from "./UserMenu";
-import MobileMenu from "./MobileMenu";
 import Link from "next/link";
 import styles from "./Header.module.scss";
 
-export default function Header() {
+interface HeaderProps {
+  isIntroComplete?: boolean;
+}
+
+export default function Header({ isIntroComplete = true }: HeaderProps) {
   const { data: session } = useSession();
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const currentPath = usePathname();
 
   if (!session) return null;
 
@@ -21,24 +19,22 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.header__left}>
-        <Link href="/">.blendify</Link>
+      {/* Left — spacer*/}
+      <div className={styles.header__left} />
+      {/* Center — wordmark */}
+      <div
+        className={`${styles.header__center} ${isIntroComplete ? styles["header__center--visible"] : ""}`}
+      >
+        <Link href="/" className={styles.header__wordmark}>
+          .blendify
+        </Link>
       </div>
-
-      <nav className={styles.header__center}>
-        <NavLinks currentPath={currentPath} />
-      </nav>
-
-      <div className={styles.header__right}>
-        {name}
+      {/* Right — user */}
+      <div
+        className={`${styles.header__right} ${isIntroComplete ? styles["header__right--visible"] : ""}`}
+      >
         <UserMenu name={name} image={image} />
       </div>
-
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onToggle={() => setMobileMenuOpen((prev) => !prev)}
-        currentPath={currentPath}
-      />
     </header>
   );
 }

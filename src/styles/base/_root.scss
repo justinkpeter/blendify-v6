@@ -1,11 +1,7 @@
-@use "../variables/colors.scss" as *;
+@use "../tokens/colors" as *;
+@use "../mixins/button" as *;
 
 :root {
-  background: $off-white;
-  color: $black;
-
-  @media (prefers-color-scheme: dark) {
-    background: $black;
-    color: $off-white;
-  }
+  background: $color-bg-primary;
+  color: $color-text-primary;
 }

@@ -1,0 +1,21 @@
+@use "@/styles/mixins/button" as *;
+@use "@/styles/tokens/colors" as *;
+
+.spotifyButton {
+  @include button();
+  width: fit-content;
+  min-width: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px;
+  height: 32px;
+  font-size: 14px;
+  color: rgba($black, 0.6);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba($black, 0.02);
+    border-color: rgba($black, 0.2);
+  }
+}

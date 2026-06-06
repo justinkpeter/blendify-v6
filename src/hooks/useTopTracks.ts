@@ -5,7 +5,7 @@ import { TimeRange } from "@/constants/timeRange";
 
 export default function useTopTracks(
   timeRange: TimeRange,
-  initialTopTracks: SpotifyApi.TrackObjectFull[]
+  initialTopTracks: SpotifyApi.TrackObjectFull[],
 ) {
   const [topTracks, setTopTracks] = useState(initialTopTracks);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function useTopTracks(
       if (session) {
         spotifyApi.setAccessToken(session.accessToken as string);
         const response = await spotifyApi.getMyTopTracks({
-          limit: 12,
+          limit: 20,
           time_range: timeRange,
         });
         setTopTracks(response.body.items);

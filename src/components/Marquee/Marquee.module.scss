@@ -1,0 +1,40 @@
+.marquee {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, white);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &--overflows {
+    cursor: default;
+
+    &:hover .marquee__inner {
+      animation: marquee 6s linear infinite;
+    }
+  }
+}
+
+.marquee__inner {
+  display: inline-block;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

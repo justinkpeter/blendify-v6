@@ -1,9 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import styles from "@/styles/pages/login.module.scss";
+import styles from "./login.module.scss";
 import { getProviders, getSession, signIn } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
-import Page from "@/components/Page";
 
 interface LoginProps {
   providers: {
@@ -15,24 +14,28 @@ interface LoginProps {
 
 export default function Login({ providers }: LoginProps) {
   return (
-    <Page className={styles.login}>
-      <div className={styles.login__title}>
-        <h1>.blendify</h1>
-      </div>
-      <div className={styles.login__action}>
+    <main className={styles.login}>
+      <div className={styles.login__card}>
+        <h1 className={styles.login__wordmark}>.blendify</h1>
+        <div className={styles.login__cassette}>
+          <Image src="/img/cassette.jpg" alt="cassette tape" fill priority />
+        </div>
+        <p className={styles.login__descriptor}>your music taste, in full.</p>
         <button
+          className={styles.login__cta}
           onClick={() => signIn(providers?.spotify?.id, { callbackUrl: "/" })}
         >
           sign in w/ spotify
           <Image
             src="/img/spotify-icon-white.png"
-            alt="spotify-logo"
-            width={20}
-            height={20}
+            alt=""
+            width={18}
+            height={18}
+            aria-hidden
           />
         </button>
       </div>
-    </Page>
+    </main>
   );
 }
 

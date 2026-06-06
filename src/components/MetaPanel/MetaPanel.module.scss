@@ -1,0 +1,130 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/breakpoints" as *;
+
+$panel-width: 320px;
+$panel-height: 400px;
+$transition: 0.25s cubic-bezier(0.86, 0, 0.07, 1);
+
+.panel {
+  width: 0;
+  height: $panel-height;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition:
+    width $transition,
+    opacity $transition,
+    height $transition,
+    border $transition;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  &--open {
+    width: $panel-width;
+  }
+
+  &__label {
+    color: rgba($black, 0.6);
+  }
+
+  &__value {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: rgba($black, 0.8);
+    height: fit-content;
+    width: 100%;
+    max-width: 200px;
+    text-align: right;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 0;
+    height: 40px;
+    border-bottom: 1px solid rgba($black, 0.05);
+
+    &--no-border {
+      border-bottom: none;
+    }
+
+    img {
+      border-radius: 20%;
+    }
+  }
+
+  ul {
+    height: 360px;
+  }
+}
+
+.panel__inner {
+  width: $panel-width;
+  height: 100%;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease 0s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .panel--open & {
+    transition: opacity 0.25s ease 0.2s;
+  }
+}
+
+@media screen and (max-width: $bp-lg) {
+  .panel {
+    width: 100%;
+    height: 0;
+    transition: height $transition;
+
+    &--open {
+      width: 100%;
+      height: 240px;
+    }
+  }
+
+  .panel__inner {
+    width: 100%;
+  }
+}
+
+.explicitBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  font-size: 0.6rem;
+  font-weight: 600;
+  opacity: 0.5;
+  letter-spacing: 0.05em;
+}
+
+.hiddenExplicitBadge {
+  visibility: hidden;
+}
+
+@media screen and (max-width: $bp-lg) {
+  .panel {
+    max-width: 400px;
+
+    &--open {
+      width: 100%;
+      height: 400px;
+    }
+  }
+
+  .panel__inner {
+    width: 100%;
+    ul {
+      min-width: 320px;
+    }
+
+    align-items: center;
+  }
+}

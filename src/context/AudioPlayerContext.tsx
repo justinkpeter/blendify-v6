@@ -7,13 +7,15 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { useRouter } from "next/router"; // <-- 👈 Import useRouter
+import { useRouter } from "next/router";
 
 type AudioPlayerContextType = {
   currentTrackId: string | null;
   isPlaying: boolean;
+  progress: number;
   playTrack: (trackId: string, src: string) => void;
   pause: () => void;
+  handleScrub: (position: number) => void;
 };
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | null>(null);
@@ -27,8 +29,28 @@ export const useAudioPlayer = () => {
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   const [currentTrackId, setCurrentTrackId] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
   const router = useRouter();
+
+  const startProgressTracking = useCallback(() => {
+    const tick = () => {
+      const audio = audioRef.current;
+      if (audio && audio.duration) {
+        setProgress(audio.currentTime / audio.duration);
+      }
+      animationFrameRef.current = requestAnimationFrame(tick);
+    };
+    animationFrameRef.current = requestAnimationFrame(tick);
+  }, []);
+
+  const stopProgressTracking = useCallback(() => {
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+  }, []);
 
   const playTrack = useCallback(
     (trackId: string, src: string = "") => {
@@ -38,11 +60,13 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
       if (trackId === currentTrackId && isPlaying) {
         audio.pause();
         setIsPlaying(false);
+        stopProgressTracking();
         return;
       }
 
       if (audio.src !== src) {
         audio.src = src;
+        setProgress(0);
       }
 
       audio
@@ -50,21 +74,30 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
         .then(() => {
           setCurrentTrackId(trackId);
           setIsPlaying(true);
+          startProgressTracking();
         })
         .catch((err) => {
           console.error("Error playing audio:", err);
         });
     },
-    [currentTrackId, isPlaying]
+    [currentTrackId, isPlaying, startProgressTracking, stopProgressTracking],
   );
 
-  const pause = () => {
+  const pause = useCallback(() => {
     const audio = audioRef.current;
     if (audio) {
       audio.pause();
       setIsPlaying(false);
+      stopProgressTracking();
     }
-  };
+  }, [stopProgressTracking]);
+
+  const handleScrub = useCallback((position: number) => {
+    const audio = audioRef.current;
+    if (!audio || !audio.duration) return;
+    audio.currentTime = position * audio.duration;
+    setProgress(position);
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -73,11 +106,14 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     const handleEnded = () => {
       setIsPlaying(false);
       setCurrentTrackId(null);
+      setProgress(0);
+      stopProgressTracking();
     };
 
     const handlePause = () => {
       if (!audio.ended) {
         setIsPlaying(false);
+        stopProgressTracking();
       }
     };
 
@@ -88,7 +124,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("pause", handlePause);
     };
-  }, []);
+  }, [stopProgressTracking]);
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -100,15 +136,21 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [router]);
+  }, [router, pause]);
+
+  useEffect(() => {
+    return () => stopProgressTracking();
+  }, [stopProgressTracking]);
 
   return (
     <AudioPlayerContext.Provider
       value={{
         currentTrackId,
         isPlaying,
+        progress,
         playTrack,
         pause,
+        handleScrub,
       }}
     >
       <audio ref={audioRef} preload="auto" />

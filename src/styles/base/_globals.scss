@@ -1,24 +1,22 @@
-// global resets, typography, and body (base) styles
+@use "../tokens/typography" as *;
+@use "../tokens/colors" as *;
+
 html,
 body,
 * {
   box-sizing: border-box;
   margin: 0;
 }
-html {
-  height: 100%;
-}
 
 @font-face {
   font-family: "General Sans";
-  src: url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+  src:
+    url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
     url("/fonts/GeneralSans-Variable.woff") format("woff");
 }
 
 body {
-  height: 100vh;
-  background: var(--background);
-  font-family: General Sans, Arial, Helvetica, sans-serif;
+  font-family: $font-sans;
 }
 
 a {
@@ -31,6 +29,16 @@ img {
   -webkit-user-drag: none;
 }
 
+ul {
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: 1px solid rgba($black, 0.1);
+  font-size: 14px;
+  padding: 1rem;
+  padding-left: 1rem;
+}
+
 .app {
   max-width: 2440px;
   display: flex;
@@ -38,9 +46,5 @@ img {
   justify-content: center;
   align-items: center;
   height: 100dvh;
-  height: 100vh;
-  margin: auto;
-  top: 0;
-  justify-self: center;
-  box-sizing: border-box;
+  gap: 1rem;
 }

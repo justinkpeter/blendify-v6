@@ -1,0 +1,134 @@
+@use "@/styles/tokens/" as *;
+
+$item-height: 40px;
+$panel-size: 400px;
+$wheel-width: 260px;
+$visible-count: 7;
+$half-visible: 3;
+
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  user-select: none;
+  gap: 1rem;
+}
+
+.carousel__stage {
+  position: relative; // wheel positions against this
+  flex-shrink: 0;
+}
+
+// ── Wheel — absolutely positioned against the stage (image) ────────
+.wheel {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  width: $wheel-width;
+  overflow: hidden;
+  padding-right: 1rem;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+
+  &__track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    padding-top: $item-height * $half-visible;
+    padding-bottom: $item-height * $half-visible;
+  }
+
+  &__item {
+    height: $item-height;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    font-weight: 500;
+    color: rgba($black, 0.6);
+    text-align: right;
+    line-height: 1.25rem;
+    letter-spacing: $tracking-normal;
+    cursor: pointer;
+    pointer-events: all;
+    transition:
+      opacity 0.15s ease,
+      letter-spacing 0.15s ease;
+
+    &--active {
+      color: $black;
+    }
+  }
+}
+
+// ── Image panel ────────────────────────────────────────────────────
+.panel {
+  position: relative;
+  width: $panel-size;
+  height: $panel-size;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: rgba($black, 0.04);
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+
+    &--visible {
+      opacity: 1;
+    }
+  }
+}
+
+// ── Responsive ─────────────────────────────────────────────────────
+@media screen and (max-width: $bp-lg) {
+  .carousel {
+    flex-direction: column;
+  }
+
+  .carousel__stage {
+    width: 100%;
+  }
+
+  .wheel {
+    position: relative;
+    right: unset;
+    top: unset;
+    bottom: unset;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $bp-lg) {
+  .wheel {
+    display: none;
+  }
+
+  .panel {
+    width: $panel-size/4;
+    height: $panel-size/4;
+  }
+  .carousel__stage {
+    display: flex;
+    justify-content: center;
+    max-width: 300px;
+  }
+}

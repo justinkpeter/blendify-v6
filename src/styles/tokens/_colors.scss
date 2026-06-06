@@ -1,0 +1,23 @@
+// Core
+$black: #171717;
+$white: #ffffff;
+$off-white: #e8e8e8;
+
+// Grays
+$gray-dark: #333333;
+$gray-mid: #888888;
+$gray-light: #cccccc;
+$gray-teal: #b8cfce;
+
+// Semantic
+$color-text-primary: $black;
+$color-text-secondary: rgba($off-white, 0.5);
+$color-text-muted: rgba($off-white, 0.25);
+$color-bg-primary: $white;
+$color-bg-surface: $gray-dark;
+$color-border: rgba($off-white, 0.15);
+$color-border-strong: rgba($off-white, 0.3);
+
+// Login (light surface)
+$color-bg-light: $white;
+$color-text-dark: $black;

@@ -1,0 +1,28 @@
+@use "@/styles/tokens/colors" as *;
+
+.timeline-bar {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  cursor: pointer;
+
+  &__tick {
+    --scale: 1;
+    background: rgba($black, 0.2);
+    width: 1px;
+    height: 0.675rem;
+    border-radius: 2px;
+    transform: scaleY(var(--scale));
+    transform-origin: bottom;
+    transition:
+      transform 80ms ease-out,
+      background-color 100ms ease-out;
+    pointer-events: none;
+
+    &.elapsed {
+      background-color: rgba($black, 0.8);
+    }
+  }
+}

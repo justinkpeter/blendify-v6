@@ -1,0 +1,37 @@
+// Families
+$font-sans: "General Sans", Arial, Helvetica, sans-serif;
+$font-mono: monospace;
+
+// Scale
+$text-xs: 10px;
+$text-sm: 12px;
+$text-base: 14px;
+$text-md: 1rem;
+$text-lg: 1.125rem;
+$text-xl: 1.5rem;
+$text-2xl: 2rem;
+$text-3xl: 2.5rem;
+$text-4xl: 3.5rem;
+
+// Responsive display
+$text-display: clamp(3.5rem, 8vw, 5.5rem);
+$text-wordmark: clamp(3.5rem, 8vw, 5.5rem);
+
+// Weights
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+$weight-black: 900;
+
+// Tracking
+$tracking-tight: -0.06em;
+$tracking-normal: 0;
+$tracking-wide: 0.12em;
+$tracking-wider: 0.18em;
+$tracking-widest: 0.2em;
+
+// Leading
+$leading-none: 1;
+$leading-tight: 1.2;
+$leading-normal: 1.65;
