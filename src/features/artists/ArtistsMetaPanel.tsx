@@ -52,7 +52,7 @@ export default function ArtistsMetaPanel({
           value={getPopularityTier(item?.artist?.popularity ?? 0)}
         />
         <MetaRow
-          label="Spotify Followers"
+          label="Followers"
           value={getFollowerCount(item?.artist?.followers?.total)}
         />
         <MetaRow label="Genres" value={getArtistGenres(item?.artist?.genres)} />
