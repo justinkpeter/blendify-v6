@@ -45,7 +45,9 @@ export function buildGenreItems(
   if (!topArtists || !topTracks) return [];
 
   // Flatten and deduplicate genres
-  const allGenres = [...new Set(topArtists.flatMap((a) => a.genres ?? []))];
+  const allGenres = Array.from(
+    new Set(topArtists.flatMap((a) => a.genres ?? [])),
+  );
 
   return allGenres
     .map((genre) => {

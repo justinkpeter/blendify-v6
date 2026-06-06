@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./Toast.module.scss";
 
 export type ToastItem = {
@@ -15,7 +16,6 @@ export default function Toasts({ toasts }: { toasts: ToastItem[] }) {
       {toasts.map((toast, index) => {
         const distanceFromNewest = toasts.length - 1 - index;
         const scale = Math.max(0.88, 1 - distanceFromNewest * 0.06);
-        // const opacity = Math.max(0.4, 1 - distanceFromNewest * 0.2);
         const bottomOffset = distanceFromNewest * PEEK;
 
         return (
@@ -24,14 +24,13 @@ export default function Toasts({ toasts }: { toasts: ToastItem[] }) {
             className={`${styles.toast} ${toast.exiting ? styles["toast--exiting"] : ""}`}
             style={{
               transform: `translateX(-50%) scale(${scale})`,
-              //   opacity,
               zIndex: toasts.length - distanceFromNewest,
               bottom: `${bottomOffset}px`,
             }}
           >
             {toast.image && (
               <div className={styles.toast__preview}>
-                <img src={toast.image} alt="" />
+                <Image src={toast.image} alt="" fill />
               </div>
             )}
             <span className={styles.toast__message}>{toast.message}</span>

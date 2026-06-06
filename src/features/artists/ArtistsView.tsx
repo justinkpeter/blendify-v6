@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import ScrollCarousel from "@/components/ScrollCarousel/ScrollCarousel";
-import { useArtistsData } from "./useArtistsData";
 import type { CarouselArtistItem } from "@/components/ScrollCarousel/types";
 
 interface ArtistsViewProps {

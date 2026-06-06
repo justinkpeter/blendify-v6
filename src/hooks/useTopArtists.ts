@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import spotifyApi from "@/lib/spotify";
 import { getSession } from "next-auth/react";
 import { TimeRange } from "@/constants/timeRange";
@@ -17,7 +17,16 @@ export default function useTopArtists(
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch top artists on time range change
+  const topTracksRef = useRef(topTracks);
+  useEffect(() => {
+    topTracksRef.current = topTracks;
+  }, [topTracks]);
+
+  const topArtistsRef = useRef(topArtists);
+  useEffect(() => {
+    topArtistsRef.current = topArtists;
+  }, [topArtists]);
+
   useEffect(() => {
     const fetchTopArtists = async () => {
       setIsLoading(true);
@@ -28,15 +37,17 @@ export default function useTopArtists(
         limit: 12,
         time_range: timeRange,
       });
-      setTopArtists(enrichArtistsWithTracks(response.body.items, topTracks));
+      setTopArtists(
+        enrichArtistsWithTracks(response.body.items, topTracksRef.current),
+      );
       setIsLoading(false);
     };
 
     fetchTopArtists();
   }, [timeRange]);
 
-  // Fill in missing top tracks once, after artists are set
   useEffect(() => {
+    const topArtists = topArtistsRef.current;
     if (!topArtists || topArtists.length === 0) return;
 
     const missingArtists = topArtists.filter((a) => !a.topTrack);
@@ -63,7 +74,7 @@ export default function useTopArtists(
     };
 
     fetchMissingTracks();
-  }, [topArtists?.length]);
+  }, [topArtists.length]);
 
   return { topArtists, isLoading };
 }

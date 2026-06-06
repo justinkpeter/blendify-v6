@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
 import { JWT } from "next-auth/jwt";
-import spotifyApi, { LOGIN_URL } from "@/lib/spotify";
+import spotifyApi from "@/lib/spotify";
 
 const authOptions: NextAuthOptions = {
   providers: [

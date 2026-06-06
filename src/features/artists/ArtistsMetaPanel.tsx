@@ -15,10 +15,12 @@ export default function ArtistsMetaPanel({
   item,
   isPanelOpen,
   topTracks,
+  index,
 }: {
   item?: CarouselArtistItem | null;
   isPanelOpen: boolean;
   topTracks: SpotifyApi.TrackObjectFull[];
+  index: number;
 }) {
   const trackCount = item
     ? topTracks?.filter((track) =>
@@ -59,6 +61,10 @@ export default function ArtistsMetaPanel({
         <MetaRow
           label="Listening style"
           value={getListeningStyle(trackCount ?? 0)}
+        />
+        <MetaRow
+          label="Top 10 Position"
+          value={index.toString()}
           hideBottomBorder
         />
       </ul>

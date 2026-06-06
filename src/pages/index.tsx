@@ -74,7 +74,7 @@ export default function Home({
               <TracksMetaPanel
                 isPanelOpen={isPanelOpen}
                 item={activeItem?.kind === "track" ? activeItem : null}
-                index={trackIndex}
+                index={trackIndex + 1}
               />
             }
             onActiveItemChange={handleActiveItemChange}
@@ -89,6 +89,7 @@ export default function Home({
                 isPanelOpen={isPanelOpen}
                 item={activeItem?.kind === "artist" ? activeItem : null}
                 topTracks={initialTopTracks}
+                index={artistIndex + 1}
               />
             }
             onActiveItemChange={handleActiveItemChange}

@@ -40,7 +40,14 @@ export function useHomeState(
   useEffect(() => {
     if (activeItem) return;
     setActiveItem(getDefaultItem(activeTabIndex));
-  }, [trackItems, artistItems, genreItems, activeTabIndex]);
+  }, [
+    trackItems,
+    artistItems,
+    genreItems,
+    activeTabIndex,
+    activeItem,
+    getDefaultItem,
+  ]);
 
   return {
     activeTabIndex,

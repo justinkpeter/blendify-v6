@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { AnyCarouselItem, CarouselTrackItem } from "./types";
+import { AnyCarouselItem } from "./types";
 import { ITEM_HEIGHT } from "./useWheelScroll";
 import styles from "./ScrollCarousel.module.scss";
 import { getCarouselItemId } from "./carouselUtils";

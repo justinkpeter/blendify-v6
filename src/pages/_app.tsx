@@ -15,7 +15,6 @@ function AppContent({
 }: {
   Component: AppProps["Component"];
   pageProps: AppProps["pageProps"];
-  router?: any;
 }) {
   const { showLoader, dataPromise, handleIntroComplete } = useLoadingScreen();
   const [isIntroComplete, setIsIntroComplete] = useState(() =>
