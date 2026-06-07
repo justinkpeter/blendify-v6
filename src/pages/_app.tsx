@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
 import LoadingScreen from "@/components/LoadingScreen/LoadingScreen";
 import { useLoadingScreen } from "@/components/LoadingScreen/useLoadingScreen";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import "@/styles/globals.scss";
 import Footer from "@/components/Footer/Footer";
 
@@ -16,7 +16,8 @@ function AppContent({
   Component: AppProps["Component"];
   pageProps: AppProps["pageProps"];
 }) {
-  const { showLoader, dataPromise, handleIntroComplete } = useLoadingScreen();
+  const { showLoader, dataPromise, handleIntroComplete, status } =
+    useLoadingScreen();
 
   const [isIntroComplete, setIsIntroComplete] = useState(() =>
     typeof window !== "undefined"
@@ -27,10 +28,11 @@ function AppContent({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem("blendify_intro_seen")) {
+    const introDone = !!sessionStorage.getItem("blendify_intro_seen");
+    if (introDone || status !== "authenticated") {
       setIsVisible(true);
     }
-  }, []);
+  }, [status]);
 
   const handleComplete = () => {
     handleIntroComplete();

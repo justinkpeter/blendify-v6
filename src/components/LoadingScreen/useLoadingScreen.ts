@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 const INTRO_SEEN_KEY = "blendify_intro_seen";
@@ -6,12 +6,13 @@ const INTRO_SEEN_KEY = "blendify_intro_seen";
 export function useLoadingScreen() {
   const { status } = useSession();
   const [showLoader, setShowLoader] = useState(false);
-  const dataPromiseRef = useRef<Promise<unknown> | null>(null);
+  const [dataPromise, setDataPromise] = useState<Promise<unknown> | null>(null);
 
   useEffect(() => {
     if (status !== "authenticated") return;
     if (sessionStorage.getItem(INTRO_SEEN_KEY)) return;
-    dataPromiseRef.current = new Promise((resolve) => setTimeout(resolve, 200));
+    const promise = new Promise((resolve) => setTimeout(resolve, 200));
+    setDataPromise(promise);
     setShowLoader(true);
   }, [status]);
 
@@ -20,9 +21,5 @@ export function useLoadingScreen() {
     setShowLoader(false);
   };
 
-  return {
-    showLoader,
-    dataPromise: dataPromiseRef.current,
-    handleIntroComplete,
-  };
+  return { showLoader, dataPromise, handleIntroComplete, status };
 }
