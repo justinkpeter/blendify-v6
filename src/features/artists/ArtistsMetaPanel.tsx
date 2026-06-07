@@ -63,7 +63,7 @@ export default function ArtistsMetaPanel({
           value={getListeningStyle(trackCount ?? 0)}
         />
         <MetaRow
-          label="Top 10 Position"
+          label="Top 12 Position"
           value={index.toString()}
           hideBottomBorder
         />

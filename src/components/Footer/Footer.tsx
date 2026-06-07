@@ -21,7 +21,7 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <span className={styles.footer__copy}>Justin Peter © {year}</span>
+      <span className={styles.footer__copy}>Blendify.V6 © {year}</span>
       <button className={styles.footer__share} onClick={handleShare}>
         Share site
       </button>

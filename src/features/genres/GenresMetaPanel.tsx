@@ -22,7 +22,7 @@ export default function GenresMetaPanel({
     <MetaPanel isOpen={isPanelOpen}>
       <ul>
         <MetaRow
-          label={`Your most listened track for ${genre?.genre ? genre.genre.charAt(0).toUpperCase() + genre.genre.slice(1) : ""}`}
+          label={`Recently played ${genre?.genre ? genre.genre.charAt(0).toUpperCase() + genre.genre.slice(1) : ""}`}
           hideBottomBorder
         />
         <MetaRow padding={4} height={60} hideBottomBorder>

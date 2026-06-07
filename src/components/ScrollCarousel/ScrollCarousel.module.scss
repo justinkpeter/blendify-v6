@@ -27,9 +27,7 @@ $half-visible: 3;
   top: 0;
   bottom: 0;
   width: $wheel-width;
-  overflow: hidden;
   padding-right: 1rem;
-
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
@@ -44,13 +42,14 @@ $half-visible: 3;
     black 80%,
     transparent 100%
   );
+  pointer-events: auto;
 
   &__track {
     display: flex;
     flex-direction: column;
     will-change: transform;
-    padding-top: $item-height * $half-visible;
-    padding-bottom: $item-height * $half-visible;
+    padding-top: $item-height * $half-visible/2;
+    padding-bottom: $item-height * $half-visible/2;
   }
 
   &__item {

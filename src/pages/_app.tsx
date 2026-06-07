@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
 import LoadingScreen from "@/components/LoadingScreen/LoadingScreen";
 import { useLoadingScreen } from "@/components/LoadingScreen/useLoadingScreen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "@/styles/globals.scss";
 import Footer from "@/components/Footer/Footer";
 
@@ -17,19 +17,25 @@ function AppContent({
   pageProps: AppProps["pageProps"];
 }) {
   const { showLoader, dataPromise, handleIntroComplete } = useLoadingScreen();
-  const [isIntroComplete, setIsIntroComplete] = useState(() =>
-    typeof window !== "undefined"
-      ? !!sessionStorage.getItem("blendify_intro_seen")
-      : false,
-  );
+  const [isIntroComplete, setIsIntroComplete] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const seen = !!sessionStorage.getItem("blendify_intro_seen");
+    setIsIntroComplete(seen);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIsVisible(true));
+    });
+  }, []);
 
   const handleComplete = () => {
     handleIntroComplete();
     setIsIntroComplete(true);
+    setIsVisible(true);
   };
 
   return (
-    <div className="app">
+    <div className={`app ${isVisible ? "app--visible" : ""}`}>
       {showLoader && dataPromise && (
         <LoadingScreen promise={dataPromise} onComplete={handleComplete} />
       )}

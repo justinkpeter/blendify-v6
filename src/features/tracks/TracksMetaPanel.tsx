@@ -46,7 +46,7 @@ export default function TracksMetaPanel({
             value={getTrackDuration(item?.track?.duration_ms)}
           />
           <MetaRow label="Album/EP" value={item?.track?.album?.name} />
-          <MetaRow label="Top 10 Position" value={`${index ?? ""}`} />
+          <MetaRow label="Top 20 Position" value={`${index ?? ""}`} />
           <MetaRow
             label="Released"
             value={getAlbumReleaseDate(item?.track?.album?.release_date)}

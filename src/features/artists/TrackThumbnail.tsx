@@ -25,7 +25,9 @@ export default function TrackThumbnail({
         </Marquee>
         <div className={styles.topTrackInfo__album}>
           {track?.explicit && <ExplicitBadge isExplicit={track.explicit} />}
-          {track?.album?.name}
+          <Marquee className={styles.topTrackInfo__album} key={track?.id}>
+            {track?.album?.name}
+          </Marquee>
         </div>
       </div>
     </div>

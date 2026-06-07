@@ -69,7 +69,7 @@ export function buildGenreItems(
       const frequency = genreTracks.length;
       const frequencyLabel =
         frequency === 0
-          ? "Discovered via artist"
+          ? "Artist-specific genre"
           : frequency === 1
             ? "1 of your top tracks"
             : `${frequency} of your top tracks`;
