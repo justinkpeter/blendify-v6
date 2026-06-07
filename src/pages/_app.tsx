@@ -17,15 +17,19 @@ function AppContent({
   pageProps: AppProps["pageProps"];
 }) {
   const { showLoader, dataPromise, handleIntroComplete } = useLoadingScreen();
-  const [isIntroComplete, setIsIntroComplete] = useState(false);
+
+  const [isIntroComplete, setIsIntroComplete] = useState(() =>
+    typeof window !== "undefined"
+      ? !!sessionStorage.getItem("blendify_intro_seen")
+      : false,
+  );
+
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const seen = !!sessionStorage.getItem("blendify_intro_seen");
-    setIsIntroComplete(seen);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setIsVisible(true));
-    });
+    if (sessionStorage.getItem("blendify_intro_seen")) {
+      setIsVisible(true);
+    }
   }, []);
 
   const handleComplete = () => {
@@ -41,7 +45,7 @@ function AppContent({
       )}
       {!showLoader && <Header isIntroComplete={isIntroComplete} />}
       <AnimatePresence mode="wait">
-        <Component {...pageProps} />
+        {!showLoader && <Component {...pageProps} />}
       </AnimatePresence>
       {!showLoader && <Footer />}
     </div>
