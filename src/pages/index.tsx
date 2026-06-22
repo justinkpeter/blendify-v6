@@ -18,6 +18,7 @@ import { TimeRange } from "@/constants/timeRange";
 import { useHomeState } from "@/features/home/useHomeState";
 import { TABS } from "@/features/home/tabs";
 import styles from "./home.module.scss";
+import { AuthError } from "./api/auth/authErrrors";
 
 interface HomeProps {
   initialTopTracks: SpotifyApi.TrackObjectFull[];
@@ -133,8 +134,20 @@ export default function Home({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession({ req: context.req });
-  if (!session)
-    return { redirect: { destination: "/login", permanent: false } };
+
+  const loginPage = { redirect: { destination: "/login", permanent: false } };
+
+  if (!session) {
+    return loginPage;
+  }
+
+  if (session.error === AuthError.RefreshTokenExpired) {
+    return loginPage;
+  }
+
+  if (session.error === AuthError.RefreshAccessTokenError) {
+    return loginPage;
+  }
 
   spotifyApi.setAccessToken(session.accessToken as string);
 

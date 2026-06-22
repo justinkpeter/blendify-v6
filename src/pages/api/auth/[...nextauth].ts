@@ -2,6 +2,9 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
 import { JWT } from "next-auth/jwt";
 import spotifyApi from "@/lib/spotify";
+import { AuthError } from "./authErrrors";
+
+const REFRESH_BUFFER_MS = 60 * 1000; // Refresh 1 minute before expiry
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -12,7 +15,6 @@ const authOptions: NextAuthOptions = {
         url: "https://accounts.spotify.com/authorize",
         params: {
           scope: "user-top-read",
-          show_dialog: true,
         },
       },
     }),
@@ -20,16 +22,13 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.JWT_SECRET,
   pages: {
     signIn: "/login",
   },
   callbacks: {
     async session({ session, token }) {
       session.accessToken = token.accessToken;
-      session.refreshToken = token.refreshToken;
       session.error = token.error;
-      spotifyApi.setAccessToken(token.accessToken);
       return session;
     },
     async jwt({ token, account, user }) {
@@ -45,7 +44,7 @@ const authOptions: NextAuthOptions = {
         };
       }
 
-      if (Date.now() < token.accessTokenExpires) {
+      if (Date.now() < token.accessTokenExpires - REFRESH_BUFFER_MS) {
         return token;
       }
 
@@ -66,11 +65,23 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
       accessToken: refreshedToken.access_token,
       refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
       accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000,
+      error: undefined,
     };
-  } catch (error) {
-    console.error("Failed to refresh access token:", error);
-    return { ...token, error: "RefreshAccessTokenError" };
+  } catch (error: any) {
+    console.error("Failed to refresh Spotify access token:", error);
+
+    const isExpiredRefreshToken =
+      error?.statusCode === 400 &&
+      error?.message?.toLowerCase().includes("invalid_grant");
+
+    return {
+      ...token,
+      error: isExpiredRefreshToken
+        ? AuthError.RefreshTokenExpired
+        : AuthError.RefreshAccessTokenError,
+    };
   }
 }
 
 export default NextAuth(authOptions);
+export { authOptions };
