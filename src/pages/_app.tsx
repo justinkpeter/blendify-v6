@@ -8,7 +8,6 @@ import { useLoadingScreen } from "@/components/LoadingScreen/useLoadingScreen";
 import { useState, useEffect } from "react";
 import MobileOverlay from "@/components/MobileOverlay/MobileOverlay";
 import Footer from "@/components/Footer/Footer";
-import { useToast } from "@/components/Toast/useToast";
 import "@/styles/globals.scss";
 
 function AppContent({
