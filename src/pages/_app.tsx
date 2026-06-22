@@ -6,8 +6,10 @@ import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
 import LoadingScreen from "@/components/LoadingScreen/LoadingScreen";
 import { useLoadingScreen } from "@/components/LoadingScreen/useLoadingScreen";
 import { useState, useEffect } from "react";
-import "@/styles/globals.scss";
+import MobileOverlay from "@/components/MobileOverlay/MobileOverlay";
 import Footer from "@/components/Footer/Footer";
+import { useToast } from "@/components/Toast/useToast";
+import "@/styles/globals.scss";
 
 function AppContent({
   Component,
@@ -42,6 +44,7 @@ function AppContent({
 
   return (
     <div className={`app ${isVisible ? "app--visible" : ""}`}>
+      <MobileOverlay />
       {showLoader && dataPromise && (
         <LoadingScreen promise={dataPromise} onComplete={handleComplete} />
       )}

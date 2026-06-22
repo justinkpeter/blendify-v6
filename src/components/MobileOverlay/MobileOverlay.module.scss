@@ -1,0 +1,40 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/breakpoints" as *;
+@use "@/styles/mixins/button" as *;
+
+.overlay {
+  display: none;
+
+  @media (max-width: $bp-lg) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    width: 100dvw;
+    height: 100dvh;
+    padding: 1.5rem;
+    position: fixed;
+    font-weight: 450;
+    color: color-mix(in srgb, currentColor 40%, transparent);
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background: $white;
+  }
+
+  &__message {
+    max-width: 280px;
+  }
+
+  &__button-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__button {
+    font-size: 14px;
+    @include button-secondary();
+  }
+}

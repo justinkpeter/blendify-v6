@@ -9,7 +9,7 @@ export type ToastItem = {
 };
 
 export default function Toasts({ toasts }: { toasts: ToastItem[] }) {
-  const PEEK = 12;
+  const PEEK = 16;
 
   return (
     <div className={styles.stack}>
