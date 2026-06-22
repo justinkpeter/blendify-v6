@@ -31,7 +31,7 @@ $wheel-fade-stop: 40%;
   &__track {
     height: 100%;
     overflow-y: scroll;
-    scroll-snap-type: y mandatory;
+    // scroll-snap-type: y mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
     will-change: scroll-position;
@@ -52,7 +52,7 @@ $wheel-fade-stop: 40%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    scroll-snap-align: center;
+    // scroll-snap-align: center;
     font-size: clamp(0.875rem, 1vw, 1rem);
     font-weight: 500;
     color: rgba($black, 0.4);

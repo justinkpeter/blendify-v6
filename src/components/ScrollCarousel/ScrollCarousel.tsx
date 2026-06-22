@@ -19,6 +19,7 @@ export default function ScrollCarousel<T extends AnyCarouselItem>({
   className = "",
 }: ScrollCarouselProps<T>) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const onActiveItemChangeRef = useRef(onActiveItemChange);
 
   useEffect(() => {
@@ -34,12 +35,13 @@ export default function ScrollCarousel<T extends AnyCarouselItem>({
   );
 
   return (
-    <div className={`${styles.carousel} ${className}`}>
+    <div ref={carouselRef} className={`${styles.carousel} ${className}`}>
       <div className={styles.carousel__stage}>
         <Wheel
           items={items}
           activeIndex={activeIndex}
           onSelect={handleSelect}
+          scrollContainerRef={carouselRef}
           renderLabel={(item) => getCarouselItemName(item)}
         />
         <ImagePanel items={items} activeIndex={activeIndex} />

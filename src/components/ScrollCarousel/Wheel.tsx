@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, ReactNode } from "react";
+import { useRef, useEffect, useCallback, ReactNode, RefObject } from "react";
 import { AnyCarouselItem } from "./types";
 import { getCarouselItemId } from "./carouselUtils";
 import styles from "./Wheel.module.scss";
@@ -11,6 +11,7 @@ type WheelProps = {
   activeIndex: number;
   renderLabel: (item: AnyCarouselItem) => ReactNode;
   onSelect: (index: number) => void;
+  scrollContainerRef: RefObject<HTMLDivElement>;
 };
 
 export default function Wheel({
@@ -18,6 +19,7 @@ export default function Wheel({
   activeIndex,
   renderLabel,
   onSelect,
+  scrollContainerRef,
 }: WheelProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const isInternalScroll = useRef(false);
@@ -32,6 +34,35 @@ export default function Wheel({
       behavior: "smooth",
     });
   }, [activeIndex]);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    const track = trackRef.current;
+    if (!container || !track) return;
+
+    let snapTimeout: ReturnType<typeof setTimeout>;
+    let lastDeltaY = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      track.scrollTop += e.deltaY;
+      lastDeltaY = e.deltaY;
+
+      clearTimeout(snapTimeout);
+      snapTimeout = setTimeout(() => {
+        if (Math.abs(lastDeltaY) > 2) return;
+        const index = Math.round(track.scrollTop / ITEM_HEIGHT);
+        const clamped = Math.max(0, Math.min(index, items.length - 1));
+        track.scrollTo({ top: clamped * ITEM_HEIGHT, behavior: "smooth" });
+      }, 350);
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      clearTimeout(snapTimeout);
+    };
+  }, [scrollContainerRef, items.length]);
 
   const handleScroll = useCallback(() => {
     const track = trackRef.current;
@@ -58,6 +89,8 @@ export default function Wheel({
           style={{ height: halfVisible * ITEM_HEIGHT }}
         />
         {items.map((item, index) => {
+          const distance = Math.abs(index - activeIndex);
+          const opacity = Math.max(0, 1 - distance * 0.3);
           const isActive = index === activeIndex;
 
           return (
@@ -66,6 +99,7 @@ export default function Wheel({
               className={`${styles.wheel__item} ${
                 isActive ? styles["wheel__item--active"] : ""
               }`}
+              style={{ opacity }}
               onClick={() => onSelect(index)}
             >
               {renderLabel(item)}
