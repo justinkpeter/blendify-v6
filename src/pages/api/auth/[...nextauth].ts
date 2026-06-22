@@ -6,6 +6,22 @@ import { AuthError } from "./authErrrors";
 
 const REFRESH_BUFFER_MS = 60 * 1000; // Refresh 1 minute before expiry
 
+interface SpotifyApiError {
+  statusCode: number;
+  message: string;
+}
+
+function isSpotifyApiError(error: unknown): error is SpotifyApiError {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "statusCode" in error &&
+    "message" in error &&
+    typeof (error as SpotifyApiError).statusCode === "number" &&
+    typeof (error as SpotifyApiError).message === "string"
+  );
+}
+
 const authOptions: NextAuthOptions = {
   providers: [
     SpotifyProvider({
@@ -31,6 +47,7 @@ const authOptions: NextAuthOptions = {
       session.error = token.error;
       return session;
     },
+
     async jwt({ token, account, user }) {
       if (account && user) {
         return {
@@ -67,12 +84,13 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
       accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000,
       error: undefined,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Failed to refresh Spotify access token:", error);
 
     const isExpiredRefreshToken =
-      error?.statusCode === 400 &&
-      error?.message?.toLowerCase().includes("invalid_grant");
+      isSpotifyApiError(error) &&
+      error.statusCode === 400 &&
+      error.message.toLowerCase().includes("invalid_grant");
 
     return {
       ...token,
