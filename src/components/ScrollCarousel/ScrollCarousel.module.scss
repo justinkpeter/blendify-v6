@@ -3,7 +3,6 @@
 $item-height: 40px;
 $panel-size: 400px;
 $wheel-width: 260px;
-$visible-count: 7;
 $half-visible: 3;
 
 .carousel {
@@ -12,71 +11,15 @@ $half-visible: 3;
   align-items: center;
   width: 100%;
   user-select: none;
-  gap: 1rem;
 }
 
 .carousel__stage {
-  position: relative; // wheel positions against this
+  position: relative;
   flex-shrink: 0;
+  display: flex;
+  gap: 1rem;
 }
 
-// ── Wheel — absolutely positioned against the stage (image) ────────
-.wheel {
-  position: absolute;
-  right: 100%;
-  top: 0;
-  bottom: 0;
-  width: $wheel-width;
-  padding-right: 1rem;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 20%,
-    black 80%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 20%,
-    black 80%,
-    transparent 100%
-  );
-  pointer-events: auto;
-
-  &__track {
-    display: flex;
-    flex-direction: column;
-    will-change: transform;
-    padding-top: $item-height * $half-visible/2;
-    padding-bottom: $item-height * $half-visible/2;
-  }
-
-  &__item {
-    height: $item-height;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    font-size: clamp(0.875rem, 1vw, 1rem);
-    font-weight: 500;
-    color: rgba($black, 0.6);
-    text-align: right;
-    line-height: 1.25rem;
-    letter-spacing: $tracking-normal;
-    cursor: pointer;
-    pointer-events: all;
-    transition:
-      opacity 0.15s ease,
-      letter-spacing 0.15s ease;
-
-    &--active {
-      color: $black;
-    }
-  }
-}
-
-// ── Image panel ────────────────────────────────────────────────────
 .panel {
   position: relative;
   width: $panel-size;
@@ -97,7 +40,6 @@ $half-visible: 3;
   }
 }
 
-// ── Responsive ─────────────────────────────────────────────────────
 @media screen and (max-width: $bp-lg) {
   .carousel {
     flex-direction: column;
@@ -120,7 +62,6 @@ $half-visible: 3;
   .wheel {
     display: none;
   }
-
   .panel {
     width: $panel-size/4;
     height: $panel-size/4;

@@ -1,7 +1,6 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useState, useCallback, useEffect, useRef } from "react";
 import { AnyCarouselItem } from "./types";
-import { useWheelScroll } from "./useWheelScroll";
-import WheelPanel from "./WheelPanel";
+import Wheel from "./Wheel";
 import ImagePanel from "./ImagePanel";
 import styles from "./ScrollCarousel.module.scss";
 import { getCarouselItemName } from "./carouselUtils";
@@ -19,26 +18,28 @@ export default function ScrollCarousel<T extends AnyCarouselItem>({
   onActiveItemChange,
   className = "",
 }: ScrollCarouselProps<T>) {
-  const itemsRef = useRef(items);
-  useEffect(() => {
-    itemsRef.current = items;
-  }, [items]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onActiveItemChangeRef = useRef(onActiveItemChange);
 
-  const { offset, activeIndex, containerRef, seekToIndex } = useWheelScroll(
-    items?.length,
-    onActiveItemChange
-      ? (index) => onActiveItemChange(itemsRef.current[index])
-      : undefined,
+  useEffect(() => {
+    onActiveItemChangeRef.current = onActiveItemChange;
+  }, [onActiveItemChange]);
+
+  const handleSelect = useCallback(
+    (index: number) => {
+      setActiveIndex(index);
+      onActiveItemChangeRef.current?.(items[index]);
+    },
+    [items],
   );
 
   return (
-    <div ref={containerRef} className={`${styles.carousel} ${className}`}>
+    <div className={`${styles.carousel} ${className}`}>
       <div className={styles.carousel__stage}>
-        <WheelPanel
+        <Wheel
           items={items}
           activeIndex={activeIndex}
-          offset={offset}
-          onSelect={seekToIndex}
+          onSelect={handleSelect}
           renderLabel={(item) => getCarouselItemName(item)}
         />
         <ImagePanel items={items} activeIndex={activeIndex} />

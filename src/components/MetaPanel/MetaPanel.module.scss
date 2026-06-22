@@ -17,6 +17,7 @@ $transition: 0.25s cubic-bezier(0.86, 0, 0.07, 1);
     border $transition;
   border-radius: 4px;
   box-sizing: border-box;
+  margin-left: 1rem;
 
   &--open {
     width: $panel-width;

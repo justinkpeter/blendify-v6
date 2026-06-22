@@ -1,0 +1,72 @@
+@use "@/styles/tokens/" as *;
+
+$wheel-item-height: 40px;
+$wheel-width: 260px;
+$wheel-fade-stop: 40%;
+
+.wheel {
+  width: $wheel-width;
+  height: 400px;
+  overflow: hidden;
+  pointer-events: auto;
+  position: absolute;
+  right: 100%;
+  padding-right: 1rem;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black $wheel-fade-stop,
+    black (100% - $wheel-fade-stop),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black $wheel-fade-stop,
+    black (100% - $wheel-fade-stop),
+    transparent 100%
+  );
+
+  &__track {
+    height: 100%;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    will-change: scroll-position;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__spacer {
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  &__item {
+    height: $wheel-item-height;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    scroll-snap-align: center;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    font-weight: 500;
+    color: rgba($black, 0.4);
+    text-align: right;
+    line-height: 1.25rem;
+    letter-spacing: $tracking-normal;
+    cursor: pointer;
+    transition:
+      opacity 0.15s ease,
+      letter-spacing 0.15s ease,
+      color 0.15s ease;
+
+    &--active {
+      color: $black;
+    }
+  }
+}
