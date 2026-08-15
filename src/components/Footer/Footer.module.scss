@@ -4,7 +4,7 @@
 .footer {
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,6 +19,7 @@
   transition: opacity 1.2s ease;
   animation: fadeIn 1.6s ease 0.4s forwards;
   user-select: none;
+  justify-self: center;
 }
 
 .footer__share {
